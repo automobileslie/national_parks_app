@@ -25,15 +25,14 @@ class App extends React.Component {
     .then(r => r.json())
     .then(parks => {
 
-      // let thisArray= localStorage.getItem("parkObj")
-      // let thisArrayParsed= JSON.parse(thisArray)
+      let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
 
       this.setState({
         parks: parks.data,
         token: localStorage.token,
         userId: localStorage.userId,
         username: localStorage.username,
-        // parkCollection: thisArrayParsed
+        parkCollection: parkCollectionParsed
       })
     })
   }
@@ -57,6 +56,10 @@ class App extends React.Component {
         parkCollection: user.park_collections
         })
 
+        let theParkCollection= user.park_collections
+        
+        localStorage.setItem("theParkCollection", JSON.stringify(theParkCollection))
+
         let the_username= user.username
         localStorage.setItem("username", the_username)
       })
@@ -70,11 +73,12 @@ class App extends React.Component {
       localStorage.removeItem("userId")
       localStorage.removeItem("token")
       localStorage.removeItem("username")
+      localStorage.removeItem("theParkCollection")
       this.setState({
         userId: null,
         token: null,
-        username: ""
-        // parkCollection: []
+        username: "",
+        parkCollection: []
       })
     }
 
@@ -106,7 +110,7 @@ class App extends React.Component {
       })
     }
 
-    addToParkCollection=(parkId)=> {
+    addToParkCollection=(park)=> {
    
       fetch("http://localhost:3000/park_collections", {
       method: "POST",
@@ -116,23 +120,44 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         user_id: this.state.userId,
-        park_id: parkId
+        park_id: park.id
       })
      })
      .then(r=>r.json())
      .then(theParkCollection => {
-       this.setState({
-         parkCollection: theParkCollection
-       })
-
-      //  let theParkArray= [...this.state.parkCollection, theParkCollection]
-      
-      //  localStorage.setItem("parkObj", JSON.stringify(theParkArray))
+     this.setState({
+       parkCollection: [...this.state.parkCollection, park]
      })
-    }
+
+     let thisParkCollection= [...this.state.parkCollection, park]
+        
+        localStorage.setItem("theParkCollection", JSON.stringify(thisParkCollection))
+
+  })
+}
+
+    parksToSendToCollection=()=>{
+
+      let theParks= [...this.state.parks]
+
+      let parkIds= this.state.parkCollection.map(park=> {
+        return park.park_id
+      })
+
+      let theseParks= parkIds.map(parkId=> {
+
+        return theParks.filter(park=> {
+          return park.id === parkId
+         })
+    })
+
+    return theseParks
+  }
+
+  
 
   render(){
-    console.log(this.state.parkCollection)
+    
   return (
   
     <div>
@@ -143,7 +168,7 @@ class App extends React.Component {
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>
           <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} username={this.state.username} setToken={this.setToken}/>}/>
           <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} theParks={this.parksToSendDown()} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks}/>}/>
-          <Route exact path= '/parkcollection' render={(renderProps) => <ParkCollection {...renderProps}/>}/>
+          <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} parks={this.parksToSendToCollection()} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks} parkClickedOn={this.state.parkClickedOn}/>}/>
         </Switch>
       </Router>
     </div>

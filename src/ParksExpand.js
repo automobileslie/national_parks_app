@@ -12,7 +12,7 @@ export default class ParksExpand extends React.Component{
         <br></br>
         <br></br>
         <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
-        <button className="button" onClick={()=>this.props.addToParkCollection(this.props.park.id)}>Add to your park collection</button>
+        <button className="button" onClick={()=>this.props.addToParkCollection(this.props.park)}>Add to your park collection</button>
         </div>
     }
 

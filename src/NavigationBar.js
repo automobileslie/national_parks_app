@@ -58,7 +58,7 @@ const link = {
           >Parks</NavLink>
 
             <NavLink
-            to="/parkcollection"
+            to="/park_collection"
             exact
             style={link}
             activeStyle={{
