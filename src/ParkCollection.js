@@ -1,12 +1,24 @@
 import React from 'react';
-// import ParksContainer from './ParksContainer';
-// import ParksExpand from './ParksExpand'
+
 
 
 export default class ParkCollection extends React.Component {
 
     displayingCollection=()=> { 
-        return this.props.parks.map(park=>{
+
+        let theParks= [...this.props.parks]
+
+      let parkIds= this.props.parkCollection.map(park=> {
+        return park.park_id
+      })
+
+      let theseParks= parkIds.map(parkId=> {
+
+        return theParks.filter(park=> {
+          return park.id === parkId
+         })
+    })
+        return theseParks.map(park=>{
             return park.map(the_park=> {
             return <div>
             <p onClick={()=>{this.props.selectAPark(the_park)}} className="park-name">{the_park.fullName}</p>
@@ -25,6 +37,7 @@ export default class ParkCollection extends React.Component {
         <br></br>
         <br></br>
         <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
+        <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
         </div>
         }
     

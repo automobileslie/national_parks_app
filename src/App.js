@@ -11,7 +11,6 @@ class App extends React.Component {
 
   state={
     parks: [],
-    featuredParks: [],
     parkClickedOn: [],
     isAParkExpanded: false,
     parkCollection: [],
@@ -26,7 +25,7 @@ class App extends React.Component {
     .then(parks => {
 
       let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
-
+      
       this.setState({
         parks: parks.data,
         token: localStorage.token,
@@ -49,16 +48,15 @@ class App extends React.Component {
       })
     .then(r => r.json())
     .then(user => {
+
       this.setState({
         username: user.username,
         token: token,
         userId: id,
         parkCollection: user.park_collections
         })
-
-        let theParkCollection= user.park_collections
         
-        localStorage.setItem("theParkCollection", JSON.stringify(theParkCollection))
+        localStorage.setItem("theParkCollection", JSON.stringify(user.park_collections))
 
         let the_username= user.username
         localStorage.setItem("username", the_username)
@@ -74,11 +72,13 @@ class App extends React.Component {
       localStorage.removeItem("token")
       localStorage.removeItem("username")
       localStorage.removeItem("theParkCollection")
+      localStorage.removeItem("parkCollectionForDisplay")
       this.setState({
         userId: null,
         token: null,
         username: "",
-        parkCollection: []
+        parkCollection: [],
+        parkCollectionForDisplay: []
       })
     }
 
@@ -125,38 +125,43 @@ class App extends React.Component {
      })
      .then(r=>r.json())
      .then(theParkCollection => {
+      let thisParkCollection= [...this.state.parkCollection, theParkCollection]
+      localStorage.setItem("theParkCollection", JSON.stringify(thisParkCollection))
+
      this.setState({
-       parkCollection: [...this.state.parkCollection, park]
+       parkCollection: thisParkCollection
      })
-
-     let thisParkCollection= [...this.state.parkCollection, park]
-        
-        localStorage.setItem("theParkCollection", JSON.stringify(thisParkCollection))
-
   })
 }
 
-    parksToSendToCollection=()=>{
+deleteFromCollection=(park)=>{
+  console.log(park)
+  let newParkCollectionArray= this.state.parkCollection.filter(the_park=>{
+    return the_park.park_id !== park.id
+  })
 
-      let theParks= [...this.state.parks]
+  let thisParkCollection= this.state.parkCollection.find(this_park_collection=>{
+    return this_park_collection.park_id === park.id
+  })
 
-      let parkIds= this.state.parkCollection.map(park=> {
-        return park.park_id
+  let parkCollectionsId= thisParkCollection.id
+
+  fetch(`http://localhost:3000/park_collections/${parkCollectionsId}`, {
+    method: "DELETE"})
+    .then(r=>r.json())
+    .then(parkCollections =>{
+      this.setState({
+        parkCollection: newParkCollectionArray
       })
 
-      let theseParks= parkIds.map(parkId=> {
-
-        return theParks.filter(park=> {
-          return park.id === parkId
-         })
+      localStorage.setItem("theParkCollection", JSON.stringify(newParkCollectionArray))
     })
 
-    return theseParks
+    console.log(thisParkCollection)
   }
 
-  
-
   render(){
+    console.log(this.state.parkCollection)
     
   return (
   
@@ -168,7 +173,7 @@ class App extends React.Component {
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>
           <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} username={this.state.username} setToken={this.setToken}/>}/>
           <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} theParks={this.parksToSendDown()} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks}/>}/>
-          <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} parks={this.parksToSendToCollection()} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks} parkClickedOn={this.state.parkClickedOn}/>}/>
+          <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection} parkCollection={this.state.parkCollection} parks={this.state.parks} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks} parkClickedOn={this.state.parkClickedOn}/>}/>
         </Switch>
       </Router>
     </div>
