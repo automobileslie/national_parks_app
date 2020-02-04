@@ -1,6 +1,8 @@
 import React from 'react';
 import ParkList from './ParkList';
-import ParksExpand from './ParksExpand'
+import ParksExpand from './ParksExpand';
+import Filter from './Filter';
+import SearchBar from './SearchBar'
 
 
 class ParksContainer extends React.Component{
@@ -22,7 +24,8 @@ class ParksContainer extends React.Component{
 
     expandOnePark=()=>{
         return <div>
-            <ParksExpand addToParkCollection={this.props.addToParkCollection} park={this.props.theParks} returnToParks={this.props.returnToParks}/>
+            <ParksExpand addToParkCollection={this.props.addToParkCollection} 
+            park={this.props.theParks} returnToParks={this.props.returnToParks}/>
         </div>
     }
 
@@ -36,8 +39,15 @@ class ParksContainer extends React.Component{
 
                 <div>
         
-                <h3 className="list-of-parks-heading">List of Parks</h3>
-
+                <h2 className="list-of-parks-heading">List of Parks</h2>
+                <br></br>
+                    <Filter filterTheParksByLocation={this.props.filterTheParksByLocation}/>
+                    <br></br>
+                    <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
+                    <br></br>
+                    {!(this.props.filterAll) ? 
+                    <button onClick={this.props.returnFromSearchToList}>Return to Park List</button> :
+   <div></div> }
                 <div>{this.listTheParks()}</div> </div> :
 
                 <div>{this.expandOnePark()}</div>}

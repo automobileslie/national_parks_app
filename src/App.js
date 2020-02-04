@@ -16,7 +16,10 @@ class App extends React.Component {
     parkCollection: [],
     userId: null,
     username: "",
-    token: null
+    token: null,
+    theLocationFilter: "",
+    searchTerm: "",
+    filterAll: true
   }
 
   componentDidMount=()=>{
@@ -78,14 +81,14 @@ class App extends React.Component {
         token: null,
         username: "",
         parkCollection: [],
-        parkCollectionForDisplay: []
       })
     }
 
   selectAPark=(park)=>{
     this.setState({
       parkClickedOn: park,
-      isAParkExpanded: !this.state.isAParkExpanded
+      isAParkExpanded: !this.state.isAParkExpanded,
+      filterAll: false
     })
   }
 
@@ -93,11 +96,28 @@ class App extends React.Component {
 
     let theParks= [...this.state.parks]
 
+    let theParksFilteredByPlace= theParks.filter(park=>{
+      return park.states.includes(this.state.theLocationFilter)
+    })
+
+    let theParksFilteredBySearchTerm= theParks.filter(park=>{
+      return park.fullName.includes(this.state.searchTerm)
+    })
+
+    if (this.state.filterAll){
+      return theParks
+    }
+
     if (this.state.isAParkExpanded) {
-      theParks= this.state.parkClickedOn}
+      theParks= this.state.parkClickedOn
+      }
+
+    else if (this.state.searchTerm.length > 0) {
+      theParks=theParksFilteredBySearchTerm
+    }
 
     else {
-      return theParks
+      return theParksFilteredByPlace
     }
 
     return theParks
@@ -106,9 +126,21 @@ class App extends React.Component {
     returnToParks=()=>{
       this.setState({
         parkClickedOn: [],
-        isAParkExpanded: !this.state.isAParkExpanded
+        isAParkExpanded: !this.state.isAParkExpanded,
+        searchTerm: "",
+        theLocationFilter: "",
+        filterAll: true
       })
     }
+
+    returnFromSearchToList=()=>{
+        this.setState({
+          parkClickedOn: [],
+          searchTerm: "",
+          theLocationFilter: "",
+          filterAll: true
+        })
+      }
 
     addToParkCollection=(park)=> {
    
@@ -135,7 +167,6 @@ class App extends React.Component {
 }
 
 deleteFromCollection=(park)=>{
-  console.log(park)
   let newParkCollectionArray= this.state.parkCollection.filter(the_park=>{
     return the_park.park_id !== park.id
   })
@@ -157,12 +188,34 @@ deleteFromCollection=(park)=>{
       localStorage.setItem("theParkCollection", JSON.stringify(newParkCollectionArray))
     })
 
-    console.log(thisParkCollection)
+  }
+
+  filterTheParksByLocation=(event)=>{
+
+    if (event.target.value === "All"){
+      this.setState({
+        filterAll: true
+      })
+    }
+    else {
+    this.setState({
+      theLocationFilter: event.target.value,
+      searchTerm: "",
+      filterAll: false
+    })
+  }
+  }
+
+  filterBySearchTerm=(search)=>{
+    this.setState({
+      searchTerm: search,
+      theLocationFilter: "",
+      filterAll: false
+    })
   }
 
   render(){
-    console.log(this.state.parkCollection)
-    
+
   return (
   
     <div>
@@ -172,8 +225,24 @@ deleteFromCollection=(park)=>{
         <Switch>
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>
           <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} username={this.state.username} setToken={this.setToken}/>}/>
-          <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} theParks={this.parksToSendDown()} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks}/>}/>
-          <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection} parkCollection={this.state.parkCollection} parks={this.state.parks} selectAPark={this.selectAPark} isAParkExpanded={this.state.isAParkExpanded} returnToParks={this.returnToParks} parkClickedOn={this.state.parkClickedOn}/>}/>
+          <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} 
+            theParks={this.parksToSendDown()} 
+            selectAPark={this.selectAPark} 
+            isAParkExpanded={this.state.isAParkExpanded} 
+            returnToParks={this.returnToParks}
+            returnFromSearchToList={this.returnFromSearchToList}
+            filterTheParksByLocation={this.filterTheParksByLocation}
+            filterBySearchTerm={this.filterBySearchTerm}
+            filterAll={this.state.filterAll}
+            />}/>
+          <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
+            parkCollection={this.state.parkCollection} 
+            parks={this.state.parks} 
+            selectAPark={this.selectAPark} 
+            isAParkExpanded={this.state.isAParkExpanded} 
+            returnToParks={this.returnToParks} 
+            parkClickedOn={this.state.parkClickedOn} 
+            loggedIn={this.loggedIn}/>}/>
         </Switch>
       </Router>
     </div>

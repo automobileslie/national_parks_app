@@ -40,20 +40,30 @@ export default class ParkCollection extends React.Component {
         <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
         </div>
         }
+
+        whichParksToRender= () => {
+    
+             if (this.props.isAParkExpanded) { 
+                return this.displayPark()}
+            else {              
+                return <div>
+                <h2>Your Park List</h2>
+                {this.displayingCollection()}
+                </div>
+                    }
+                }
     
 
     render(){
         return(
             <div>
-
-                {!(this.props.isAParkExpanded) ? 
-            this.displayingCollection()
-            :
-            this.displayPark()
+                {this.props.loggedIn() ? 
+               
+                <div> {this.whichParksToRender()} </div>
+                :
+                <h2>Log in to see your park list</h2>
                 }
-
             </div>
-           
         )
         }
 }
