@@ -66,9 +66,7 @@ export default class Login extends React.Component {
                 })
             })
             .then(r => r.json())
-            .then(data => {
-                console.log(data)
-                
+            .then(data => {                
                 if (data.errors)
                   this.setState({
                     errors: data.errors

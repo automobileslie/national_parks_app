@@ -5,6 +5,7 @@ import Home from './Home';
 import ParkCollection from './ParkCollection';
 import Login from './Login';
 import ParksContainer from './ParksContainer';
+import Profile from './Profile';
 import './App.css';
 
 class App extends React.Component {
@@ -19,7 +20,9 @@ class App extends React.Component {
     token: null,
     theLocationFilter: "",
     searchTerm: "",
-    filterAll: true
+    filterAll: true,
+    // errorMessageForAddingPark: "That park is already in your collection.",
+    cannotAddPark: false
   }
 
   componentDidMount=()=>{
@@ -100,8 +103,10 @@ class App extends React.Component {
       return park.states.includes(this.state.theLocationFilter)
     })
 
+    let searchToUpperCase= this.state.searchTerm.toUpperCase()
+
     let theParksFilteredBySearchTerm= theParks.filter(park=>{
-      return park.fullName.includes(this.state.searchTerm)
+      return park.fullName.toUpperCase().includes(searchToUpperCase)
     })
 
     if (this.state.filterAll){
@@ -143,6 +148,18 @@ class App extends React.Component {
       }
 
     addToParkCollection=(park)=> {
+
+        let thisParkCollectionArray= this.state.parkCollection.filter(the_park=>{
+          return the_park.park_id === park.id
+        })
+        if (thisParkCollectionArray.length > 0) {
+          this.setState({
+          cannotAddPark: true,
+          isAParkExpanded: false
+        })
+      }
+
+      else {
    
       fetch("http://localhost:3000/park_collections", {
       method: "POST",
@@ -160,10 +177,12 @@ class App extends React.Component {
       let thisParkCollection= [...this.state.parkCollection, theParkCollection]
       localStorage.setItem("theParkCollection", JSON.stringify(thisParkCollection))
 
-     this.setState({
-       parkCollection: thisParkCollection
-     })
-  })
+      this.setState({
+        parkCollection: thisParkCollection,
+        isAParkExpanded: false
+      })
+    })
+  }
 }
 
 deleteFromCollection=(park)=>{
@@ -182,7 +201,8 @@ deleteFromCollection=(park)=>{
     .then(r=>r.json())
     .then(parkCollections =>{
       this.setState({
-        parkCollection: newParkCollectionArray
+        parkCollection: newParkCollectionArray,
+        isAParkExpanded: false
       })
 
       localStorage.setItem("theParkCollection", JSON.stringify(newParkCollectionArray))
@@ -214,6 +234,40 @@ deleteFromCollection=(park)=>{
     })
   }
 
+  changeUsername=(name)=>{
+    let the_username=name.username
+    fetch(`http://localhost:3000/users/${this.state.userId}`, {
+      method: "PATCH",
+      headers: {
+        "Authorization": this.state.token
+      },
+      body: JSON.stringify({
+        username: the_username
+      })
+    })
+    .then(r=> r.json())
+    .then(user=> {
+    this.setState({
+    username: the_username
+      })
+    })
+
+    localStorage.setItem("username", the_username)
+  }
+
+  deleteAccount=()=>{
+    fetch(`http://localhost:3000/users/${this.state.userId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": this.state.token
+      }
+    })
+    .then(r=> r.json())
+    .then(message=> {
+    return this.logOut()
+    })
+  }
+
   render(){
 
   return (
@@ -224,7 +278,9 @@ deleteFromCollection=(park)=>{
         <br></br>
         <Switch>
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>
-          <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} username={this.state.username} setToken={this.setToken}/>}/>
+          <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} 
+          username={this.state.username} 
+          setToken={this.setToken}/>}/>
           <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} 
             theParks={this.parksToSendDown()} 
             selectAPark={this.selectAPark} 
@@ -234,6 +290,8 @@ deleteFromCollection=(park)=>{
             filterTheParksByLocation={this.filterTheParksByLocation}
             filterBySearchTerm={this.filterBySearchTerm}
             filterAll={this.state.filterAll}
+            errorMessageForAddingPark={this.state.errorMessageForAddingPark}
+            cannotAddPark={this.state.cannotAddPark}
             />}/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
             parkCollection={this.state.parkCollection} 
@@ -242,6 +300,10 @@ deleteFromCollection=(park)=>{
             isAParkExpanded={this.state.isAParkExpanded} 
             returnToParks={this.returnToParks} 
             parkClickedOn={this.state.parkClickedOn} 
+            loggedIn={this.loggedIn}/>}/>
+            <Route exact path= '/profile' render={(renderProps) => <Profile {...renderProps} username={this.state.username} 
+            changeUsername={this.changeUsername} 
+            deleteAccount={this.deleteAccount}
             loggedIn={this.loggedIn}/>}/>
         </Switch>
       </Router>

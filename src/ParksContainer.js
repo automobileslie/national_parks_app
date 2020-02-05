@@ -34,6 +34,11 @@ class ParksContainer extends React.Component{
    render(){
         return(
             <div>
+
+                {/* {this.props.cannotAddPark ? 
+                <h2>{this.props.errorMessageForAddingPark}</h2> :
+                <div></div>
+                } */}
        
                 {!(this.props.isAParkExpanded) ? 
 

@@ -8,23 +8,26 @@ export default class ParkCollection extends React.Component {
 
         let theParks= [...this.props.parks]
 
-      let parkIds= this.props.parkCollection.map(park=> {
-        return park.park_id
-      })
+        let parkIds= this.props.parkCollection.map(park=> {
+            return park.park_id
+        })
 
-      let theseParks= parkIds.map(parkId=> {
+        let theseParks= parkIds.map(parkId=> {
 
-        return theParks.filter(park=> {
-          return park.id === parkId
-         })
-    })
-        return theseParks.map(park=>{
-            return park.map(the_park=> {
+            return theParks.filter(park=> {
+                return park.id === parkId
+            })
+        })
+
+        let theseParksAlphabetized= theseParks.flat().sort((a, b) => {
+            return a.fullName.localeCompare(b.fullName)
+        })
+          
+        return theseParksAlphabetized.map(park=>{
             return <div>
-            <p onClick={()=>{this.props.selectAPark(the_park)}} className="park-name">{the_park.fullName}</p>
+            <p onClick={()=>{this.props.selectAPark(park)}} className="park-name">{park.fullName}</p>
             </div>
         })
-    })
     }
 
     displayPark=()=>{
@@ -41,18 +44,17 @@ export default class ParkCollection extends React.Component {
         </div>
         }
 
-        whichParksToRender= () => {
+    whichParksToRender= () => {
     
-             if (this.props.isAParkExpanded) { 
-                return this.displayPark()}
-            else {              
-                return <div>
+        if (this.props.isAParkExpanded) { 
+            return this.displayPark()}
+        else {              
+            return <div>
                 <h2>Your Park List</h2>
                 {this.displayingCollection()}
                 </div>
                     }
-                }
-    
+        }
 
     render(){
         return(

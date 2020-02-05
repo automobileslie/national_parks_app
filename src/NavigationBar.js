@@ -65,6 +65,14 @@ const link = {
               background: 'cadetblue'
             }}
           >Your Park List</NavLink>
+          <NavLink
+            to="/profile"
+            exact
+            style={link}
+            activeStyle={{
+              background: 'cadetblue',
+            }}
+          >Profile</NavLink>
         </div>
       )
     }
