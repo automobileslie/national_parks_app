@@ -34,11 +34,6 @@ class ParksContainer extends React.Component{
    render(){
         return(
             <div>
-
-                {/* {this.props.cannotAddPark ? 
-                <h2>{this.props.errorMessageForAddingPark}</h2> :
-                <div></div>
-                } */}
        
                 {!(this.props.isAParkExpanded) ? 
 
@@ -51,7 +46,8 @@ class ParksContainer extends React.Component{
                     <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
                     <br></br>
                     {!(this.props.filterAll) ? 
-                    <button onClick={this.props.returnFromSearchToList}>Return to Park List</button> :
+                    <button onClick={this.props.returnFromSearchToList}>Return to Park List</button> 
+                    :
    <div></div> }
                 <div>{this.listTheParks()}</div> </div> :
 

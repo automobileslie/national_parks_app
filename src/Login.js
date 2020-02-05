@@ -10,7 +10,7 @@ export default class Login extends React.Component {
         signUpUsername: "",
         signUpPassword: "",
         errors: [],
-        successMessage: []
+        successMessage: ""
     }
 
     fillOutForm=(event)=>{
@@ -47,7 +47,7 @@ export default class Login extends React.Component {
             loginUsername: "",
             loginPassword: "", 
             errors: [],
-            successMessage: []
+            successMessage: ""
         })
     }
 
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
             <div>
               
             <p className="login-messages">{this.state.errors}</p>
-            <p className="login-messages">{this.state.successMessage}</p>
+            <p className="login-messages"> {this.state.successMessage}</p>
 
             {!(this.props.loggedIn()) ? 
             <div className="login-and-sign-up-form-div">

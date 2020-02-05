@@ -21,17 +21,18 @@ class App extends React.Component {
     theLocationFilter: "",
     searchTerm: "",
     filterAll: true,
-    // errorMessageForAddingPark: "That park is already in your collection.",
     cannotAddPark: false
   }
 
   componentDidMount=()=>{
     fetch("http://localhost:3000/parks")
+
     .then(r => r.json())
-    .then(parks => {
+
+    .then(parks => { 
 
       let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
-      
+
       this.setState({
         parks: parks.data,
         token: localStorage.token,
@@ -48,9 +49,9 @@ class App extends React.Component {
     localStorage.userId = id;
     fetch(`http://localhost:3000/users/${id}`, {
   
-  headers: {
-    "Authorization": token
-  }
+    headers: {
+      "Authorization": token
+    }
       })
     .then(r => r.json())
     .then(user => {
@@ -61,6 +62,7 @@ class App extends React.Component {
         userId: id,
         parkCollection: user.park_collections
         })
+
         
         localStorage.setItem("theParkCollection", JSON.stringify(user.park_collections))
 
@@ -269,7 +271,6 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-
   return (
   
     <div>
@@ -290,7 +291,6 @@ deleteFromCollection=(park)=>{
             filterTheParksByLocation={this.filterTheParksByLocation}
             filterBySearchTerm={this.filterBySearchTerm}
             filterAll={this.state.filterAll}
-            errorMessageForAddingPark={this.state.errorMessageForAddingPark}
             cannotAddPark={this.state.cannotAddPark}
             />}/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}

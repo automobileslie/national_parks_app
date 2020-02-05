@@ -34,9 +34,9 @@ export default class ParkCollection extends React.Component {
         return <div>
         <h2>{this.props.parkClickedOn.fullName}</h2>
         <p>{this.props.parkClickedOn.description}</p>
-        <a href={this.props.parkClickedOn.url}> National Park Services Website </a>
+        <a target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Services Website </a>
         <br></br>
-        <a href={this.props.parkClickedOn.directionsUrl}>Directions</a>
+        <a target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.directionsUrl}>Directions</a>
         <br></br>
         <br></br>
         <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
