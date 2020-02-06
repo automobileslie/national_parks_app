@@ -25,11 +25,10 @@ class ParksContainer extends React.Component{
     expandOnePark=()=>{
         return <div>
             <ParksExpand addToParkCollection={this.props.addToParkCollection} 
-            park={this.props.theParks} returnToParks={this.props.returnToParks}/>
+            park={this.props.theParks} returnToParks={this.props.returnToParks}
+            parkCollection={this.props.parkCollection}/>
         </div>
     }
-
-
 
    render(){
         return(
@@ -47,9 +46,21 @@ class ParksContainer extends React.Component{
                     <br></br>
                     {!(this.props.filterAll) ? 
                     <button onClick={this.props.returnFromSearchToList}>Return to Park List</button> 
+
                     :
-   <div></div> }
-                <div>{this.listTheParks()}</div> </div> :
+                <div></div> }
+                <div>{this.listTheParks()}</div>
+                {this.props.numberForParksDisplay > 0 ? 
+                <div>
+                <button className="button" onClick={this.props.buttonToPreviousParks}><strong>Previous 25 Parks</strong></button>
+                <br></br>
+                <button className="button" onClick={this.props.buttonToReturnToTheBeginning}><strong>Return to the beginning</strong></button>
+                <br></br>
+                </div>
+                :
+                <div></div> }
+                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 25 Parks</strong></button> 
+                </div> :
 
                 <div>{this.expandOnePark()}</div>}
 

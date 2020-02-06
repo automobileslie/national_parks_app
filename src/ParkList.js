@@ -21,8 +21,7 @@ export default class ParkList extends React.Component{
         return(
             <div>
                 
-                {this.displayName()} 
-            
+                {this.displayName()}
             </div>
         )
     }

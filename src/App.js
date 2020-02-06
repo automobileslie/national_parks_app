@@ -21,11 +21,21 @@ class App extends React.Component {
     theLocationFilter: "",
     searchTerm: "",
     filterAll: true,
-    cannotAddPark: false
+    cannotAddPark: false,
+    numberForParksDisplay: 0
   }
 
   componentDidMount=()=>{
-    fetch("http://localhost:3000/parks")
+    fetch("http://localhost:3000/parks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify({
+        number: 0
+      })
+    })
 
     .then(r => r.json())
 
@@ -38,9 +48,55 @@ class App extends React.Component {
         token: localStorage.token,
         userId: localStorage.userId,
         username: localStorage.username,
-        parkCollection: parkCollectionParsed
+        parkCollection: parkCollectionParsed,
+        numberForParksDisplay: 0
       })
     })
+  }
+
+  buttonToFetchMoreParks=()=>{
+    
+    let numberForParks=this.state.parks.length + 1
+
+    // I am trying to think about how to avoid doing this fetch if the next 25 are already in state.
+    // Once I figure that out, I can specify a condition for doing the fetch.
+    // "Your Park Collection" also has to be rendered in a different way, but I am not
+    // sure whether to store the parks in the backend or do some kind of fetch when
+    // users try to access their collection.
+
+    fetch("http://localhost:3000/parks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      },
+      body: JSON.stringify({
+        number: numberForParks
+      })
+    })
+
+    .then(r => r.json())
+
+    .then(parks => { 
+      this.setState({
+        parks: [...this.state.parks, ...parks.data],
+        numberForParksDisplay: this.state.numberForParksDisplay + 25
+      })
+  })
+}
+
+  buttonToPreviousParks=()=>{
+    this.setState({
+      numberForParksDisplay: this.state.numberForParksDisplay - 25
+    })
+  }
+
+  buttonToReturnToTheBeginning=()=>{
+  console.log("clicked")
+  this.setState({
+    numberForParksDisplay: 0
+  })
+
   }
 
   setToken = (token, id) => {
@@ -101,33 +157,35 @@ class App extends React.Component {
 
     let theParks= [...this.state.parks]
 
-    let theParksFilteredByPlace= theParks.filter(park=>{
+    let aSliceOfParks=theParks.slice(this.state.numberForParksDisplay, this.state.numberForParksDisplay + 25)
+
+    let theParksFilteredByPlace= aSliceOfParks.filter(park=>{
       return park.states.includes(this.state.theLocationFilter)
     })
 
     let searchToUpperCase= this.state.searchTerm.toUpperCase()
 
-    let theParksFilteredBySearchTerm= theParks.filter(park=>{
+    let theParksFilteredBySearchTerm= aSliceOfParks.filter(park=>{
       return park.fullName.toUpperCase().includes(searchToUpperCase)
     })
 
     if (this.state.filterAll){
-      return theParks
+      return aSliceOfParks
     }
 
     if (this.state.isAParkExpanded) {
-      theParks= this.state.parkClickedOn
+      aSliceOfParks= this.state.parkClickedOn
       }
 
     else if (this.state.searchTerm.length > 0) {
-      theParks=theParksFilteredBySearchTerm
+      aSliceOfParks=theParksFilteredBySearchTerm
     }
 
     else {
       return theParksFilteredByPlace
     }
 
-    return theParks
+    return aSliceOfParks
     }
 
     returnToParks=()=>{
@@ -271,6 +329,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
+    console.log(this.state.parks)
   return (
   
     <div>
@@ -292,6 +351,12 @@ deleteFromCollection=(park)=>{
             filterBySearchTerm={this.filterBySearchTerm}
             filterAll={this.state.filterAll}
             cannotAddPark={this.state.cannotAddPark}
+            buttonToFetchMoreParks={this.buttonToFetchMoreParks}
+            buttonToPreviousParks={this.buttonToPreviousParks}
+            buttonToReturnToTheBeginning={this.buttonToReturnToTheBeginning}
+            numberForParksDisplay={this.state.numberForParksDisplay}
+            parkCollection={this.state.parkCollection}
+            
             />}/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
             parkCollection={this.state.parkCollection} 
