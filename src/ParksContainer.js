@@ -49,20 +49,33 @@ class ParksContainer extends React.Component{
 
                     :
                 <div></div> }
+
                 <div>{this.listTheParks()}</div>
+
+                <div className="div-for-buttons">
+        
                 {this.props.numberForParksDisplay > 0 ? 
-                <div>
+
+                <div className="div-for-buttons">
                 <button className="button" onClick={this.props.buttonToPreviousParks}><strong>Previous 25 Parks</strong></button>
-                <br></br>
+                {/* <br></br> */}
                 <button className="button" onClick={this.props.buttonToReturnToTheBeginning}><strong>Return to the beginning</strong></button>
-                <br></br>
+                {/* <br></br> */}
                 </div>
                 :
-                <div></div> }
-                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 25 Parks</strong></button> 
-                </div> :
 
-                <div>{this.expandOnePark()}</div>}
+                <div></div> }
+
+                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 25 Parks</strong></button> 
+
+                </div>
+
+                </div> 
+                
+                :
+
+                <div>{this.expandOnePark()}</div>
+                }
 
             </div>
             

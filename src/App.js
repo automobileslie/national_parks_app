@@ -174,7 +174,7 @@ class App extends React.Component {
     }
 
     if (this.state.isAParkExpanded) {
-      aSliceOfParks= this.state.parkClickedOn
+      theParks= this.state.parkClickedOn
       }
 
     else if (this.state.searchTerm.length > 0) {
@@ -185,7 +185,7 @@ class App extends React.Component {
       return theParksFilteredByPlace
     }
 
-    return aSliceOfParks
+    return theParks
     }
 
     returnToParks=()=>{
