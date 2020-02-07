@@ -56,13 +56,17 @@ class App extends React.Component {
   }
   
   buttonToFetchMoreParks=()=>{
-    
-    let numberForParks=this.state.parks.length + 1
 
-    // I am trying to think about how to avoid doing this fetch if the next 25 are already in state.
-    // Once I figure that out, I can specify a condition for doing the fetch.
-    // There should probably be some kind of loading message or icon, too, if I can't find a faster way to fetch 
-    // from the API. And the search and filters need some refactoring for a better user-experience.
+    if (this.state.parks.length-this.state.numberForParksDisplay > 25) { 
+
+      this.setState({
+        numberForParksDisplay: this.state.numberForParksDisplay + 25
+      })
+    }
+
+    else{
+
+      let numberForParks=this.state.parks.length + 1;
 
     fetch("http://localhost:3000/parks", {
       method: "POST",
@@ -84,6 +88,7 @@ class App extends React.Component {
       })
   })
 }
+  }
 
   buttonToPreviousParks=()=>{
     this.setState({
@@ -335,7 +340,8 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-    console.log(this.state.parkCollection)
+    console.log(this.state.parks.length)
+    console.log(this.state.numberForParksDisplay)
   return (
   
     <div>

@@ -49,3 +49,8 @@ body{
 .div-for-buttons{
   display: flex;
 }
+
+.input-field{
+  width: 30%;
+  text-align: center;
+}

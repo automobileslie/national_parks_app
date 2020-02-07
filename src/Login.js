@@ -98,9 +98,9 @@ export default class Login extends React.Component {
 
                 <form onSubmit={this.submitLoginForm}>
                     <h3>Log In</h3>
-                    <input type="text" name="loginUsername" value={this.state.loginUsername} placeholder="username" onChange={this.fillOutForm}/>
+                    <input className="input-field" type="text" name="loginUsername" value={this.state.loginUsername} placeholder="username" onChange={this.fillOutForm}/>
                     <br></br>
-                    <input type="password" name="loginPassword" value={this.state.loginPassword} placeholder="password" onChange={this.fillOutForm}/>
+                    <input className="input-field" type="password" name="loginPassword" value={this.state.loginPassword} placeholder="password" onChange={this.fillOutForm}/>
                     <br></br>
                     <input type="submit" value="Login" />
                 </form>
@@ -109,9 +109,9 @@ export default class Login extends React.Component {
 
                 <form onSubmit={this.submitSignUpForm}>
                     <h3>Sign Up</h3>
-                    <input type="text" name="signUpUsername" value={this.state.signUpUsername} placeholder="username" onChange={this.fillOutForm}/>
+                    <input className="input-field" type="text" name="signUpUsername" value={this.state.signUpUsername} placeholder="username" onChange={this.fillOutForm}/>
                     <br></br>
-                    <input type="password" name="signUpPassword" value={this.state.signUpPassword} placeholder="password" onChange={this.fillOutForm}/>
+                    <input className="input-field" type="password" name="signUpPassword" value={this.state.signUpPassword} placeholder="password" onChange={this.fillOutForm}/>
                     <br></br>
                     <input type="submit" value="Sign Up" />
                 </form>
