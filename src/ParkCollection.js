@@ -6,26 +6,13 @@ export default class ParkCollection extends React.Component {
 
     displayingCollection=()=> { 
 
-        let theParks= [...this.props.parks]
-
-        let parkIds= this.props.parkCollection.map(park=> {
-            return park.park_id
-        })
-
-        let theseParks= parkIds.map(parkId=> {
-
-            return theParks.filter(park=> {
-                return park.id === parkId
-            })
-        })
-
-        let theseParksAlphabetized= theseParks.flat().sort((a, b) => {
-            return a.fullName.localeCompare(b.fullName)
+        let theseParksAlphabetized= this.props.parkCollection.flat().sort((a, b) => {
+            return a.full_name.localeCompare(b.full_name)
         })
           
         return theseParksAlphabetized.map(park=>{
             return <div>
-            <p onClick={()=>{this.props.selectAPark(park)}} className="park-name">{park.fullName}</p>
+            <p onClick={()=>{this.props.selectAPark(park)}} className="park-name">{park.full_name}</p>
             </div>
         })
     }

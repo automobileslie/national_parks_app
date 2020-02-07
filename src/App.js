@@ -26,6 +26,7 @@ class App extends React.Component {
   }
 
   componentDidMount=()=>{
+
     fetch("http://localhost:3000/parks", {
       method: "POST",
       headers: {
@@ -53,16 +54,15 @@ class App extends React.Component {
       })
     })
   }
-
+  
   buttonToFetchMoreParks=()=>{
     
     let numberForParks=this.state.parks.length + 1
 
     // I am trying to think about how to avoid doing this fetch if the next 25 are already in state.
     // Once I figure that out, I can specify a condition for doing the fetch.
-    // "Your Park Collection" also has to be rendered in a different way, but I am not
-    // sure whether to store the parks in the backend or do some kind of fetch when
-    // users try to access their collection.
+    // There should probably be some kind of loading message or icon, too, if I can't find a faster way to fetch 
+    // from the API. And the search and filters need some refactoring for a better user-experience.
 
     fetch("http://localhost:3000/parks", {
       method: "POST",
@@ -92,7 +92,6 @@ class App extends React.Component {
   }
 
   buttonToReturnToTheBeginning=()=>{
-  console.log("clicked")
   this.setState({
     numberForParksDisplay: 0
   })
@@ -159,13 +158,13 @@ class App extends React.Component {
 
     let aSliceOfParks=theParks.slice(this.state.numberForParksDisplay, this.state.numberForParksDisplay + 25)
 
-    let theParksFilteredByPlace= aSliceOfParks.filter(park=>{
+    let theParksFilteredByPlace= theParks.filter(park=>{
       return park.states.includes(this.state.theLocationFilter)
     })
 
     let searchToUpperCase= this.state.searchTerm.toUpperCase()
 
-    let theParksFilteredBySearchTerm= aSliceOfParks.filter(park=>{
+    let theParksFilteredBySearchTerm= theParks.filter(park=>{
       return park.fullName.toUpperCase().includes(searchToUpperCase)
     })
 
@@ -175,6 +174,7 @@ class App extends React.Component {
 
     if (this.state.isAParkExpanded) {
       theParks= this.state.parkClickedOn
+      return theParks
       }
 
     else if (this.state.searchTerm.length > 0) {
@@ -185,7 +185,8 @@ class App extends React.Component {
       return theParksFilteredByPlace
     }
 
-    return theParks
+    return aSliceOfParks
+
     }
 
     returnToParks=()=>{
@@ -208,6 +209,7 @@ class App extends React.Component {
       }
 
     addToParkCollection=(park)=> {
+      console.log(park.description)
 
         let thisParkCollectionArray= this.state.parkCollection.filter(the_park=>{
           return the_park.park_id === park.id
@@ -229,7 +231,11 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         user_id: this.state.userId,
-        park_id: park.id
+        park_id: park.id,
+        description: park.description,
+        directions_url: park.directionsUrl,
+        url: park.url,
+        full_name: park.fullName
       })
      })
      .then(r=>r.json())
@@ -329,7 +335,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-    console.log(this.state.parks)
+    console.log(this.state.parkCollection)
   return (
   
     <div>
@@ -356,6 +362,9 @@ deleteFromCollection=(park)=>{
             buttonToReturnToTheBeginning={this.buttonToReturnToTheBeginning}
             numberForParksDisplay={this.state.numberForParksDisplay}
             parkCollection={this.state.parkCollection}
+            searchTerm={this.state.searchTerm}
+            theLocationFilter={this.state.theLocationFilter}
+            loggedIn={this.loggedIn}
             
             />}/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
