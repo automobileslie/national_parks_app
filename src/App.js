@@ -57,10 +57,19 @@ class App extends React.Component {
   
   buttonToFetchMoreParks=()=>{
 
-    if (this.state.parks.length-this.state.numberForParksDisplay > 25) { 
+    // Right now I am using buttons to load 5 parks at a time, but next week I
+    // would like to work on making this an onScroll event or manipulating it
+    // in a different way to make it more user-friendly. I will also have to keep working on 
+    // how the filters and search bar will work, given how the parks are being fetched, to make them more useful tools. 
+    //  Maybe I can put the search bar and filters at the bottom of the page, so that the user will have scrolled
+    // through all of the parks, and the parks will all at that point be in state- so if a user filters
+    // or does a search, I can set it up so all of the parks coming from the API are being filtered to display the best results. 
+    // This is not the best solution, but it may work alright for my app at this point.
+
+    if (this.state.parks.length-this.state.numberForParksDisplay > 5) { 
 
       this.setState({
-        numberForParksDisplay: this.state.numberForParksDisplay + 25
+        numberForParksDisplay: this.state.numberForParksDisplay + 5
       })
     }
 
@@ -84,7 +93,7 @@ class App extends React.Component {
     .then(parks => { 
       this.setState({
         parks: [...this.state.parks, ...parks.data],
-        numberForParksDisplay: this.state.numberForParksDisplay + 25
+        numberForParksDisplay: this.state.numberForParksDisplay + 5
       })
   })
 }
@@ -92,7 +101,7 @@ class App extends React.Component {
 
   buttonToPreviousParks=()=>{
     this.setState({
-      numberForParksDisplay: this.state.numberForParksDisplay - 25
+      numberForParksDisplay: this.state.numberForParksDisplay - 5
     })
   }
 
@@ -161,7 +170,7 @@ class App extends React.Component {
 
     let theParks= [...this.state.parks]
 
-    let aSliceOfParks=theParks.slice(this.state.numberForParksDisplay, this.state.numberForParksDisplay + 25)
+    let aSliceOfParks=theParks.slice(this.state.numberForParksDisplay, this.state.numberForParksDisplay + 5)
 
     let theParksFilteredByPlace= theParks.filter(park=>{
       return park.states.includes(this.state.theLocationFilter)

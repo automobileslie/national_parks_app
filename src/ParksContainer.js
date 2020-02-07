@@ -55,7 +55,7 @@ class ParksContainer extends React.Component{
                                 {this.props.numberForParksDisplay > 0 ? 
 
                                 <div className="div-for-buttons">
-                                <button className="button" onClick={this.props.buttonToPreviousParks}><strong>Previous 25 Parks</strong></button>
+                                <button className="button" onClick={this.props.buttonToPreviousParks}><strong>Previous 5 Parks</strong></button>
                                 <button className="button" onClick={this.props.buttonToReturnToTheBeginning}><strong>Return to the beginning</strong></button>
                                 </div>
 
@@ -63,7 +63,7 @@ class ParksContainer extends React.Component{
 
                                 <div></div> }
 
-                                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 25 Parks</strong></button> 
+                                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 5 Parks</strong></button> 
 
                             </div> }
 

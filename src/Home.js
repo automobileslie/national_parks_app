@@ -8,20 +8,22 @@ export default class Home extends React.Component {
     renderImages=()=>{
 
         const parkImages= [
-            <img src={require("./Images/Bryce_Canyon.jpg")} alt="Bryce Canyon" />, 
-            <img src={require("./Images/Cape_Cod.jpg")} alt="Cape Cod"/>, 
-            <img src={require("./Images/DryTortugas.jpg")} alt="Dry Tortugas" />, 
-            <img src={require("./Images/Governors_Island.jpg")} alt="Governors Island" />, 
-            <img src={require("./Images/Lincoln_Memorial.jpg")} alt="Lincoln Memorial"/>, 
-            <img src={require("./Images/Niobrara.jpg")} alt= "Niobrara"/>, 
-            <img src={require("./Images/Redwoods.jpg")} alt="Redwoods"/>, 
-            <img src={require("./Images/Sagamore.jpg")} alt="Sagamore"/>, 
-            <img src={require("./Images/Saint_Croix.jpg")} alt="Saint Croix"/>, 
-            <img src={require("./Images/Yellowstone.jpg")} alt="Yellowstone"/>
+            {img: <img src={require("./Images/Bryce_Canyon.jpg")} alt="Bryce Canyon" />, name: "Bryce Canyon", url: "https://www.nps.gov/brca/index.htm"}, 
+            {img: <img src={require("./Images/Redwoods.jpg")} alt="Redwoods"/>, name: "Redwood", url:"https://www.nps.gov/redw/index.htm"},
+            {img: <img src={require("./Images/Cape_Cod.jpg")} alt="Cape Cod"/>, name: "Cape Cod", url: "https://www.nps.gov/caco/index.htm"}, 
+            {img: <img src={require("./Images/Niobrara.jpg")} alt= "Niobrara"/>, name: "Niobrara", url:"https://www.nps.gov/niob/index.htm"},
+            {img: <img src={require("./Images/DryTortugas.jpg")} alt="Dry Tortugas" />, name: "Dry Tortugas", url:"https://www.nps.gov/drto/index.htm"}, 
+            {img: <img src={require("./Images/Governors_Island.jpg")} alt="Governors Island" />, name: "Governors Island", url:"https://www.nps.gov/gois/index.htm"}, 
+            {img: <img src={require("./Images/Yellowstone.jpg")} alt="Yellowstone"/>, name: "Yellowstone", url:"https://www.nps.gov/yell/index.htm"},
+            {img: <img src={require("./Images/Lincoln_Memorial.jpg")} alt="Lincoln Memorial"/>, name: "Lincoln Memorial", url:"https://www.nps.gov/linc/index.htm"}, 
+            {img: <img src={require("./Images/Saint_Croix.jpg")} alt="Saint Croix"/>, name: "Saint Croix", url:"https://www.nps.gov/sacn/index.htm"}, 
             ]
         
             return parkImages.map(parkImage=>{
-                return <div className="park-image-div">{parkImage}</div>
+                return <div className="park-image-div">
+                    <a target="_blank" rel="noopener noreferrer" href={parkImage.url} alt="link to national park">{parkImage.img}</a>
+                    <p className="park-image-name">{parkImage.name}</p>
+                    </div>
             })
         }
         
