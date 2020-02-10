@@ -326,7 +326,6 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-    console.log(this.state.parks.length)
   return (
   
     <div>
