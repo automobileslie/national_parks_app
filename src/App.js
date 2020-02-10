@@ -22,7 +22,8 @@ class App extends React.Component {
     searchTerm: "",
     filterAll: true,
     cannotAddPark: false,
-    numberForParksDisplay: 0
+    numberForParksDisplay: 0,
+    loadingMessage: "More Parks Are Currently Loading!"
   }
 
   componentDidMount=()=>{
@@ -55,25 +56,11 @@ class App extends React.Component {
     })
   }
   
-  buttonToFetchMoreParks=()=>{
+  fetchMoreParks=()=>{
 
-    // Right now I am using buttons to load 5 parks at a time, but next week I
-    // would like to work on making this an onScroll event or manipulating it
-    // in a different way to make it more user-friendly. I will also have to keep working on 
-    // how the filters and search bar will work, given how the parks are being fetched, to make them more useful tools. 
-    //  Maybe I can put the search bar and filters at the bottom of the page, so that the user will have scrolled
-    // through all of the parks, and the parks will all at that point be in state- so if a user filters
-    // or does a search, I can set it up so all of the parks coming from the API are being filtered to display the best results. 
-    // This is not the best solution, but it may work alright for my app at this point.
+      if(this.state.parks.length < 497) {
 
-    if (this.state.parks.length-this.state.numberForParksDisplay > 5) { 
-
-      this.setState({
-        numberForParksDisplay: this.state.numberForParksDisplay + 5
-      })
-    }
-
-    else{
+      if(this.state.parks.length === this.state.numberForParksDisplay + 20) {
 
       let numberForParks=this.state.parks.length + 1;
 
@@ -87,30 +74,18 @@ class App extends React.Component {
         number: numberForParks
       })
     })
-
     .then(r => r.json())
-
     .then(parks => { 
+
       this.setState({
         parks: [...this.state.parks, ...parks.data],
-        numberForParksDisplay: this.state.numberForParksDisplay + 5
+        numberForParksDisplay: this.state.numberForParksDisplay + 20
       })
   })
+
+    }
+  }
 }
-  }
-
-  buttonToPreviousParks=()=>{
-    this.setState({
-      numberForParksDisplay: this.state.numberForParksDisplay - 5
-    })
-  }
-
-  buttonToReturnToTheBeginning=()=>{
-  this.setState({
-    numberForParksDisplay: 0
-  })
-
-  }
 
   setToken = (token, id) => {
     localStorage.token = token;
@@ -168,38 +143,40 @@ class App extends React.Component {
 
   parksToSendDown=()=>{
 
-    let theParks= [...this.state.parks]
+    let theParks = [...this.state.parks]
 
-    let aSliceOfParks=theParks.slice(this.state.numberForParksDisplay, this.state.numberForParksDisplay + 5)
-
-    let theParksFilteredByPlace= theParks.filter(park=>{
+    let theParksAlphabetized =  theParks.sort((a, b) => {
+      return a.fullName.localeCompare(b.fullName)
+  })
+    
+    let theParksFilteredByPlace= theParksAlphabetized.filter(park=>{
       return park.states.includes(this.state.theLocationFilter)
     })
 
     let searchToUpperCase= this.state.searchTerm.toUpperCase()
 
-    let theParksFilteredBySearchTerm= theParks.filter(park=>{
+    let theParksFilteredBySearchTerm= theParksAlphabetized.filter(park=>{
       return park.fullName.toUpperCase().includes(searchToUpperCase)
     })
 
     if (this.state.filterAll){
-      return aSliceOfParks
+      return theParksAlphabetized
     }
 
     if (this.state.isAParkExpanded) {
-      theParks= this.state.parkClickedOn
-      return theParks
+      theParksAlphabetized= this.state.parkClickedOn
+      return theParksAlphabetized
       }
 
     else if (this.state.searchTerm.length > 0) {
-      aSliceOfParks=theParksFilteredBySearchTerm
+     theParksAlphabetized=theParksFilteredBySearchTerm
     }
 
     else {
       return theParksFilteredByPlace
     }
 
-    return aSliceOfParks
+    return theParksAlphabetized
 
     }
 
@@ -350,10 +327,10 @@ deleteFromCollection=(park)=>{
 
   render(){
     console.log(this.state.parks.length)
-    console.log(this.state.numberForParksDisplay)
   return (
   
     <div>
+      {this.fetchMoreParks()}
       <Router>
         <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}/>
         <br></br>
@@ -372,14 +349,13 @@ deleteFromCollection=(park)=>{
             filterBySearchTerm={this.filterBySearchTerm}
             filterAll={this.state.filterAll}
             cannotAddPark={this.state.cannotAddPark}
-            buttonToFetchMoreParks={this.buttonToFetchMoreParks}
-            buttonToPreviousParks={this.buttonToPreviousParks}
-            buttonToReturnToTheBeginning={this.buttonToReturnToTheBeginning}
             numberForParksDisplay={this.state.numberForParksDisplay}
             parkCollection={this.state.parkCollection}
             searchTerm={this.state.searchTerm}
             theLocationFilter={this.state.theLocationFilter}
             loggedIn={this.loggedIn}
+            loadingMessage={this.state.loadingMessage}
+            parks={this.state.parks}
             
             />}/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}

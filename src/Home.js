@@ -5,6 +5,10 @@ import React from 'react';
 
 export default class Home extends React.Component {
 
+    state={
+        currentImage:0
+    }
+
     renderImages=()=>{
 
         const parkImages= [
@@ -18,19 +22,37 @@ export default class Home extends React.Component {
             {img: <img src={require("./Images/Lincoln_Memorial.jpg")} alt="Lincoln Memorial"/>, name: "Lincoln Memorial", url:"https://www.nps.gov/linc/index.htm"}, 
             {img: <img src={require("./Images/Saint_Croix.jpg")} alt="Saint Croix"/>, name: "Saint Croix", url:"https://www.nps.gov/sacn/index.htm"}, 
             ]
-        
-            return parkImages.map(parkImage=>{
+
+            //   return parkImages.map(parkImage=>{
+            //     return <div className="park-image-div">
+            //         <a target="_blank" rel="noopener noreferrer" href={parkImage.url} alt="link to national park">{parkImage.img}</a>
+            //         <p className="park-image-name">{parkImage.name}</p>
+            //         </div>
+            // })
+
+           
+            
                 return <div className="park-image-div">
-                    <a target="_blank" rel="noopener noreferrer" href={parkImage.url} alt="link to national park">{parkImage.img}</a>
-                    <p className="park-image-name">{parkImage.name}</p>
+                    <a target="_blank" rel="noopener noreferrer" href={parkImages[this.state.currentImage].url} alt="link to national park">{parkImages[0].img}</a>
+                    <p className="park-image-name">{parkImages[this.state.currentImage].name}</p>
                     </div>
-            })
+       
+        }
+
+
+
+        rotateImages=()=>{
+           
+
+            setInterval(this.renderImages, 10000)
         }
         
 
     render(){
         return(
+            
             <div>
+                {this.rotateImages()}
                 <h1 className="home-page-header">Find a park</h1>
                 {this.renderImages()}
             </div>

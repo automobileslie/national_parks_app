@@ -46,10 +46,16 @@ export default class ParkCollection extends React.Component {
     render(){
         return(
             <div>
-                {this.props.loggedIn() ? 
+                {this.props.loggedIn()  ? 
+
+                   this.props.parks.length >=497 ? 
                
-                <div> {this.whichParksToRender()} </div>
-                :
+                        <div> {this.whichParksToRender()} </div>
+                        : 
+                        <div> Come back to your profile when the parks are finished loading </div>
+
+                        :
+
                 <h2>Log in to see your park list</h2>
                 }
             </div>

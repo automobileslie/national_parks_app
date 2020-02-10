@@ -38,48 +38,36 @@ class ParksContainer extends React.Component{
                 {!(this.props.isAParkExpanded) ? 
 
                     <div>
-        
+
+                        {this.props.parks.length < 497 ?
+                            <h1>{this.props.loadingMessage}</h1> 
+                            :
+                            <div>
+                                <br></br>
+                            <Filter filterTheParksByLocation={this.props.filterTheParksByLocation}/>
+                            <br></br>
+                            <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
+                            <br></br>
+    
+                            {!(this.props.filterAll) ? 
+                            <button onClick={this.props.returnFromSearchToList}>Return to Park List</button> :
+                            <div></div>}
+                            </div> 
+                            }
+                        
                         <h2 className="list-of-parks-heading">List of Parks</h2>
-                        <br></br>
-                        <Filter filterTheParksByLocation={this.props.filterTheParksByLocation}/>
-                        <br></br>
-                        <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
-                        <br></br>
-
-                        {!(this.props.filterAll) ? 
-                        <button onClick={this.props.returnFromSearchToList}>Return to Park List</button>
-
-                        :
-                        <div className="div-for-buttons">
-        
-                                {this.props.numberForParksDisplay > 0 ? 
-
-                                <div className="div-for-buttons">
-                                <button className="button" onClick={this.props.buttonToPreviousParks}><strong>Previous 5 Parks</strong></button>
-                                <button className="button" onClick={this.props.buttonToReturnToTheBeginning}><strong>Return to the beginning</strong></button>
-                                </div>
-
-                                :
-
-                                <div></div> }
-
-                                <button className="button" onClick={this.props.buttonToFetchMoreParks}><strong>Next 5 Parks</strong></button> 
-
-                            </div> }
-
+                       
                         <div>{this.listTheParks()}</div>
 
-                                
                     </div>
                 
                             :
 
                             <div>{this.expandOnePark()}</div>
-
-                    
              }
 
             </div>  
+
                 )
         }
 }
