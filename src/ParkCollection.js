@@ -1,4 +1,6 @@
 import React from 'react';
+import ParksForParkCollection from './ParksForParkCollection';
+import ExpandParksInParkCollection from './ExpandParksInParkCollection';
 
 
 
@@ -10,24 +12,19 @@ export default class ParkCollection extends React.Component {
             return a.full_name.localeCompare(b.full_name)
         })
           
-        return theseParksAlphabetized.map(park=>{
-            return <div>
-            <p onClick={()=>{this.props.selectAPark(park)}} className="park-name">{park.full_name}</p>
-            </div>
-        })
+        
+            return theseParksAlphabetized.map(park=>{
+                return <div>
+                    <ParksForParkCollection park={park} selectAPark={this.props.selectAPark}/>
+                </div>
+            })
     }
 
     displayPark=()=>{
         return <div>
-        <h2>{this.props.parkClickedOn.fullName}</h2>
-        <p>{this.props.parkClickedOn.description}</p>
-        <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Services Website </a>
-        <br></br>
-        <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.directionsUrl}>Directions</a>
-        <br></br>
-        <br></br>
-        <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
-        <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
+       <ExpandParksInParkCollection parkClickedOn={this.props.parkClickedOn} 
+       deleteFromCollection={this.props.deleteFromCollection}
+       returnToParks={this.props.returnToParks}/>
         </div>
         }
 
@@ -37,7 +34,7 @@ export default class ParkCollection extends React.Component {
             return this.displayPark()}
         else {              
             return <div>
-                <h2>Your Park List</h2>
+                <h2>Where You'd Like To Go</h2>
                 {this.displayingCollection()}
                 </div>
                     }
@@ -52,7 +49,7 @@ export default class ParkCollection extends React.Component {
                
                         <div> {this.whichParksToRender()} </div>
                         : 
-                        <div> Come back to your profile when the parks are finished loading </div>
+                        <h2> Come back to your park list when the parks are finished loading! </h2>
 
                         :
 

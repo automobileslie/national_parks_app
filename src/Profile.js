@@ -29,7 +29,10 @@ export default class Profile extends React.Component{
             <div>
                 {!(this.props.loggedIn()) ? 
                 <h2>Log in to see your profile</h2> :
-                <div>
+                    <div>
+                    {this.props.parks.length < 497 ? 
+                    <h2>Come back to your profile when the parks are finished loading!</h2> :
+                    <div>
                 <br></br>
                 <strong>Username: {this.props.username}</strong>
                 <br></br>
@@ -46,6 +49,9 @@ export default class Profile extends React.Component{
                 <button onClick={this.props.deleteAccount}>Submit</button>
                 </div>
                 }
+                </div>
+            }
+                
             </div>
         )
     }

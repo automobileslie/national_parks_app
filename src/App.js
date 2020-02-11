@@ -23,7 +23,7 @@ class App extends React.Component {
     filterAll: true,
     cannotAddPark: false,
     numberForParksDisplay: 0,
-    loadingMessage: "More Parks Are Currently Loading!"
+    loadingMessage: "The Parks Are Currently Loading!"
   }
 
   componentDidMount=()=>{
@@ -134,6 +134,7 @@ class App extends React.Component {
     }
 
   selectAPark=(park)=>{
+    console.log(park)
     this.setState({
       parkClickedOn: park,
       isAParkExpanded: !this.state.isAParkExpanded,
@@ -142,6 +143,14 @@ class App extends React.Component {
   }
 
   parksToSendDown=()=>{
+
+    if (this.state.parks.length < 497){
+
+      let theParks= []
+    
+    return theParks}
+
+    else {
 
     let theParks = [...this.state.parks]
 
@@ -155,12 +164,12 @@ class App extends React.Component {
 
     let searchToUpperCase= this.state.searchTerm.toUpperCase()
 
-    let theParksFilteredBySearchTerm= theParksAlphabetized.filter(park=>{
+    let theParksFilteredBySearchTerm=  theParksAlphabetized.filter(park=>{
       return park.fullName.toUpperCase().includes(searchToUpperCase)
     })
 
     if (this.state.filterAll){
-      return theParksAlphabetized
+      return  theParksAlphabetized
     }
 
     if (this.state.isAParkExpanded) {
@@ -169,14 +178,16 @@ class App extends React.Component {
       }
 
     else if (this.state.searchTerm.length > 0) {
-     theParksAlphabetized=theParksFilteredBySearchTerm
+      theParksAlphabetized=theParksFilteredBySearchTerm
     }
 
     else {
       return theParksFilteredByPlace
     }
+  
 
-    return theParksAlphabetized
+    return  theParksAlphabetized
+  }
 
     }
 
@@ -200,7 +211,6 @@ class App extends React.Component {
       }
 
     addToParkCollection=(park)=> {
-      console.log(park.description)
 
         let thisParkCollectionArray= this.state.parkCollection.filter(the_park=>{
           return the_park.park_id === park.id
@@ -243,12 +253,13 @@ class App extends React.Component {
 }
 
 deleteFromCollection=(park)=>{
+  console.log(park)
   let newParkCollectionArray= this.state.parkCollection.filter(the_park=>{
-    return the_park.park_id !== park.id
+    return the_park.park_id !== park.park_id
   })
 
   let thisParkCollection= this.state.parkCollection.find(this_park_collection=>{
-    return this_park_collection.park_id === park.id
+    return this_park_collection.park_id === park.park_id
   })
 
   let parkCollectionsId= thisParkCollection.id
@@ -368,7 +379,8 @@ deleteFromCollection=(park)=>{
             <Route exact path= '/profile' render={(renderProps) => <Profile {...renderProps} username={this.state.username} 
             changeUsername={this.changeUsername} 
             deleteAccount={this.deleteAccount}
-            loggedIn={this.loggedIn}/>}/>
+            loggedIn={this.loggedIn}
+            parks={this.state.parks}/>}/>
         </Switch>
       </Router>
     </div>
