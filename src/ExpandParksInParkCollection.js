@@ -23,8 +23,6 @@ export default class ExpandParksInParkCollection extends React.Component{
     }
 
     parksWithTheCorrectAccents=()=>{
-
-        if (this.props.parkClickedOn.length > 0) { 
          
         if (this.props.parkClickedOn.full_name.includes("Haleakal&#257")) {
            this.props.parkClickedOn.full_name="Haleakalā National Park"}
@@ -44,9 +42,6 @@ export default class ExpandParksInParkCollection extends React.Component{
        else {return this.props.parkClickedOn.full_name}
 
        return this.props.parkClickedOn.full_name
-    }
-
-    return
     
     }
 
@@ -79,7 +74,7 @@ export default class ExpandParksInParkCollection extends React.Component{
         <br></br>
             <form onSubmit={this.submitNotesForm}>
                 <br></br>
-                <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="enter your notes here" onChange={this.changeTheNotes}/>
+                <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="enter or edit your notes here" onChange={this.changeTheNotes}/>
                 <br></br>
                 <input type="submit" value="submit"/>
             </form>

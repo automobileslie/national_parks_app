@@ -195,7 +195,7 @@ class App extends React.Component {
     returnToParks=()=>{
       this.setState({
         parkClickedOn: [],
-        isAParkExpanded: !this.state.isAParkExpanded,
+        isAParkExpanded: false,
         searchTerm: "",
         theLocationFilter: "",
         filterAll: true
@@ -375,7 +375,8 @@ deleteFromCollection=(park)=>{
       {this.fetchMoreParks()}
       <Router>
         <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}
-        parks={this.state.parks}/>
+        parks={this.state.parks}
+        returnToParks={this.returnToParks}/>
         <br></br>
         <Switch>
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>

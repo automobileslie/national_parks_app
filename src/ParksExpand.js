@@ -24,8 +24,9 @@ export default class ParksExpand extends React.Component{
         else {return parkName}
 
         return parkName
-     
      }
+
+    
 
     displayPark=()=>{
 
