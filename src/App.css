@@ -62,3 +62,10 @@ body{
 .park-list-page{
   text-align: center;
 }
+
+#comment-box {
+  width: 45em;
+  height: 5em;
+  word-wrap: break-word;
+  margin: 1em
+}

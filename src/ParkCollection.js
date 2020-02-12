@@ -24,7 +24,9 @@ export default class ParkCollection extends React.Component {
         return <div>
        <ExpandParksInParkCollection parkClickedOn={this.props.parkClickedOn} 
        deleteFromCollection={this.props.deleteFromCollection}
-       returnToParks={this.props.returnToParks}/>
+       returnToParks={this.props.returnToParks}
+       submitNotes={this.props.submitNotes}
+       parkCollection={this.props.parkCollection}/>
         </div>
         }
 
@@ -46,8 +48,9 @@ export default class ParkCollection extends React.Component {
                 {this.props.loggedIn()  ? 
 
                    this.props.parks.length >=497 ? 
-               
+
                         <div> {this.whichParksToRender()} </div>
+    
                         : 
                         <h2> Come back to your park list when the parks are finished loading! </h2>
 

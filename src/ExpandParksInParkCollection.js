@@ -3,9 +3,28 @@ import React from 'react';
 
 export default class ExpandParksInParkCollection extends React.Component{
 
+    state={
+        notes: ""
+    }
 
+
+
+    changeTheNotes=(event)=>{
+        this.setState({
+            notes: event.target.value
+        })
+    }
+
+    submitNotesForm=(event)=>{
+        event.preventDefault();
+        this.props.submitNotes({
+            notes: this.state.notes
+        })
+    }
 
     parksWithTheCorrectAccents=()=>{
+
+        if (this.props.parkClickedOn.length > 0) { 
          
         if (this.props.parkClickedOn.full_name.includes("Haleakal&#257")) {
            this.props.parkClickedOn.full_name="Haleakalā National Park"}
@@ -25,9 +44,22 @@ export default class ExpandParksInParkCollection extends React.Component{
        else {return this.props.parkClickedOn.full_name}
 
        return this.props.parkClickedOn.full_name
+    }
+
+    return
     
     }
 
+    returnTheNotes=()=>{
+        let theParkCollection= this.props.parkCollection.filter(park=>{
+            return park.park_id===this.props.parkClickedOn.park_id
+         })
+
+         let theParkCollectionsNotes= theParkCollection[0].notes
+
+         return theParkCollectionsNotes
+    
+    }
 
     render(){
         return(
@@ -41,6 +73,16 @@ export default class ExpandParksInParkCollection extends React.Component{
             <br></br>
             <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
             <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
+            <br></br>
+        <h2>Your Notes on {this.props.parkClickedOn.full_name}</h2>
+        <p>{this.returnTheNotes()}</p>
+        <br></br>
+            <form onSubmit={this.submitNotesForm}>
+                <br></br>
+                <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="enter your notes here" onChange={this.changeTheNotes}/>
+                <br></br>
+                <input type="submit" value="submit"/>
+            </form>
             </div>
         )
     }

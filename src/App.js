@@ -130,11 +130,12 @@ class App extends React.Component {
         token: null,
         username: "",
         parkCollection: [],
+        parkClickedOn: [],
+        isAParkExpanded: false
       })
     }
 
   selectAPark=(park)=>{
-    console.log(park)
     this.setState({
       parkClickedOn: park,
       isAParkExpanded: !this.state.isAParkExpanded,
@@ -328,12 +329,43 @@ deleteFromCollection=(park)=>{
       method: "DELETE",
       headers: {
         "Authorization": this.state.token
-      }
+        }
     })
     .then(r=> r.json())
     .then(message=> {
     return this.logOut()
     })
+  }
+
+  submitNotes=(notes)=>{
+
+    console.log(notes)
+
+    let the_notes=notes.notes
+
+    let theParkCollection= this.state.parkCollection.filter(park=>{
+      return park.park_id===this.state.parkClickedOn.park_id
+      })
+
+    fetch(`http://localhost:3000/park_collections/${theParkCollection[0].id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          "Accepts": "application/json"
+          },
+        body: JSON.stringify({
+              notes: the_notes
+        })
+    })
+    .then(r=>r.json())
+    .then(parkCollectionInfo=>{
+      this.setState({
+        parkCollection: parkCollectionInfo,
+        parkClickedOn: [],
+        isAParkExpanded: false
+      })
+    })
+    
   }
 
   render(){
@@ -342,13 +374,16 @@ deleteFromCollection=(park)=>{
     <div>
       {this.fetchMoreParks()}
       <Router>
-        <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}/>
+        <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}
+        parks={this.state.parks}/>
         <br></br>
         <Switch>
           <Route exact path= '/' render={(renderProps) => <Home {...renderProps} username={this.state.username} loggedIn={this.loggedIn}/>}/>
           <Route exact path='/login' render={(renderProps) => <Login {...renderProps} loggedIn={this.loggedIn} 
           username={this.state.username} 
-          setToken={this.setToken}/>}/>
+          setToken={this.setToken}
+          parks={this.state.parks}
+          />}/>
           <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} 
             theParks={this.parksToSendDown()} 
             selectAPark={this.selectAPark} 
@@ -375,7 +410,8 @@ deleteFromCollection=(park)=>{
             isAParkExpanded={this.state.isAParkExpanded} 
             returnToParks={this.returnToParks} 
             parkClickedOn={this.state.parkClickedOn} 
-            loggedIn={this.loggedIn}/>}/>
+            loggedIn={this.loggedIn}
+            submitNotes={this.submitNotes}/>}/>
             <Route exact path= '/profile' render={(renderProps) => <Profile {...renderProps} username={this.state.username} 
             changeUsername={this.changeUsername} 
             deleteAccount={this.deleteAccount}

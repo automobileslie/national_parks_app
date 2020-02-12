@@ -25,18 +25,9 @@ const link = {
             }}
           >Home</NavLink>
 
-          { !(this.props.loggedIn()) ? 
-          <NavLink 
-          to="/login"
-          exact
-          style={link}
-          activeStyle={{
-            background: 'cadetblue',
-          }}> Login/Signup</NavLink>
+          {this.props.parks.length >= 497 && this.props.loggedIn() ? 
 
-          :
-
-          <NavLink 
+            <NavLink 
             to="/login"
             onClick={this.props.logOut}
             exact
@@ -44,6 +35,16 @@ const link = {
             activeStyle={{
               background: 'cadetblue',
             }}> Logout </NavLink>
+
+          :
+
+          <NavLink 
+          to="/login"
+          exact
+          style={link}
+          activeStyle={{
+            background: 'cadetblue',
+          }}> Login/Signup</NavLink>
 
             }
 

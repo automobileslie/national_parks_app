@@ -93,35 +93,41 @@ export default class Login extends React.Component {
             <p className="login-messages">{this.state.errors}</p>
             <p className="login-messages"> {this.state.successMessage}</p>
 
-            {!(this.props.loggedIn()) ? 
-            <div className="login-and-sign-up-form-div">
+            {this.props.parks.length >=497 ?
 
-                <form onSubmit={this.submitLoginForm}>
-                    <h3>Log In</h3>
-                    <input className="input-field" type="text" name="loginUsername" value={this.state.loginUsername} placeholder="username" onChange={this.fillOutForm}/>
-                    <br></br>
-                    <input className="input-field" type="password" name="loginPassword" value={this.state.loginPassword} placeholder="password" onChange={this.fillOutForm}/>
-                    <br></br>
-                    <input type="submit" value="Login" />
-                </form>
+                !(this.props.loggedIn()) ? 
+                    <div className="login-and-sign-up-form-div">
+
+                    <form onSubmit={this.submitLoginForm}>
+                        <h3>Log In</h3>
+                        <input className="input-field" type="text" name="loginUsername" value={this.state.loginUsername} placeholder="username" onChange={this.fillOutForm}/>
+                        <br></br>
+                        <input className="input-field" type="password" name="loginPassword" value={this.state.loginPassword} placeholder="password" onChange={this.fillOutForm}/>
+                        <br></br>
+                        <input type="submit" value="Login" />
+                    </form>
 
                 <br></br>
 
-                <form onSubmit={this.submitSignUpForm}>
-                    <h3>Sign Up</h3>
-                    <input className="input-field" type="text" name="signUpUsername" value={this.state.signUpUsername} placeholder="username" onChange={this.fillOutForm}/>
-                    <br></br>
-                    <input className="input-field" type="password" name="signUpPassword" value={this.state.signUpPassword} placeholder="password" onChange={this.fillOutForm}/>
-                    <br></br>
-                    <input type="submit" value="Sign Up" />
-                </form>
+                    <form onSubmit={this.submitSignUpForm}>
+                        <h3>Sign Up</h3>
+                        <input className="input-field" type="text" name="signUpUsername" value={this.state.signUpUsername} placeholder="username" onChange={this.fillOutForm}/>
+                        <br></br>
+                        <input className="input-field" type="password" name="signUpPassword" value={this.state.signUpPassword} placeholder="password" onChange={this.fillOutForm}/>
+                        <br></br>
+                        <input type="submit" value="Sign Up" />
+                    </form>
 
-            </div>
+                </div>
 
             : 
 
             <h1 className="login-and-sign-up-form-div">Hello, {this.props.username} </h1>
-    }
+            
+
+            : 
+            <h2>Come back to log in once the parks are finished loading!</h2>
+            }
     
             </div>
         )
