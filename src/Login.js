@@ -93,7 +93,7 @@ export default class Login extends React.Component {
             <p className="login-messages">{this.state.errors}</p>
             <p className="login-messages"> {this.state.successMessage}</p>
 
-            {this.props.parks.length >=497 ?
+            {this.props.parks && this.props.parks.length >=497 ?
 
                 !(this.props.loggedIn()) ? 
                     <div className="login-and-sign-up-form-div">

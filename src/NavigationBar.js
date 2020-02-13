@@ -25,7 +25,7 @@ const link = {
             }}
           >Home</NavLink>
 
-          {this.props.parks.length >= 497 && this.props.loggedIn() ? 
+          {this.props.loggedIn() && this.props.parks.length >= 497 ? 
 
             <NavLink 
             to="/login"

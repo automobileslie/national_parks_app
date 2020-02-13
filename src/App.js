@@ -58,7 +58,7 @@ class App extends React.Component {
   
   fetchMoreParks=()=>{
 
-      if(this.state.parks.length < 497) {
+      if(this.state.parks && this.state.parks.length < 497) {
 
       if(this.state.parks.length === this.state.numberForParksDisplay + 20) {
 
@@ -120,11 +120,15 @@ class App extends React.Component {
     }
 
     logOut=()=>{
-      localStorage.removeItem("userId")
-      localStorage.removeItem("token")
-      localStorage.removeItem("username")
-      localStorage.removeItem("theParkCollection")
-      localStorage.removeItem("parkCollectionForDisplay")
+
+      localStorage.clear()
+     
+      // localStorage.removeItem("userId")
+      // localStorage.removeItem("token")
+      // localStorage.removeItem("username")
+      // localStorage.removeItem("theParkCollection")
+      // localStorage.removeItem("parkCollectionForDisplay")
+
       this.setState({
         userId: null,
         token: null,
@@ -145,7 +149,7 @@ class App extends React.Component {
 
   parksToSendDown=()=>{
 
-    if (this.state.parks.length < 497){
+    if (this.state.parks && this.state.parks.length < 497){
 
       let theParks= []
     
@@ -237,24 +241,26 @@ class App extends React.Component {
         description: park.description,
         directions_url: park.directionsUrl,
         url: park.url,
-        full_name: park.fullName
+        full_name: park.fullName,
+        notes: ""
       })
      })
      .then(r=>r.json())
      .then(theParkCollection => {
-      let thisParkCollection= [...this.state.parkCollection, theParkCollection]
-      localStorage.setItem("theParkCollection", JSON.stringify(thisParkCollection))
+
+     let theNewParkCollection=[...this.state.parkCollection, theParkCollection]
 
       this.setState({
-        parkCollection: thisParkCollection,
+        parkCollection: theNewParkCollection,
         isAParkExpanded: false
       })
+
+      localStorage.setItem("theParkCollection", JSON.stringify(theNewParkCollection))
     })
   }
 }
 
 deleteFromCollection=(park)=>{
-  console.log(park)
   let newParkCollectionArray= this.state.parkCollection.filter(the_park=>{
     return the_park.park_id !== park.park_id
   })
@@ -339,8 +345,6 @@ deleteFromCollection=(park)=>{
 
   submitNotes=(notes)=>{
 
-    console.log(notes)
-
     let the_notes=notes.notes
 
     let theParkCollection= this.state.parkCollection.filter(park=>{
@@ -359,16 +363,26 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(parkCollectionInfo=>{
+
+      let theNewParks= parkCollectionInfo.filter(parkCollectionData=>{
+        return parseInt(parkCollectionData.user_id) === this.state.userId
+      })
+
       this.setState({
-        parkCollection: parkCollectionInfo,
+        parkCollection: theNewParks,
         parkClickedOn: [],
         isAParkExpanded: false
       })
+
+      localStorage.setItem("theParkCollection", JSON.stringify(theNewParks))
+
     })
     
   }
 
   render(){
+    console.log(this.state.parkCollection)
+    console.log(this.state.userId)
   return (
   
     <div>
