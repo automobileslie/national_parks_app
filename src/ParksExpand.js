@@ -26,8 +26,6 @@ export default class ParksExpand extends React.Component{
         return parkName
      }
 
-    
-
     displayPark=()=>{
 
         return <div>
@@ -41,8 +39,6 @@ export default class ParksExpand extends React.Component{
         <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
         </div>
     }
-
-
 
         displayButtonToAdd=()=>{
 
@@ -61,8 +57,6 @@ export default class ParksExpand extends React.Component{
             }
         }
     }
-        
-
 
     render(){
         return(

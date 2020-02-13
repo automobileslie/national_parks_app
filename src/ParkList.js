@@ -28,19 +28,11 @@ export default class ParkList extends React.Component{
         
         }
 
-
     displayName=()=>{
         return <div >
         <p onClick={()=>this.props.selectAPark(this.props.park)} className="park-name">{this.parksWithAccentsInPlace()}</p>
         </div>
     }
-
-  
-
-
-
-
-
 
     render(){
         return(

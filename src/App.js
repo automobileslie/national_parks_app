@@ -122,12 +122,6 @@ class App extends React.Component {
     logOut=()=>{
 
       localStorage.clear()
-     
-      // localStorage.removeItem("userId")
-      // localStorage.removeItem("token")
-      // localStorage.removeItem("username")
-      // localStorage.removeItem("theParkCollection")
-      // localStorage.removeItem("parkCollectionForDisplay")
 
       this.setState({
         userId: null,
@@ -381,8 +375,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-    console.log(this.state.parkCollection)
-    console.log(this.state.userId)
+
   return (
   
     <div>

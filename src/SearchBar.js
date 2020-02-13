@@ -21,7 +21,6 @@ submitSearch=(event)=>{
     })
 }
 
-
     render(){
         return(
             <div>
