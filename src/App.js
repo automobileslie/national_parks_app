@@ -136,7 +136,7 @@ class App extends React.Component {
   selectAPark=(park)=>{
     this.setState({
       parkClickedOn: park,
-      isAParkExpanded: !this.state.isAParkExpanded,
+      isAParkExpanded: true,
       filterAll: false
     })
   }
@@ -235,21 +235,28 @@ class App extends React.Component {
         description: park.description,
         directions_url: park.directionsUrl,
         url: park.url,
-        full_name: park.fullName,
-        notes: ""
+        full_name: park.fullName
       })
      })
      .then(r=>r.json())
-     .then(theParkCollection => {
+     .then(theParkCollections => {
 
-     let theNewParkCollection=[...this.state.parkCollection, theParkCollection]
+       console.log(theParkCollections)
+       console.log(this.state.userId)
+
+      let newParks= theParkCollections.filter(thisParkCollection=>{
+        return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
+      })
+
+      console.log(newParks)
 
       this.setState({
-        parkCollection: theNewParkCollection,
+        parkCollection: newParks,
+        parkClickedOn: [],
         isAParkExpanded: false
       })
 
-      localStorage.setItem("theParkCollection", JSON.stringify(theNewParkCollection))
+      localStorage.setItem("theParkCollection", JSON.stringify(newParks))
     })
   }
 }
@@ -344,7 +351,7 @@ deleteFromCollection=(park)=>{
     let theParkCollection= this.state.parkCollection.filter(park=>{
       return park.park_id===this.state.parkClickedOn.park_id
       })
-
+      console.log('lets see what these are', theParkCollection[0].id, the_notes)
     fetch(`http://localhost:3000/park_collections/${theParkCollection[0].id}`, {
         method: "PATCH",
         headers: {
@@ -357,10 +364,12 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(parkCollectionInfo=>{
+      console.log(parkCollectionInfo)
 
       let theNewParks= parkCollectionInfo.filter(parkCollectionData=>{
-        return parseInt(parkCollectionData.user_id) === this.state.userId
+        return parseInt(parkCollectionData.user_id) === parseInt(this.state.userId)
       })
+      
 
       this.setState({
         parkCollection: theNewParks,
@@ -375,7 +384,8 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-
+console.log(this.state.parkCollection)
+console.log(localStorage.theParkCollection)
   return (
   
     <div>
