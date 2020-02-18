@@ -22,7 +22,6 @@ class App extends React.Component {
     searchTerm: "",
     filterAll: true,
     cannotAddPark: false,
-    numberForParksDisplay: 0,
     loadingMessage: "The Parks Are Currently Loading!"
   }
 
@@ -50,17 +49,93 @@ class App extends React.Component {
         token: localStorage.token,
         userId: localStorage.userId,
         username: localStorage.username,
-        parkCollection: parkCollectionParsed,
-        numberForParksDisplay: 0
+        parkCollection: parkCollectionParsed
+        })
+
+        fetch("http://localhost:3000/parks", {
+          method: "POST",
+          headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+        },
+          body: JSON.stringify({
+          number: 100
+        })
+        })
+        .then(r => r.json())
+
+        .then(parks => { 
+
+      this.setState({
+        parks: [...this.state.parks, ...parks.data]
+        })
+
+        fetch("http://localhost:3000/parks", {
+          method: "POST",
+          headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+        },
+          body: JSON.stringify({
+          number: 200
+        })
+        })
+        .then(r => r.json())
+
+        .then(parks => { 
+
+      this.setState({
+        parks: [...this.state.parks, ...parks.data]
+        })
+
+        fetch("http://localhost:3000/parks", {
+          method: "POST",
+          headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+        },
+          body: JSON.stringify({
+          number: 300
+        })
+        })
+
+        .then(r => r.json())
+
+        .then(parks => { 
+
+          this.setState({
+            parks: [...this.state.parks, ...parks.data]
+            })
+    
+            fetch("http://localhost:3000/parks", {
+              method: "POST",
+              headers: {
+            "Content-Type": "application/json",
+            "Accepts": "application/json"
+            },
+              body: JSON.stringify({
+              number: 400
+            })
+            })
+            .then(r => r.json())
+
+            .then(parks => { 
+
+                this.setState({
+                parks: [...this.state.parks, ...parks.data]
+                })
+            })
+          })
+        })
       })
     })
   }
   
   fetchMoreParks=()=>{
 
-      if(this.state.parks && this.state.parks.length < 497) {
+      if(this.state.parks.length < 497) {
 
-      if(this.state.parks.length === this.state.numberForParksDisplay + 20) {
+      if(this.state.parks.length === this.state.numberForParksDisplay) {
 
       let numberForParks=this.state.parks.length + 1;
 
@@ -79,10 +154,9 @@ class App extends React.Component {
 
       this.setState({
         parks: [...this.state.parks, ...parks.data],
-        numberForParksDisplay: this.state.numberForParksDisplay + 20
+        numberForParksDisplay: this.state.numberForParksDisplay + 50
       })
   })
-
     }
   }
 }
@@ -143,7 +217,7 @@ class App extends React.Component {
 
   parksToSendDown=()=>{
 
-    if (this.state.parks && this.state.parks.length < 497){
+    if (this.state.parks !== undefined && this.state.parks.length < 497){
 
       let theParks= []
     
@@ -153,7 +227,9 @@ class App extends React.Component {
 
     let theParks = [...this.state.parks]
 
-    let theParksAlphabetized =  theParks.sort((a, b) => {
+    let theParksUnique = [...new Set(theParks)]
+
+    let theParksAlphabetized =  theParksUnique.sort((a, b) => {
       return a.fullName.localeCompare(b.fullName)
   })
     
@@ -183,11 +259,9 @@ class App extends React.Component {
     else {
       return theParksFilteredByPlace
     }
-  
 
     return  theParksAlphabetized
   }
-
     }
 
     returnToParks=()=>{
@@ -241,14 +315,9 @@ class App extends React.Component {
      .then(r=>r.json())
      .then(theParkCollections => {
 
-       console.log(theParkCollections)
-       console.log(this.state.userId)
-
       let newParks= theParkCollections.filter(thisParkCollection=>{
         return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
       })
-
-      console.log(newParks)
 
       this.setState({
         parkCollection: newParks,
@@ -283,7 +352,6 @@ deleteFromCollection=(park)=>{
 
       localStorage.setItem("theParkCollection", JSON.stringify(newParkCollectionArray))
     })
-
   }
 
   filterTheParksByLocation=(event)=>{
@@ -310,29 +378,8 @@ deleteFromCollection=(park)=>{
     })
   }
 
-  changeUsername=(name)=>{
-    let the_username=name.username
-    fetch(`http://localhost:3000/users/${this.state.userId}`, {
-      method: "PATCH",
-      headers: {
-        "Authorization": this.state.token
-      },
-      body: JSON.stringify({
-        username: the_username
-      })
-    })
-    .then(r=> r.json())
-    .then(user=> {
-    this.setState({
-    username: the_username
-      })
-    })
-
-    localStorage.setItem("username", the_username)
-  }
-
   deleteAccount=()=>{
-    fetch(`http://localhost:3000/users/${this.state.userId}`, {
+    fetch(`http://localhost:3000/users/${parseInt(this.state.userId)}`, {
       method: "DELETE",
       headers: {
         "Authorization": this.state.token
@@ -351,7 +398,6 @@ deleteFromCollection=(park)=>{
     let theParkCollection= this.state.parkCollection.filter(park=>{
       return park.park_id===this.state.parkClickedOn.park_id
       })
-      console.log('lets see what these are', theParkCollection[0].id, the_notes)
     fetch(`http://localhost:3000/park_collections/${theParkCollection[0].id}`, {
         method: "PATCH",
         headers: {
@@ -364,7 +410,6 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(parkCollectionInfo=>{
-      console.log(parkCollectionInfo)
 
       let theNewParks= parkCollectionInfo.filter(parkCollectionData=>{
         return parseInt(parkCollectionData.user_id) === parseInt(this.state.userId)
@@ -384,12 +429,12 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-console.log(this.state.parkCollection)
-console.log(localStorage.theParkCollection)
-  return (
+
+    console.log(this.state.parks.length)
+
+    return (
   
     <div>
-      {this.fetchMoreParks()}
       <Router>
         <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}
         parks={this.state.parks}

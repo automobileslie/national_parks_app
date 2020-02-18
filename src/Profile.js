@@ -3,27 +3,6 @@ import React from 'react';
 export default class Profile extends React.Component{
 
 
-
-    state={
-        username: ""
-    }
-
-    changingUsername=(event)=>{
-        this.setState({
-        [event.target.name]: event.target.value
-        })
-    }
-
-    submitUsernameChange=(event)=>{
-        event.preventDefault();
-        this.props.changeUsername({
-            username: this.state.username
-        })
-        this.setState({
-            username: ""
-        })
-    }
-
     render(){
         return(
             <div>
@@ -35,14 +14,6 @@ export default class Profile extends React.Component{
                     <div>
                 <br></br>
                 <strong>Username: {this.props.username}</strong>
-                <br></br>
-                <form onSubmit={this.submitUsernameChange}>
-                    <br></br>
-                    <label htmlFor="username">
-                        <strong>Change your username: </strong></label>
-                    <input type="text" name="username" value={this.state.username} placeholder="enter new username" onChange={this.changingUsername}/>
-                    <input type="submit" value="submit"/>
-                </form>
                 <br></br>
                 <label>
                     <strong>Delete account: </strong></label>

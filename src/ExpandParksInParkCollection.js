@@ -63,7 +63,7 @@ export default class ExpandParksInParkCollection extends React.Component{
             <p>{this.props.parkClickedOn.description}</p>
             <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Services Website </a>
             <br></br>
-            <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.directionsUrl}>Directions</a>
+            <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.directions_url}>Directions</a>
             <br></br>
             <br></br>
             <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
