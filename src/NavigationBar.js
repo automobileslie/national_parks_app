@@ -61,6 +61,7 @@ const link = {
 
             <NavLink
             to="/park_collection"
+            onClick={this.props.returnToParks}
             exact
             style={link}
             activeStyle={{

@@ -1,15 +1,11 @@
 import React from 'react';
 
-export default class Filter extends React.Component{
-
-
-
-    render(){
+const Filter= (props)=> {
         return(
             <div>
                 <label>
                 <strong>Filter by location: </strong>
-                <select onChange={this.props.filterTheParksByLocation}>
+                <select onChange={props.filterTheParksByLocation}>
                 <option value="All">All</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -69,10 +65,8 @@ export default class Filter extends React.Component{
                 <option value="WY">Wyoming</option>
              </select>
             </label>
-
-
-
             </div>
         )
     }
-}
+
+export default Filter;

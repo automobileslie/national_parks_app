@@ -28,7 +28,12 @@ class ParksContainer extends React.Component{
             <ParksExpand addToParkCollection={this.props.addToParkCollection} 
             park={this.props.theParks} returnToParks={this.props.returnToParks}
             parkCollection={this.props.parkCollection}
-            loggedIn={this.props.loggedIn}/>
+            loggedIn={this.props.loggedIn}
+            returnToFilteredParks={this.props.returnToFilteredParks}
+            theLocationFilter={this.props.theLocationFilter}
+            returnToSearchList={this.props.returnToSearchList}
+            searchTerm={this.props.searchTerm}/>
+            
         </div>
     }
 

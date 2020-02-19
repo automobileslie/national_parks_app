@@ -1,19 +1,17 @@
 import React from 'react';
 
  
-
-
 export default class Home extends React.Component {
 
     state={
-        currentImage:0
+        currentImage: 0
     }
 
     componentDidMount=()=>{
 
 
         let settingInterval=()=>{
-            if (this.state.currentImage <=19) {
+            if (this.state.currentImage <= 19) {
                 this.setState({
             currentImage: this.state.currentImage + 1})}
             

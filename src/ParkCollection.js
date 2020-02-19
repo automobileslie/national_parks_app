@@ -43,6 +43,7 @@ export default class ParkCollection extends React.Component {
         }
 
     render(){
+        console.log(this.props.parkCollection)
         return(
             <div>
                 {this.props.loggedIn() ?

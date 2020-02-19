@@ -26,6 +26,22 @@ export default class ParksExpand extends React.Component{
         return parkName
      }
 
+     whichButtonToRender=()=>{
+        if(this.props.theLocationFilter.length > 0) {
+            return <button className="button" onClick={this.props.returnToFilteredParks}>Return to List of Parks</button>
+        }
+        else if (this.props.searchTerm.length > 0){
+           return <button className="button" onClick={this.props.returnToSearchList}>Return to List of Parks</button>
+
+        }
+
+        else {
+            
+            return <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
+            }
+
+     }
+
     displayPark=()=>{
 
         return <div>
@@ -33,10 +49,14 @@ export default class ParksExpand extends React.Component{
         <p>{this.props.park.description}</p>
         <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.park.url} > National Park Services Website </a>
         <br></br>
+        {this.props.park.directionsUrl.length > 0 ?
         <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.park.directionsUrl} >Directions</a>
+        :
+        <div></div>
+        }
         <br></br>
         <br></br>
-        <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
+       {this.whichButtonToRender()}
         </div>
     }
 

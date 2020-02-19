@@ -274,6 +274,14 @@ class App extends React.Component {
       })
     }
 
+    returnToFilteredParks=()=>{
+        this.setState({
+          parkClickedOn: [],
+          isAParkExpanded: false,
+          searchTerm: ""
+        })
+      }
+
     returnFromSearchToList=()=>{
         this.setState({
           parkClickedOn: [],
@@ -282,6 +290,13 @@ class App extends React.Component {
           filterAll: true
         })
       }
+
+    returnToSearchList=()=>{
+      this.setState({
+        parkClickedOn: [],
+        isAParkExpanded: false
+      })
+    }
 
     addToParkCollection=(park)=> {
 
@@ -327,6 +342,8 @@ class App extends React.Component {
 
       localStorage.setItem("theParkCollection", JSON.stringify(newParks))
     })
+
+    alert("The park was added to your park list!")
   }
 }
 
@@ -389,6 +406,8 @@ deleteFromCollection=(park)=>{
     .then(message=> {
     return this.logOut()
     })
+
+    alert("Your account has been deleted!")
   }
 
   submitNotes=(notes)=>{
@@ -417,9 +436,7 @@ deleteFromCollection=(park)=>{
       
 
       this.setState({
-        parkCollection: theNewParks,
-        parkClickedOn: [],
-        isAParkExpanded: false
+        parkCollection: theNewParks
       })
 
       localStorage.setItem("theParkCollection", JSON.stringify(theNewParks))
@@ -429,8 +446,6 @@ deleteFromCollection=(park)=>{
   }
 
   render(){
-
-    console.log(this.state.parks.length)
 
     return (
   
@@ -464,8 +479,9 @@ deleteFromCollection=(park)=>{
             loggedIn={this.loggedIn}
             loadingMessage={this.state.loadingMessage}
             parks={this.state.parks}
-            
-            />}/>
+            returnToFilteredParks={this.returnToFilteredParks}
+            returnToSearchList={this.returnToSearchList}/>
+            }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
             parkCollection={this.state.parkCollection} 
             parks={this.state.parks} 
