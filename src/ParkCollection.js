@@ -12,22 +12,17 @@ export default class ParkCollection extends React.Component {
             return a.full_name.localeCompare(b.full_name)
         })
           
-        
             return theseParksAlphabetized.map(park=>{
-                return <div>
-                    <ParksForParkCollection park={park} selectAPark={this.props.selectAPark}/>
-                </div>
+                return <ParksForParkCollection key={park.id} park={park} selectAPark={this.props.selectAPark}/>
             })
     }
 
     displayPark=()=>{
-        return <div>
-       <ExpandParksInParkCollection parkClickedOn={this.props.parkClickedOn} 
+        return <ExpandParksInParkCollection parkClickedOn={this.props.parkClickedOn} 
        deleteFromCollection={this.props.deleteFromCollection}
        returnToParks={this.props.returnToParks}
        submitNotes={this.props.submitNotes}
        parkCollection={this.props.parkCollection}/>
-        </div>
         }
 
     whichParksToRender= () => {
@@ -35,17 +30,16 @@ export default class ParkCollection extends React.Component {
         if (this.props.isAParkExpanded) { 
             return this.displayPark()}
         else {              
-            return <div>
+            return <React.Fragment>
                 <h2>Where You'd Like To Go</h2>
                 {this.displayingCollection()}
-                </div>
+                </React.Fragment>
                     }
         }
 
     render(){
-        console.log(this.props.parkCollection)
         return(
-            <div>
+            <React.Fragment>
                 {this.props.loggedIn() ?
                 
                     this.props.parks.length >=497 ? 
@@ -59,7 +53,7 @@ export default class ParkCollection extends React.Component {
 
                 <h2>Log in to see your park list</h2>
                 }
-            </div>
+            </React.Fragment>
         )
         }
 }

@@ -9,7 +9,6 @@ export default class Home extends React.Component {
 
     componentDidMount=()=>{
 
-
         let settingInterval=()=>{
             if (this.state.currentImage <= 19) {
                 this.setState({
@@ -21,7 +20,6 @@ export default class Home extends React.Component {
                 })
             }
         }
-
 
         setInterval(settingInterval, 3000)
     }
@@ -63,10 +61,10 @@ export default class Home extends React.Component {
     render(){
         return(
             
-            <div>
+            <React.Fragment>
                 <h1 className="home-page-header">Featured Parks</h1>
                 {this.renderImages()}
-            </div>
+            </React.Fragment>
         )
     }
 }

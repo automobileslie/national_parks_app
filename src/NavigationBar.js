@@ -15,7 +15,7 @@ const link = {
 
     render() {
       return (
-        <div>
+        <React.Fragment>
           <NavLink
             to="/"
             exact
@@ -76,7 +76,7 @@ const link = {
               background: 'cadetblue',
             }}
           >Profile</NavLink>
-        </div>
+        </React.Fragment>
       )
     }
   }

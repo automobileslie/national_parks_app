@@ -2,7 +2,6 @@ import React from 'react';
 
  export default class ParksForParkCollection extends React.Component{
 
-
     parksWithProperAccents=()=>{
          
         if (this.props.park.full_name.includes("Haleakal&#257")) {
@@ -28,10 +27,7 @@ import React from 'react';
 
     render(){
         return(
-            <div>
             <p onClick={()=>{this.props.selectAPark(this.props.park)}} className="park-name">{this.parksWithProperAccents()}</p>
-
-            </div>
         )
     }
  }

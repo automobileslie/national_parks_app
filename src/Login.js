@@ -88,12 +88,12 @@ export default class Login extends React.Component {
     render(){
         return(
 
-            <div>
+            <React.Fragment>
               
             <p className="login-messages">{this.state.errors}</p>
             <p className="login-messages"> {this.state.successMessage}</p>
 
-            {this.props.parks && this.props.parks.length >=497 ?
+            {this.props.parks.length >=497 ?
 
                 !(this.props.loggedIn()) ? 
                     <div className="login-and-sign-up-form-div">
@@ -129,7 +129,7 @@ export default class Login extends React.Component {
             <h2>Come back to log in once the parks are finished loading!</h2>
             }
     
-            </div>
+            </React.Fragment>
         )
     }
 }

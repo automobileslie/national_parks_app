@@ -44,7 +44,7 @@ export default class ParksExpand extends React.Component{
 
     displayPark=()=>{
 
-        return <div>
+        return <React.Fragment>
         <h2>{this.parksWithCorrectAccents()}</h2>
         <p>{this.props.park.description}</p>
         <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.park.url} > National Park Services Website </a>
@@ -57,7 +57,7 @@ export default class ParksExpand extends React.Component{
         <br></br>
         <br></br>
        {this.whichButtonToRender()}
-        </div>
+        </React.Fragment>
     }
 
         displayButtonToAdd=()=>{
@@ -80,10 +80,10 @@ export default class ParksExpand extends React.Component{
 
     render(){
         return(
-            <div>
+            <React.Fragment>
                 {this.displayPark()}
                 {this.displayButtonToAdd()}
-            </div>
+                </React.Fragment>
         )
     }
 }

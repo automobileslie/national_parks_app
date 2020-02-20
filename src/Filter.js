@@ -2,7 +2,7 @@ import React from 'react';
 
 const Filter= (props)=> {
         return(
-            <div>
+            <React.Fragment>
                 <label>
                 <strong>Filter by location: </strong>
                 <select onChange={props.filterTheParksByLocation}>
@@ -65,7 +65,7 @@ const Filter= (props)=> {
                 <option value="WY">Wyoming</option>
              </select>
             </label>
-            </div>
+            </React.Fragment>
         )
     }
 

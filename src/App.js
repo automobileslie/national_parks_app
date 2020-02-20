@@ -59,7 +59,7 @@ class App extends React.Component {
         "Accepts": "application/json"
         },
           body: JSON.stringify({
-          number: 100
+          number: 101
         })
         })
         .then(r => r.json())
@@ -77,7 +77,7 @@ class App extends React.Component {
         "Accepts": "application/json"
         },
           body: JSON.stringify({
-          number: 200
+          number: 201
         })
         })
         .then(r => r.json())
@@ -95,7 +95,7 @@ class App extends React.Component {
         "Accepts": "application/json"
         },
           body: JSON.stringify({
-          number: 300
+          number: 301
         })
         })
 
@@ -114,7 +114,7 @@ class App extends React.Component {
             "Accepts": "application/json"
             },
               body: JSON.stringify({
-              number: 400
+              number: 401
             })
             })
             .then(r => r.json())
@@ -130,36 +130,6 @@ class App extends React.Component {
       })
     })
   }
-  
-  fetchMoreParks=()=>{
-
-      if(this.state.parks.length < 497) {
-
-      if(this.state.parks.length === this.state.numberForParksDisplay) {
-
-      let numberForParks=this.state.parks.length + 1;
-
-    fetch("http://localhost:3000/parks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json"
-      },
-      body: JSON.stringify({
-        number: numberForParks
-      })
-    })
-    .then(r => r.json())
-    .then(parks => { 
-
-      this.setState({
-        parks: [...this.state.parks, ...parks.data],
-        numberForParksDisplay: this.state.numberForParksDisplay + 50
-      })
-  })
-    }
-  }
-}
 
   setToken = (token, id) => {
     localStorage.token = token;
@@ -181,7 +151,6 @@ class App extends React.Component {
         parkCollection: user.park_collections
         })
 
-        
         localStorage.setItem("theParkCollection", JSON.stringify(user.park_collections))
 
         let the_username= user.username
@@ -217,7 +186,7 @@ class App extends React.Component {
 
   parksToSendDown=()=>{
 
-    if (this.state.parks !== undefined && this.state.parks.length < 497){
+    if (this.state.parks.length < 497){
 
       let theParks= []
     
@@ -433,7 +402,6 @@ deleteFromCollection=(park)=>{
       let theNewParks= parkCollectionInfo.filter(parkCollectionData=>{
         return parseInt(parkCollectionData.user_id) === parseInt(this.state.userId)
       })
-      
 
       this.setState({
         parkCollection: theNewParks
@@ -445,11 +413,11 @@ deleteFromCollection=(park)=>{
     
   }
 
-  render(){
+  render(){  
 
     return (
   
-    <div>
+    <React.Fragment>
       <Router>
         <NavigationBar loggedIn={this.loggedIn} logOut={this.logOut}
         parks={this.state.parks}
@@ -498,7 +466,7 @@ deleteFromCollection=(park)=>{
             parks={this.state.parks}/>}/>
         </Switch>
       </Router>
-    </div>
+    </React.Fragment>
  
   )}
 

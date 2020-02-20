@@ -7,8 +7,6 @@ export default class ExpandParksInParkCollection extends React.Component{
         notes: ""
     }
 
-
-
     changeTheNotes=(event)=>{
         this.setState({
             notes: event.target.value
@@ -58,7 +56,7 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     render(){
         return(
-            <div>
+            <React.Fragment>
             <h2>{this.parksWithTheCorrectAccents()}</h2>
             <p>{this.props.parkClickedOn.description}</p>
             <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Services Website </a>
@@ -83,7 +81,7 @@ export default class ExpandParksInParkCollection extends React.Component{
                 <br></br>
                 <input type="submit" value="submit"/>
             </form>
-            </div>
+            </React.Fragment>
         )
     }
 }

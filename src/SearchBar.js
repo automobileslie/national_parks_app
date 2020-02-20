@@ -23,7 +23,6 @@ submitSearch=(event)=>{
 
     render(){
         return(
-            <div>
                 <form onSubmit={this.submitSearch}>
                     <label htmlFor="searchTerm">
                         <strong>Search by name: </strong>
@@ -31,8 +30,6 @@ submitSearch=(event)=>{
                         <input type="submit" value="submit"/>
                     </label>
                 </form>
-
-            </div>
         )
     }
 }
