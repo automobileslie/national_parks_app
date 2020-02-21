@@ -39,7 +39,7 @@ export default class ParkCollection extends React.Component {
 
     render(){
         return(
-            <React.Fragment>
+            <div className="the-park-list-and-profile">
                 {this.props.loggedIn() ?
                 
                     this.props.parks.length >=497 ? 
@@ -53,7 +53,7 @@ export default class ParkCollection extends React.Component {
 
                 <h2>Log in to see your park list</h2>
                 }
-            </React.Fragment>
+            </div>
         )
         }
 }

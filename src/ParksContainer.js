@@ -42,9 +42,9 @@ class ParksContainer extends React.Component{
                     <React.Fragment>
 
                         {this.props.parks.length < 497 ?
-                        <div className="park-list-page">
-                            <h1>{this.props.loadingMessage}</h1> 
-                            </div>
+                       
+                            <h1 className="park-list-page">{this.props.loadingMessage}</h1> 
+                           
                             :
                             <div className="park-list-page">
                                 <br></br>
@@ -62,13 +62,12 @@ class ParksContainer extends React.Component{
                             </div>  
                              
                             }
-                            <br></br>
                             <div className="park-list-page" ><iframe title="national parks video" width="560" height="315" 
                             src="https://www.youtube.com/embed/ipUdTv_fHgM" 
                             frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                             allowFullScreen></iframe></div>
-                            <br></br>
-                           {this.props.parks.length < 497 ? <div></div> : <h2 className="park-list-page">List of Parks</h2>}
+
+                           {this.props.parks.length < 497 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
                        
                         <div className="park-list-page">{this.listTheParks()}</div>
 

@@ -80,10 +80,10 @@ export default class ParksExpand extends React.Component{
 
     render(){
         return(
-            <React.Fragment>
+            <div className="the-park-list-and-profile">
                 {this.displayPark()}
                 {this.displayButtonToAdd()}
-                </React.Fragment>
+                </div>
         )
     }
 }

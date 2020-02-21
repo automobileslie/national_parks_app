@@ -3,7 +3,7 @@ import React from 'react';
   const Profile =(props)=> {
 
         return(
-            <React.Fragment>
+            <div className="the-park-list-and-profile">
                 {!(props.loggedIn()) ? 
                 <h2>Log in to see your profile</h2> :
                     <React.Fragment>
@@ -13,6 +13,7 @@ import React from 'react';
                 <br></br>
                 <strong>Username: {props.username}</strong>
                 <br></br>
+                <br></br>
                 <label>
                     <strong>Delete account: </strong></label>
                 <button onClick={props.deleteAccount}>Submit</button>
@@ -20,7 +21,7 @@ import React from 'react';
                 }
                 </React.Fragment>
             } 
-            </React.Fragment>
+            </div>
         )
 
 }

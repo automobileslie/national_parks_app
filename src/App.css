@@ -1,5 +1,7 @@
 body{
-  margin: 8em;
+  margin: 1em;
+  padding: 2em;
+  border: 1em;
   background: url("./Images/United_States.jpg");
   font-weight: bold;
   font-size: 1.02em;
@@ -61,6 +63,7 @@ body{
 
 .park-list-page{
   text-align: center;
+  margin: 2em;
 }
 
 #comment-box {
@@ -68,4 +71,16 @@ body{
   height: 5em;
   word-wrap: break-word;
   margin: 1em
+}
+
+.the-park-list-and-profile{
+  margin: 3em;
+  padding: 2em;
+  border: 1em;
+
+}
+
+.park-list-heading{
+  text-align: center;
+  margin: 1em;
 }
