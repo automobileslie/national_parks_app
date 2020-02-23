@@ -21,25 +21,27 @@ export default class ExpandParksInParkCollection extends React.Component{
     }
 
     parksWithTheCorrectAccents=()=>{
+
+        let thisParkName = this.props.parkClickedOn.full_name;
          
-        if (this.props.parkClickedOn.full_name.includes("Haleakal&#257")) {
-           this.props.parkClickedOn.full_name="Haleakalā National Park"}
+        if (thisParkName.includes("Haleakal&#257")) {
+           thisParkName="Haleakalā National Park"}
 
-       else if (this.props.parkClickedOn.full_name.includes("&#241;upiat")){
-           this.props.parkClickedOn.full_name="Iñupiat Heritage Center"
+       else if (thisParkName.includes("&#241;upiat")){
+           thisParkName="Iñupiat Heritage Center"
        }
-       else if (this.props.parkClickedOn.full_name.includes("Honok&#333;hau")){
-           this.props.parkClickedOn.full_name="Kaloko-Honokōhau National Historical Park"
+       else if (thisParkName.includes("Honok&#333;hau")){
+           thisParkName="Kaloko-Honokōhau National Historical Park"
        }
-       else if (this.props.parkClickedOn.full_name.includes("&#333")){
-           this.props.parkClickedOn.full_name="Pu`uhonua O Hōnaunau National Historical Park"
+       else if (thisParkName.includes("&#333")){
+           thisParkName="Pu`uhonua O Hōnaunau National Historical Park"
        }
-       else if (this.props.parkClickedOn.full_name.includes("&#257")){
-           this.props.parkClickedOn.full_name="Pu`ukoholā Heiau National Historical Site"
+       else if (thisParkName.includes("&#257")){
+           thisParkName="Pu`ukoholā Heiau National Historical Site"
        }
-       else {return this.props.parkClickedOn.full_name}
+       else {return thisParkName}
 
-       return this.props.parkClickedOn.full_name
+       return thisParkName
     
     }
 
@@ -55,6 +57,7 @@ export default class ExpandParksInParkCollection extends React.Component{
     }
 
     render(){
+        console.log(this.props)
         return(
             <React.Fragment>
             <h2>{this.parksWithTheCorrectAccents()}</h2>

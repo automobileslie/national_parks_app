@@ -1,10 +1,14 @@
 import React from 'react';
-export default class ParksExpand extends React.Component{
 
 
-    parksWithCorrectAccents=()=>{
+const ParksExpand = (props)=> {
 
-        let parkName= this.props.park.fullName
+    const { theLocationFilter, returnToFilteredParks, searchTerm, returnToSearchList, returnToParks, park, loggedIn, parkCollection} = props
+
+
+    const parksWithCorrectAccents=()=>{
+
+        let parkName= park.fullName
          
          if (parkName.includes("Haleakal&#257")) {
          parkName="Haleakalā National Park"}
@@ -26,64 +30,64 @@ export default class ParksExpand extends React.Component{
         return parkName
      }
 
-     whichButtonToRender=()=>{
-        if(this.props.theLocationFilter.length > 0) {
-            return <button className="button" onClick={this.props.returnToFilteredParks}>Return to List of Parks</button>
-        }
-        else if (this.props.searchTerm.length > 0){
-           return <button className="button" onClick={this.props.returnToSearchList}>Return to List of Parks</button>
+        const whichButtonToRender=()=>{
+            if(theLocationFilter.length > 0) {
+                return <button className="button" onClick={returnToFilteredParks}>Return to List of Parks</button>
+            }
+            else if (searchTerm.length > 0){
+            return <button className="button" onClick={returnToSearchList}>Return to List of Parks</button>
 
-        }
-
-        else {
-            
-            return <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
             }
 
-     }
+            else {
+            
+                return <button className="button" onClick={returnToParks}>Return to List of Parks</button>
+            }
+        }
 
-    displayPark=()=>{
+        const displayPark=()=>{
 
         return <React.Fragment>
-        <h2>{this.parksWithCorrectAccents()}</h2>
-        <p>{this.props.park.description}</p>
-        <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.park.url} > National Park Services Website </a>
+        <h2>{parksWithCorrectAccents()}</h2>
+        <p>{park.description}</p>
+        <a className="website-link" target="_blank" rel="noopener noreferrer" href={park.url} > National Park Services Website </a>
         <br></br>
-        {this.props.park.directionsUrl.length > 0 ?
-        <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.park.directionsUrl} >Directions</a>
+        {park.directionsUrl.length > 0 ?
+        <a className="website-link" target="_blank" rel="noopener noreferrer" href={park.directionsUrl} >Directions</a>
         :
         <div></div>
         }
         <br></br>
         <br></br>
-       {this.whichButtonToRender()}
+       {whichButtonToRender()}
         </React.Fragment>
-    }
+        }
 
-        displayButtonToAdd=()=>{
+       const displayButtonToAdd=()=>{
 
-        if (this.props.loggedIn()) {
+            if (loggedIn()) {
 
-            let parkCollectionParkIds= this.props.parkCollection.map(park=> {
-                return park.park_id })
+                let parkCollectionParkIds= parkCollection.map(park=> {
+                    return park.park_id })
 
-            if (!(parkCollectionParkIds.includes(this.props.park.id))) {
+                if (!(parkCollectionParkIds.includes(park.id))) {
 
-            return <button className="button" onClick={()=>this.props.addToParkCollection(this.props.park)}>Add to your park collection</button>}
+                    return <button className="button" onClick={()=>props.addToParkCollection(park)}>Add to your park collection</button>}
 
-            else {
+                else {
     
-            return <div></div>
+                    return <div></div>
+                }
             }
         }
-    }
 
-    render(){
+   
         return(
             <div className="the-park-list-and-profile">
-                {this.displayPark()}
-                {this.displayButtonToAdd()}
+                {displayPark()}
+                {displayButtonToAdd()}
                 </div>
         )
-    }
 }
+
+export default ParksExpand;

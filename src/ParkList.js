@@ -1,11 +1,12 @@
 import React from 'react';
 
 
-export default class ParkList extends React.Component{
+const ParkList = (props) => {
 
-        parksWithAccentsInPlace=()=>{
 
-           let parkName= this.props.park.fullName
+        const parksWithAccentsInPlace=()=>{
+
+           let parkName= props.park.fullName
             
             if (parkName.includes("Haleakal&#257")) {
             parkName="Haleakalā National Park"}
@@ -28,13 +29,14 @@ export default class ParkList extends React.Component{
         
         }
 
-    displayName=()=>{
-        return <p onClick={()=>this.props.selectAPark(this.props.park)} className="park-name">{this.parksWithAccentsInPlace()}</p>  
+        const displayName=()=>{
+        return <p onClick={()=>props.selectAPark(props.park)} className="park-name">{parksWithAccentsInPlace()}</p>  
     }
 
-    render(){
         return(
-                this.displayName()
+                displayName()
         )
-    }
+        
 }
+
+export default ParkList;

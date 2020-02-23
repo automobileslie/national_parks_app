@@ -5,11 +5,16 @@ import Filter from './Filter';
 import SearchBar from './SearchBar'
 
 
-class ParksContainer extends React.Component{
+const ParksContainer = (props) => {
 
-    listTheParks=()=> {
+    const { theParks, addToParkCollection, returnToParks, parkCollection, 
+        loggedIn, returnToFilteredParks, theLocationFilter, returnToSearchList, 
+        searchTerm, isAParkExpanded, loadingMessage, filterTheParksByLocation, 
+        filterBySearchTerm, returnFromSearchToList, parks, filterAll, selectAPark } = props
 
-        return this.props.theParks.map(park=> {
+    const listTheParks=()=> {
+
+        return theParks.map(park=> {
             return <ParkList 
                 key={park.id}
                 park={park}
@@ -17,46 +22,45 @@ class ParksContainer extends React.Component{
                 description={park.description} 
                 url={park.url}
                 directionsUrl={park.directionsUrl}
-                selectAPark={this.props.selectAPark}
+                selectAPark={selectAPark}
                 />
             })
     }
 
-    expandOnePark=()=>{
-        return <ParksExpand addToParkCollection={this.props.addToParkCollection} 
-            park={this.props.theParks} returnToParks={this.props.returnToParks}
-            parkCollection={this.props.parkCollection}
-            loggedIn={this.props.loggedIn}
-            returnToFilteredParks={this.props.returnToFilteredParks}
-            theLocationFilter={this.props.theLocationFilter}
-            returnToSearchList={this.props.returnToSearchList}
-            searchTerm={this.props.searchTerm}/>
+    const expandOnePark=()=>{
+        return <ParksExpand addToParkCollection={addToParkCollection} 
+            park={theParks} returnToParks={returnToParks}
+            parkCollection={parkCollection}
+            loggedIn={loggedIn}
+            returnToFilteredParks={returnToFilteredParks}
+            theLocationFilter={theLocationFilter}
+            returnToSearchList={returnToSearchList}
+            searchTerm={searchTerm}/>
     }
 
-   render(){
         return(
             <React.Fragment>
        
-                {!(this.props.isAParkExpanded) ? 
+                {!(isAParkExpanded) ? 
 
                     <React.Fragment>
 
-                        {this.props.parks.length < 497 ?
+                        {parks.length < 497 ?
                        
-                            <h1 className="park-list-page">{this.props.loadingMessage}</h1> 
+                            <h1 className="park-list-page">{loadingMessage}</h1> 
                            
                             :
                             <div className="park-list-page">
                                 <br></br>
                                 <h2>Explore the National Parks and Start Planning Your Next Trip</h2>
                                 <br></br>
-                            <Filter filterTheParksByLocation={this.props.filterTheParksByLocation}/>
+                            <Filter filterTheParksByLocation={filterTheParksByLocation}/>
                             <br></br>
-                            <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
+                            <SearchBar filterBySearchTerm={filterBySearchTerm}/>
                             <br></br>
     
-                            {!(this.props.filterAll) ? 
-                            <button onClick={this.props.returnFromSearchToList}>Return to Full Park List</button> :
+                            {!(filterAll) ? 
+                            <button onClick={returnFromSearchToList}>Return to Full Park List</button> :
                             <div></div> }
     
                             </div>  
@@ -67,21 +71,20 @@ class ParksContainer extends React.Component{
                             frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                             allowFullScreen></iframe></div>
 
-                           {this.props.parks.length < 497 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
+                           {parks.length < 497 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
                        
-                        <div className="park-list-page">{this.listTheParks()}</div>
+                        <div className="park-list-page">{listTheParks()}</div>
 
                     </React.Fragment>
                 
                             :
 
-                            this.expandOnePark()
+                            expandOnePark()
              }
 
             </React.Fragment>  
 
                 )
-        }
 }
     
 

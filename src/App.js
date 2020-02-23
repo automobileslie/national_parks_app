@@ -23,114 +23,109 @@ class App extends React.Component {
     filterAll: true,
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!"
-  }
+      }
 
   componentDidMount=()=>{
+
 
     fetch("http://localhost:3000/parks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json"
-      },
+        },
       body: JSON.stringify({
-        number: 0
+        number: 1
+          })
       })
-    })
+        .then(r=>r.json())
+        .then(parks=>{
 
-    .then(r => r.json())
-
-    .then(parks => { 
-
-      let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
-
-      this.setState({
-        parks: parks.data,
-        token: localStorage.token,
-        userId: localStorage.userId,
-        username: localStorage.username,
-        parkCollection: parkCollectionParsed
-        })
-
-        fetch("http://localhost:3000/parks", {
-          method: "POST",
-          headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json"
-        },
-          body: JSON.stringify({
-          number: 101
-        })
-        })
-        .then(r => r.json())
-
-        .then(parks => { 
-
-      this.setState({
-        parks: [...this.state.parks, ...parks.data]
-        })
-
-        fetch("http://localhost:3000/parks", {
-          method: "POST",
-          headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json"
-        },
-          body: JSON.stringify({
-          number: 201
-        })
-        })
-        .then(r => r.json())
-
-        .then(parks => { 
-
-      this.setState({
-        parks: [...this.state.parks, ...parks.data]
-        })
-
-        fetch("http://localhost:3000/parks", {
-          method: "POST",
-          headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json"
-        },
-          body: JSON.stringify({
-          number: 301
-        })
-        })
-
-        .then(r => r.json())
-
-        .then(parks => { 
+          let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
 
           this.setState({
-            parks: [...this.state.parks, ...parks.data]
-            })
-    
-            fetch("http://localhost:3000/parks", {
-              method: "POST",
-              headers: {
-            "Content-Type": "application/json",
-            "Accepts": "application/json"
-            },
-              body: JSON.stringify({
-              number: 401
-            })
-            })
-            .then(r => r.json())
-
-            .then(parks => { 
-
-                this.setState({
-                parks: [...this.state.parks, ...parks.data]
-                })
-            })
+            parks: [...this.state.parks, ...parks.data],
+            token: localStorage.token,
+            userId: localStorage.userId,
+            username: localStorage.username,
+            parkCollection: parkCollectionParsed
+           })
           })
+
+      fetch("http://localhost:3000/parks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json"
+        },
+        body: JSON.stringify({
+          number: 101
         })
       })
-    })
-  }
+      .then(r=>r.json())
+      .then(parks=>{
 
+        this.setState({
+          parks: [...this.state.parks, ...parks.data]
+        })
+      })
+
+      fetch("http://localhost:3000/parks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json"
+        },
+        body: JSON.stringify({
+          number: 201
+        })
+      })
+        .then(r=>r.json())
+        .then(parks=>{
+
+        this.setState({
+          parks: [...this.state.parks, ...parks.data]
+        })
+      })
+
+      fetch("http://localhost:3000/parks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json"
+        },
+        body: JSON.stringify({
+          number: 301
+        })
+      })
+    .then(r=>r.json())
+    .then(parks=>{
+
+      this.setState({
+        parks: [...this.state.parks, ...parks.data]
+      })
+    })
+
+    fetch("http://localhost:3000/parks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json"
+        },
+        body: JSON.stringify({
+          number: 401
+        })
+      })
+    .then(r=>r.json())
+    .then(parks=>{
+
+      this.setState({
+        parks: [...this.state.parks, ...parks.data]
+      })
+    })
+
+  }
+  
   setToken = (token, id) => {
     localStorage.token = token;
   
@@ -414,7 +409,6 @@ deleteFromCollection=(park)=>{
   }
 
   render(){  
-
     return (
   
     <React.Fragment>

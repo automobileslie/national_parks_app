@@ -2,18 +2,19 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 
-const link = {
-    width: "100%",
-    padding: '1em',
-    margin: '0em 0em 0em',
-    background: 'azure',
-    textDecoration: 'none',
-    color: 'black',
-  }
+  const NavigationBar =(props)=>{
 
-  export default class NavigationBar extends React.Component {
+    const link = {
+      width: "100%",
+      padding: '1em',
+      margin: '0em 0em 0em',
+      background: 'azure',
+      textDecoration: 'none',
+      color: 'black',
+    }
 
-    render() {
+    const { parks, loggedIn, logOut, returnToParks, } = props
+
       return (
         <React.Fragment>
           <NavLink
@@ -25,11 +26,11 @@ const link = {
             }}
           >Home</NavLink>
 
-          {this.props.loggedIn() && this.props.parks.length >= 497 ? 
+          {loggedIn() && parks.length >= 497 ? 
 
             <NavLink 
             to="/login"
-            onClick={this.props.logOut}
+            onClick={logOut}
             exact
             style={link}
             activeStyle={{
@@ -45,13 +46,11 @@ const link = {
           activeStyle={{
             background: 'cadetblue',
           }}> Login/Signup</NavLink>
-
             }
 
-            
           <NavLink
             to="/parks"
-            onClick={this.props.returnToParks}
+            onClick={returnToParks}
             exact
             style={link}
             activeStyle={{
@@ -61,7 +60,7 @@ const link = {
 
             <NavLink
             to="/park_collection"
-            onClick={this.props.returnToParks}
+            onClick={returnToParks}
             exact
             style={link}
             activeStyle={{
@@ -78,5 +77,6 @@ const link = {
           >Profile</NavLink>
         </React.Fragment>
       )
-    }
   }
+
+  export default NavigationBar;

@@ -4,47 +4,51 @@ import ExpandParksInParkCollection from './ExpandParksInParkCollection';
 
 
 
-export default class ParkCollection extends React.Component {
 
-    displayingCollection=()=> { 
+const ParkCollection= (props)=> {
 
-        let theseParksAlphabetized= this.props.parkCollection.flat().sort((a, b) => {
+    const { parkCollection, parkClickedOn, deleteFromCollection, returnToParks, submitNotes, isAParkExpanded, loggedIn, parks, selectAPark } = props
+
+
+    const displayingCollection=()=> { 
+
+        let theseParksAlphabetized= parkCollection.flat().sort((a, b) => {
             return a.full_name.localeCompare(b.full_name)
         })
           
-            return theseParksAlphabetized.map(park=>{
-                return <ParksForParkCollection key={park.id} park={park} selectAPark={this.props.selectAPark}/>
+            return theseParksAlphabetized.map(the_park=>{
+                return <ParksForParkCollection key={the_park.id} park={the_park} selectAPark={selectAPark}/>
             })
     }
 
-    displayPark=()=>{
-        return <ExpandParksInParkCollection parkClickedOn={this.props.parkClickedOn} 
-       deleteFromCollection={this.props.deleteFromCollection}
-       returnToParks={this.props.returnToParks}
-       submitNotes={this.props.submitNotes}
-       parkCollection={this.props.parkCollection}/>
+    const displayPark=()=>{
+        return <ExpandParksInParkCollection parkClickedOn={parkClickedOn} 
+       deleteFromCollection={deleteFromCollection}
+       returnToParks={returnToParks}
+       submitNotes={submitNotes}
+       parkCollection={parkCollection}/>
         }
 
-    whichParksToRender= () => {
+    const whichParksToRender= () => {
     
-        if (this.props.isAParkExpanded) { 
-            return this.displayPark()}
+        if (isAParkExpanded) { 
+            return displayPark()}
         else {              
             return <React.Fragment>
                 <h2>Where You'd Like To Go</h2>
-                {this.displayingCollection()}
+                {displayingCollection()}
                 </React.Fragment>
                     }
         }
 
-    render(){
+    
         return(
             <div className="the-park-list-and-profile">
-                {this.props.loggedIn() ?
+                {loggedIn() ?
                 
-                    this.props.parks.length >=497 ? 
+                    parks.length >=497 ? 
 
-                        <div> {this.whichParksToRender()} </div> 
+                        <div> {whichParksToRender()} </div> 
     
                         : 
                         <h2> Come back to your park list when the parks are finished loading! </h2>
@@ -55,5 +59,7 @@ export default class ParkCollection extends React.Component {
                 }
             </div>
         )
-        }
+        
 }
+
+export default ParkCollection;

@@ -1,33 +1,35 @@
 import React from 'react';
 
- export default class ParksForParkCollection extends React.Component{
+ const ParksForParkCollection = (props)=>{
 
-    parksWithProperAccents=()=>{
+    const parksWithProperAccents=()=>{
+
+        let theParkName = props.park.full_name
          
-        if (this.props.park.full_name.includes("Haleakal&#257")) {
-           this.props.park.full_name="Haleakalā National Park"}
+        if (theParkName.includes("Haleakal&#257")) {
+           theParkName="Haleakalā National Park"}
 
-       else if (this.props.park.full_name.includes("&#241;upiat")){
-           this.props.park.full_name="Iñupiat Heritage Center"
+       else if (theParkName.includes("&#241;upiat")){
+        theParkName="Iñupiat Heritage Center"
        }
-       else if (this.props.park.full_name.includes("Honok&#333;hau")){
-           this.props.park.full_name="Kaloko-Honokōhau National Historical Park"
+       else if (theParkName.includes("Honok&#333;hau")){
+        theParkName="Kaloko-Honokōhau National Historical Park"
        }
-       else if (this.props.park.full_name.includes("&#333")){
-           this.props.park.full_name="Pu`uhonua O Hōnaunau National Historical Park"
+       else if (theParkName.includes("&#333")){
+        theParkName="Pu`uhonua O Hōnaunau National Historical Park"
        }
-       else if (this.props.park.full_name.includes("&#257")){
-           this.props.park.full_name="Pu`ukoholā Heiau National Historical Site"
+       else if (theParkName.includes("&#257")){
+        theParkName="Pu`ukoholā Heiau National Historical Site"
        }
-       else {return this.props.park.full_name}
+       else {return theParkName}
 
-       return this.props.park.full_name
+       return theParkName
     
     }
 
-    render(){
         return(
-            <p onClick={()=>{this.props.selectAPark(this.props.park)}} className="park-name">{this.parksWithProperAccents()}</p>
+            <p onClick={()=>{props.selectAPark(props.park)}} className="park-name">{parksWithProperAccents()}</p>
         )
-    }
  }
+
+ export default ParksForParkCollection;
