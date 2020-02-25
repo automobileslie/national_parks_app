@@ -62,7 +62,7 @@ export default class ExpandParksInParkCollection extends React.Component{
             <React.Fragment>
             <h2>{this.parksWithTheCorrectAccents()}</h2>
             <p>{this.props.parkClickedOn.description}</p>
-            <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Services Website </a>
+            <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Service Website </a>
             <br></br>
 
             {this.props.parkClickedOn.directions_url.length > 0 ?

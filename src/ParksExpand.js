@@ -50,7 +50,7 @@ const ParksExpand = (props)=> {
         return <React.Fragment>
         <h2>{parksWithCorrectAccents()}</h2>
         <p>{park.description}</p>
-        <a className="website-link" target="_blank" rel="noopener noreferrer" href={park.url} > National Park Services Website </a>
+        <a className="website-link" target="_blank" rel="noopener noreferrer" href={park.url} > National Park Service Website </a>
         <br></br>
         {park.directionsUrl.length > 0 ?
         <a className="website-link" target="_blank" rel="noopener noreferrer" href={park.directionsUrl} >Directions</a>
