@@ -46,7 +46,7 @@ const ParkCollection= (props)=> {
             <div className="the-park-list-and-profile">
                 {loggedIn() ?
                 
-                    parks.length >=497 ? 
+                    parks.length >=125 ? 
 
                         <div> {whichParksToRender()} </div> 
     

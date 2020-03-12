@@ -16,6 +16,7 @@ const ParksContainer = (props) => {
 
         return theParks.map(park=> {
             return <ParkList 
+            
                 key={park.id}
                 park={park}
                 fullName={park.fullName} 
@@ -45,12 +46,12 @@ const ParksContainer = (props) => {
 
                     <React.Fragment>
 
-                        {parks.length < 497 ?
+                        {parks.length < 125 ?
                        
                             <h1 className="park-list-page">{loadingMessage}</h1> 
                            
                             :
-                            <div className="park-list-page">
+                            <div  className="park-list-page">
                                 <br></br>
                                 <h2>Explore the National Parks and Start Planning Your Next Trip</h2>
                                 <br></br>
@@ -71,7 +72,7 @@ const ParksContainer = (props) => {
                             frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                             allowFullScreen></iframe></div>
 
-                           {parks.length < 497 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
+                           {parks.length < 125 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
                        
                         <div className="park-list-page">{listTheParks()}</div>
 

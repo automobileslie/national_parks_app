@@ -26,7 +26,7 @@ import {NavLink} from 'react-router-dom';
             }}
           >Home</NavLink>
 
-          {loggedIn() && parks.length >= 497 ? 
+          {loggedIn() && parks.length >= 125 ? 
 
             <NavLink 
             to="/login"

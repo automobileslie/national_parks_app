@@ -9,7 +9,7 @@ import React from 'react';
                 {!(loggedIn()) ? 
                 <h2>Log in to see your profile</h2> :
                     <React.Fragment>
-                    {parks.length < 497 ? 
+                    {parks.length < 125 ? 
                     <h2>Come back to your profile when the parks are finished loading!</h2> :
                     <React.Fragment>
                 <br></br>
