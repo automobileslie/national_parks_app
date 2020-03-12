@@ -93,9 +93,7 @@ export default class Login extends React.Component {
             <p className="login-messages">{this.state.errors}</p>
             <p className="login-messages"> {this.state.successMessage}</p>
 
-            {this.props.parks.length >=125 ?
-
-                !(this.props.loggedIn()) ? 
+                {!(this.props.loggedIn()) ? 
                     <div className="login-and-sign-up-form-div">
 
                     <form onSubmit={this.submitLoginForm}>
@@ -123,13 +121,10 @@ export default class Login extends React.Component {
             : 
 
             <h1 className="login-and-sign-up-form-div">Hello, {this.props.username} </h1>
-            
-
-            : 
-            <h2>Come back to log in once the parks are finished loading!</h2>
-            }
-    
+                }
             </React.Fragment>
+
+                
         )
     }
 }

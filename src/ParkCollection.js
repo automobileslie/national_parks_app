@@ -7,7 +7,7 @@ import ExpandParksInParkCollection from './ExpandParksInParkCollection';
 
 const ParkCollection= (props)=> {
 
-    const { parkCollection, parkClickedOn, deleteFromCollection, returnToParks, submitNotes, isAParkExpanded, loggedIn, parks, selectAPark } = props
+    const { parkCollection, parkClickedOn, deleteFromCollection, returnToParks, submitNotes, isAParkExpanded, loggedIn, selectAPark } = props
 
 
     const displayingCollection=()=> { 
@@ -46,12 +46,7 @@ const ParkCollection= (props)=> {
             <div className="the-park-list-and-profile">
                 {loggedIn() ?
                 
-                    parks.length >=125 ? 
-
                         <div> {whichParksToRender()} </div> 
-    
-                        : 
-                        <h2> Come back to your park list when the parks are finished loading! </h2>
 
                         :
 

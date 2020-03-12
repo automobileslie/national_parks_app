@@ -13,7 +13,7 @@ import {NavLink} from 'react-router-dom';
       color: 'black',
     }
 
-    const { parks, loggedIn, logOut, returnToParks, } = props
+    const { loggedIn, logOut, returnToParks, } = props
 
       return (
         <React.Fragment>
@@ -26,7 +26,7 @@ import {NavLink} from 'react-router-dom';
             }}
           >Home</NavLink>
 
-          {loggedIn() && parks.length >= 125 ? 
+          {loggedIn() ? 
 
             <NavLink 
             to="/login"

@@ -24,39 +24,43 @@ class App extends React.Component {
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!",
     number: 1,
-    isLoading: false
+    isLoading: false,
       }
 
   componentDidMount=()=>{
 
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);  
 
-    fetch("http://localhost:3000/parks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json"
-        },
-      body: JSON.stringify({
-        number: 1
-          })
-      })
-        .then(r=>r.json())
-        .then(parks=>{
-
-          let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
-
-          this.setState({
-            parks: [...this.state.parks, ...parks.data],
-            token: localStorage.token,
-            userId: localStorage.userId,
-            username: localStorage.username,
-            parkCollection: parkCollectionParsed
-           })
-          })
+    if(this.state.parks.length < 497){
+    
+      fetch("http://localhost:3000/parks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json"
+          },
+        body: JSON.stringify({
+          number: this.state.number
+            })
+        })
+          .then(r=>r.json())
+          .then(parks=>{
   
-  }
+            let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
   
+            this.setState({
+              parks: [...this.state.parks, ...parks.data],
+              token: localStorage.token,
+              userId: localStorage.userId,
+              username: localStorage.username,
+              parkCollection: parkCollectionParsed,
+              isLoading: false,
+              number: this.state.number+100,
+             })
+            })
+        }
+      }
+
   handleScroll=()=>{
 
     if(this.state.parks.length < 497){
@@ -94,8 +98,6 @@ class App extends React.Component {
 }
 }
 
-
-  
   setToken = (token, id) => {
     localStorage.token = token;
   
@@ -379,6 +381,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){ 
+    console.log(this.state.parks.length)
     return (
   
     <React.Fragment>
