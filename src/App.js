@@ -4,8 +4,9 @@ import NavigationBar from './NavigationBar';
 import Home from './Home';
 import ParkCollection from './ParkCollection';
 import Login from './Login';
-import ParksContainer from './ParksContainer';
+// import ParksContainer from './ParksContainer';
 import Profile from './Profile';
+import DisplayParksByState from './DisplayParksByState';
 import './App.css';
 
 class App extends React.Component {
@@ -25,78 +26,65 @@ class App extends React.Component {
     loadingMessage: "The Parks Are Currently Loading!",
     number: 1,
     isLoading: false,
+    stateParks: []
       }
 
   componentDidMount=()=>{
 
-    window.addEventListener('scroll', this.handleScroll);  
+    // window.addEventListener('scroll', this.handleScroll);  
 
-    if(this.state.parks.length < 497){
+    // if(this.state.parks.length < 497){
     
-      fetch("http://localhost:3000/parks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json"
-          },
-        body: JSON.stringify({
-          number: this.state.number
-            })
-        })
-          .then(r=>r.json())
-          .then(parks=>{
+      
+      let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
   
-            let parkCollectionParsed= JSON.parse(localStorage.getItem("theParkCollection"))
-  
-            this.setState({
-              parks: [...this.state.parks, ...parks.data],
-              token: localStorage.token,
-              userId: localStorage.userId,
-              username: localStorage.username,
-              parkCollection: parkCollectionParsed,
-              isLoading: false,
-              number: this.state.number+100,
-             })
-            })
-        }
-      }
-
-  handleScroll=()=>{
-
-    if(this.state.parks.length < 497){
-      if(this.state.isLoading){
-        return;
-      }
-      else{
-    
-    if(window.pageYOffset>0){
-      this.setState({
-        isLoading: true
-      })
-
-      fetch("http://localhost:3000/parks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json"
-        },
-        body: JSON.stringify({
-          number: this.state.number+25
-        })
-      })
-      .then(r=>r.json())
-      .then(parks=>{
-
         this.setState({
-          parks: [...this.state.parks, ...parks.data],
-          number: this.state.number+25,
-          isLoading: false
-        })
-      })     
-    }
-  }
-}
-}
+            token: localStorage.token,
+            userId: localStorage.userId,
+            username: localStorage.username,
+            parkCollection: parkCollectionParsed,
+            isLoading: false
+             })
+            
+        // }
+      }
+
+//   handleScroll=()=>{
+
+//     if(this.state.parks.length < 497){
+//       if(this.state.isLoading){
+//         return;
+//       }
+//       else{
+    
+//     if(window.pageYOffset>0){
+//       this.setState({
+//         isLoading: true
+//       })
+
+//       fetch("http://localhost:3000/parks", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Accepts": "application/json"
+//         },
+//         body: JSON.stringify({
+//           number: this.state.number+25
+//         })
+//       })
+//       .then(r=>r.json())
+//       .then(parks=>{
+
+//         this.setState({
+//           parks: [...this.state.parks, ...parks.data],
+//           number: this.state.number+25,
+//           isLoading: false
+//         })
+//       })     
+//     }
+//   }
+// }
+// }
 
   setToken = (token, id) => {
     localStorage.token = token;
@@ -150,6 +138,27 @@ class App extends React.Component {
       filterAll: false
     })
   }
+
+  showStateList=(state)=>{
+    console.log(state)
+    fetch("http://localhost:3000/parks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accepts": "application/json"
+            },
+          body: JSON.stringify({
+            stateCode: state
+              })
+          })
+            .then(r=>r.json())
+            .then(parks=>{
+        
+              this.setState({
+                stateParks: parks.data
+               })
+              })
+          }
 
   parksToSendDown=()=>{
 
@@ -381,7 +390,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){ 
-    console.log(this.state.parks.length)
+    console.log(this.state.stateParks)
     return (
   
     <React.Fragment>
@@ -397,7 +406,8 @@ deleteFromCollection=(park)=>{
           setToken={this.setToken}
           parks={this.state.parks}
           />}/>
-          <Route exact path= '/parks' render={(renderProps) => <ParksContainer {...renderProps} addToParkCollection={this.addToParkCollection} 
+          <Route exact path= '/parks' render={(renderProps) => <DisplayParksByState {...renderProps} addToParkCollection={this.addToParkCollection} 
+            showStateList={this.showStateList}
             onScroll={this.handleScroll}
             theParks={this.parksToSendDown()} 
             selectAPark={this.selectAPark} 
