@@ -40,51 +40,30 @@ const ParksContainer = (props) => {
     }
 
         return(
-            <React.Fragment>
+            <div>
        
-                {!(isAParkExpanded) ? 
+                {!(isAParkExpanded) ?          
+                        
+                        <div className="park-list-page">
+                            
+                            { !props.theParks.length>0 ?
 
-                    <React.Fragment>
-
-                        {parks.length < 497 ?
-                            <h1 className="park-list-page">{loadingMessage}</h1> 
-
+                            <h1>The parks are loading</h1>
                             :
-                            <div  className="park-list-page">
+                            <h1>Park List</h1>
+                            }
 
-                            <h2>Explore the National Parks and Start Planning Your Next Trip</h2>
-                            <br></br>
-                    <br></br>
-                        <Filter filterTheParksByLocation={filterTheParksByLocation}/>
-                        <br></br>
-                        <SearchBar filterBySearchTerm={filterBySearchTerm}/>
-                        <br></br>
+                        {listTheParks()}  
 
-                        {!(filterAll) ? 
-                        <button onClick={returnFromSearchToList}>Return to Full Park List</button> :
-                        <div></div> }
-
-                        </div>  
-                        }               
-                           
-                            <div className="park-list-page" ><iframe title="national parks video" width="560" height="315" 
-                            src="https://www.youtube.com/embed/ipUdTv_fHgM" 
-                            frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen></iframe></div>
-
-                           {parks.length < 25 ? <div></div> : <h2 className="park-list-heading">List of Parks</h2>}
-                       
-                        <div className="park-list-page">{listTheParks()}</div>
-
-                    </React.Fragment>
+                        </div>
                 
                             :
 
-                            expandOnePark()
+                            <div>expandOnePark()</div>
              }
                 
 
-            </React.Fragment>  
+            </div > 
 
                 )
 }

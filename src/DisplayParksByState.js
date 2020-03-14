@@ -1,9 +1,7 @@
 import React from 'react';
+import ParksContainer from './ParksContainer';
 
 export default class DisplayParksByState extends React.Component{
-
-
-
 
 
 
@@ -11,7 +9,10 @@ export default class DisplayParksByState extends React.Component{
     render(){
 
         return(
-    <div className="show-state-list">
+<div>
+
+    {this.props.theLocationFilter.length===0 ?
+        <div className="park-list-page">
         <br>
         </br>
         <br></br>
@@ -73,8 +74,32 @@ export default class DisplayParksByState extends React.Component{
    <p onClick={()=>this.props.showStateList("wv")} >West Viriginia</p>
    <p onClick={()=>this.props.showStateList("wi")} >Wisconsin</p>
    <p onClick={()=>this.props.showStateList("wy")} >Wyoming</p>
-   </div>
-        )
+  </div>
+
+   :
+
+   <ParksContainer 
+   theParks={this.props.theParks} 
+   selectAPark={this.props.selectAPark} 
+   isAParkExpanded={this.props.isAParkExpanded} 
+   returnToParks={this.props.returnToParks}
+   // returnFromSearchToList={this.returnFromSearchToList}
+//    filterTheParksByLocation={this.props.filterTheParksByLocation}
+   // filterBySearchTerm={this.filterBySearchTerm}
+   filterAll={this.props.filterAll}
+   cannotAddPark={this.props.cannotAddPark}
+   numberForParksDisplay={this.props.numberForParksDisplay}
+   parkCollection={this.props.parkCollection}
+   // searchTerm={this.state.searchTerm}
+   theLocationFilter={this.props.theLocationFilter}
+   loggedIn={this.props.loggedIn}
+   loadingMessage={this.props.loadingMessage}
+   parks={this.props.parks}
+   returnToFilteredParks={this.props.returnToFilteredParks}/>
+
     }
 
-}
+ </div>
+        )
+    }
+ }

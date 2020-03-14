@@ -34,10 +34,10 @@ const ParksExpand = (props)=> {
             if(theLocationFilter.length > 0) {
                 return <button className="button" onClick={returnToFilteredParks}>Return to List of Parks</button>
             }
-            else if (searchTerm.length > 0){
-            return <button className="button" onClick={returnToSearchList}>Return to List of Parks</button>
+            // else if (searchTerm.length > 0){
+            // return <button className="button" onClick={returnToSearchList}>Return to List of Parks</button>
 
-            }
+            // }
 
             else {
             
