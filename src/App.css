@@ -85,6 +85,15 @@ body{
   margin: 1em;
 }
 
-.show-state-list{
-  text-align: center;
+.state-list-container{
+  display: flex;
+  justify-content: space-evenly;
 }
+
+.state-list-div{
+  margin-left: 5.5em;
+  width: 25%;
+  text-align: left;
+  
+}
+

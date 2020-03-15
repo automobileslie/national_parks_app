@@ -7,7 +7,7 @@ import SearchBar from './SearchBar'
 
 const ParksContainer = (props) => {
 
-    const { theParks, addToParkCollection, returnToParks, parkCollection, 
+    const { currentState, theParks, addToParkCollection, returnToParks, parkCollection, 
         loggedIn, returnToFilteredParks, theLocationFilter, returnToSearchList, 
         searchTerm, isAParkExpanded, loadingMessage, filterTheParksByLocation, 
         filterBySearchTerm, returnFromSearchToList, parks, filterAll, selectAPark } = props
@@ -46,20 +46,23 @@ const ParksContainer = (props) => {
                         
                         <div className="park-list-page">
                             
-                            { !props.theParks.length>0 ?
+                            { props.isLoading ?
 
                             <h1>The parks are loading</h1>
                             :
-                            <h1>Park List</h1>
-                            }
+                            <div>
+                            <h1>{`Park List for ${currentState}`}</h1>
 
                         {listTheParks()}  
+                        <button className="button" onClick={returnToParks}>Return to List of Parks</button>
+                            </div>
+                            }
 
                         </div>
                 
                             :
-
-                            <div>expandOnePark()</div>
+                                expandOnePark()
+                               
              }
                 
 

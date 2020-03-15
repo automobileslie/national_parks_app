@@ -30,20 +30,6 @@ const ParksExpand = (props)=> {
         return parkName
      }
 
-        const whichButtonToRender=()=>{
-            if(theLocationFilter.length > 0) {
-                return <button className="button" onClick={returnToFilteredParks}>Return to List of Parks</button>
-            }
-            // else if (searchTerm.length > 0){
-            // return <button className="button" onClick={returnToSearchList}>Return to List of Parks</button>
-
-            // }
-
-            else {
-            
-                return <button className="button" onClick={returnToParks}>Return to List of Parks</button>
-            }
-        }
 
         const displayPark=()=>{
 
@@ -59,7 +45,7 @@ const ParksExpand = (props)=> {
         }
         <br></br>
         <br></br>
-       {whichButtonToRender()}
+        <button className="button" onClick={returnToFilteredParks}>Return to List of Parks</button>
         </React.Fragment>
         }
 

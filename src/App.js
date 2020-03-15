@@ -25,7 +25,8 @@ class App extends React.Component {
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!",
     // number: 1,
-    isLoading: false
+    isLoading: true,
+    currentState: ""
       }
 
   componentDidMount=()=>{
@@ -37,7 +38,6 @@ class App extends React.Component {
             userId: localStorage.userId,
             username: localStorage.username,
             parkCollection: parkCollectionParsed,
-            isLoading: false
              })
       }
 
@@ -94,15 +94,11 @@ class App extends React.Component {
     })
   }
 
-  showStateList=(state)=>{
-    console.log(state)
-
+  showStateList=(stateAbbreviation, stateName)=>{
     this.setState({
-      theLocationFilter: state.toUpperCase(),
-      isLoading: true
+      theLocationFilter: stateAbbreviation.toUpperCase()
     })
 
-    if(!this.state.isLoading){
     fetch("http://localhost:3000/parks", {
           method: "POST",
           headers: {
@@ -110,27 +106,29 @@ class App extends React.Component {
             "Accepts": "application/json"
             },
           body: JSON.stringify({
-            stateCode: state
+            stateCode: stateAbbreviation
               })
           })
             .then(r=>r.json())
             .then(parks=>{
-        
+
+           let modifiedState=this.state.parks.filter(park=>{
+            return !(park.states.includes(stateAbbreviation.toUpperCase()))
+           })
+
               this.setState({
-                parks: [...this.state.parks, ...parks.data],
-                isLoading: false
+                parks: [...modifiedState, ...parks.data],
+                isLoading: false,
+                currentState: stateName
                })
               })
-            }
-          }
+}
 
   parksToSendDown=()=>{
 
     let theParks = [...this.state.parks]
 
-    let theParksUnique = [...new Set(theParks)]
-
-    let theParksAlphabetized =  theParksUnique.sort((a, b) => {
+    let theParksAlphabetized =  theParks.sort((a, b) => {
       return a.fullName.localeCompare(b.fullName)
     })
     
@@ -169,15 +167,20 @@ class App extends React.Component {
         isAParkExpanded: false,
         // searchTerm: "",
         theLocationFilter: "",
-        filterAll: true
+        filterAll: true,
+        isLoading: true,
+        currentState: ""
       })
     }
 
     returnToFilteredParks=()=>{
         this.setState({
           parkClickedOn: [],
-          isAParkExpanded: false
-          // searchTerm: ""
+          isAParkExpanded: false,
+          theLocationFilter: this.state.theLocationFilter,
+          isLoading: false,
+          currentState: this.state.currentState
+         
         })
       }
 
@@ -345,8 +348,7 @@ deleteFromCollection=(park)=>{
 
   render(){ 
     console.log(this.state.parks)
-    console.log(this.parksToSendDown())
-    console.log(this.state.theLocationFilter)
+    console.log(this.state.isLoading)
     return (
   
     <React.Fragment>
@@ -363,6 +365,7 @@ deleteFromCollection=(park)=>{
           parks={this.state.parks}
           />}/>
           <Route exact path= '/parks' render={(renderProps) => <DisplayParksByState {...renderProps} addToParkCollection={this.addToParkCollection} 
+            currentState={this.state.currentState}
             isLoading={this.state.isLoading}
             showStateList={this.showStateList}
             theParks={this.parksToSendDown()} 
