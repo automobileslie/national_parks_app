@@ -13,6 +13,7 @@ class App extends React.Component {
 
   state={
     parks: [],
+    statesFetched: [],
     parkClickedOn: [],
     isAParkExpanded: false,
     parkCollection: [],
@@ -24,7 +25,6 @@ class App extends React.Component {
     filterAll: true,
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!",
-    // number: 1,
     isLoading: true,
     currentState: ""
       }
@@ -95,6 +95,17 @@ class App extends React.Component {
   }
 
   showStateList=(stateAbbreviation, stateName)=>{
+
+    if(this.state.statesFetched.includes(stateAbbreviation)){
+      this.setState({
+        theLocationFilter: stateAbbreviation.toUpperCase(),
+        currentState: stateName,
+        isLoading: false
+      })
+    }
+
+    else{
+
     this.setState({
       theLocationFilter: stateAbbreviation.toUpperCase()
     })
@@ -119,9 +130,11 @@ class App extends React.Component {
               this.setState({
                 parks: [...modifiedState, ...parks.data],
                 isLoading: false,
-                currentState: stateName
+                currentState: stateName, 
+                statesFetched: [...this.state.statesFetched, stateAbbreviation]
                })
               })
+    }
 }
 
   parksToSendDown=()=>{
@@ -349,6 +362,7 @@ deleteFromCollection=(park)=>{
   render(){ 
     console.log(this.state.parks)
     console.log(this.state.isLoading)
+    console.log(this.state.statesFetched)
     return (
   
     <React.Fragment>
