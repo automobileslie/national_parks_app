@@ -26,7 +26,8 @@ class App extends React.Component {
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!",
     isLoading: true,
-    currentState: ""
+    currentState: "",
+    currentNotes: []
       }
 
   componentDidMount=()=>{
@@ -86,12 +87,38 @@ class App extends React.Component {
       })
     }
 
-  selectAPark=(park)=>{
-    this.setState({
-      parkClickedOn: park,
-      isAParkExpanded: true,
-      filterAll: false
+  selectAPark=(the_park)=>{
+    
+
+    fetch(`http://localhost:3000/park_collections`) 
+    .then(r => r.json())
+    .then(data=> {
+
+    let filteredData= data.filter(this_data=>{
+      return parseInt(this_data.user_id)===parseInt(this.state.userId)
     })
+
+    let newFilteredData= filteredData.find(this_data_here=>{
+      return this_data_here.park_id===the_park.park_id
+      
+    })
+
+    let newerFilteredData= newFilteredData.notes.map(note=>{
+      return note.entry
+    })
+    
+    console.log(newerFilteredData)
+
+
+      this.setState({
+        parkClickedOn: the_park,
+        isAParkExpanded: true,
+        filterAll: false,
+        currentNotes: newerFilteredData
+      })
+
+    })
+
   }
 
   showStateList=(stateAbbreviation, stateName)=>{
@@ -182,7 +209,8 @@ class App extends React.Component {
         theLocationFilter: "",
         filterAll: true,
         isLoading: true,
-        currentState: ""
+        currentState: "",
+        currentNotes: []
       })
     }
 
@@ -332,28 +360,27 @@ deleteFromCollection=(park)=>{
     let theParkCollection= this.state.parkCollection.filter(park=>{
       return park.park_id===this.state.parkClickedOn.park_id
       })
-    fetch(`http://localhost:3000/park_collections/${theParkCollection[0].id}`, {
-        method: "PATCH",
+
+      console.log(theParkCollection[0].id)
+
+    fetch(`http://localhost:3000/notes`, {
+        method: "POST",
         headers: {
           "Content-type": "application/json",
           "Accepts": "application/json"
           },
         body: JSON.stringify({
-              notes: the_notes
+              entry: the_notes,
+              park_collection_id: theParkCollection[0].id
         })
     })
     .then(r=>r.json())
-    .then(parkCollectionInfo=>{
-
-      let theNewParks= parkCollectionInfo.filter(parkCollectionData=>{
-        return parseInt(parkCollectionData.user_id) === parseInt(this.state.userId)
-      })
+    .then(newNote=>{
+      console.log(newNote)
 
       this.setState({
-        parkCollection: theNewParks
+        currentNotes: [...this.state.currentNotes, newNote.entry]
       })
-
-      localStorage.setItem("theParkCollection", JSON.stringify(theNewParks))
 
     })
     
@@ -363,6 +390,7 @@ deleteFromCollection=(park)=>{
     console.log(this.state.parks)
     console.log(this.state.isLoading)
     console.log(this.state.statesFetched)
+    console.log(this.state.currentNotes)
     return (
   
     <React.Fragment>
@@ -403,6 +431,7 @@ deleteFromCollection=(park)=>{
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
+            currentNotes={this.state.currentNotes}
             parkCollection={this.state.parkCollection} 
             parks={this.state.parks} 
             selectAPark={this.selectAPark} 

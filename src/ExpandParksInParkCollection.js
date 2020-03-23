@@ -18,6 +18,9 @@ export default class ExpandParksInParkCollection extends React.Component{
         this.props.submitNotes({
             notes: this.state.notes
         })
+        this.setState({
+            notes: ""
+        })
     }
 
     parksWithTheCorrectAccents=()=>{
@@ -46,18 +49,13 @@ export default class ExpandParksInParkCollection extends React.Component{
     }
 
     returnTheNotes=()=>{
-        let theParkCollection= this.props.parkCollection.filter(park=>{
-            return park.park_id===this.props.parkClickedOn.park_id
-         })
-
-         let theParkCollectionsNotes= theParkCollection[0].notes
-
-         return theParkCollectionsNotes
-    
+        return this.props.currentNotes.map(note=>{
+            return  <li onClick={this.addButtons}>{note} <button>Delete</button> <button>Edit</button></li>
+        })
     }
 
+
     render(){
-        console.log(this.props)
         return(
             <React.Fragment>
             <h2>{this.parksWithTheCorrectAccents()}</h2>
@@ -76,7 +74,7 @@ export default class ExpandParksInParkCollection extends React.Component{
             <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
             <br></br>
         <h2>Your Notes on {this.props.parkClickedOn.full_name}</h2>
-        <p>{this.returnTheNotes()}</p>
+        <ul>{this.returnTheNotes()}</ul>
         <br></br>
             <form onSubmit={this.submitNotesForm}>
                 <br></br>
