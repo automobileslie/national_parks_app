@@ -7,7 +7,7 @@ import ExpandParksInParkCollection from './ExpandParksInParkCollection';
 
 const ParkCollection= (props)=> {
 
-    const { currentNotes, parkCollection, parkClickedOn, deleteFromCollection, returnToParks, submitNotes, isAParkExpanded, loggedIn, selectAPark } = props
+    const { deleteANote, currentNotes, parkCollection, parkClickedOn, deleteFromCollection, returnToParks, submitNotes, isAParkExpanded, loggedIn, selectAPark } = props
 
 
     const displayingCollection=()=> { 
@@ -25,6 +25,7 @@ const ParkCollection= (props)=> {
         return <ExpandParksInParkCollection currentNotes={currentNotes}
         parkClickedOn={parkClickedOn} 
        deleteFromCollection={deleteFromCollection}
+       deleteANote={deleteANote}
        returnToParks={returnToParks}
        submitNotes={submitNotes}
        parkCollection={parkCollection}/>

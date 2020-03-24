@@ -50,7 +50,7 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     returnTheNotes=()=>{
         return this.props.currentNotes.map(note=>{
-            return  <li onClick={this.addButtons}>{note} <button>Delete</button> <button>Edit</button></li>
+            return  <li>{note.entry} <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p> <p className="edit-note">Edit</p></li>
         })
     }
 
@@ -73,12 +73,12 @@ export default class ExpandParksInParkCollection extends React.Component{
             <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
             <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
             <br></br>
-        <h2>Your Notes on {this.props.parkClickedOn.full_name}</h2>
+        <h2 className="notes-heading">Notes</h2>
         <ul>{this.returnTheNotes()}</ul>
         <br></br>
             <form onSubmit={this.submitNotesForm}>
                 <br></br>
-                <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="enter or edit your notes here" onChange={this.changeTheNotes}/>
+                <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="Enter a new note here" onChange={this.changeTheNotes}/>
                 <br></br>
                 <input type="submit" value="submit"/>
             </form>

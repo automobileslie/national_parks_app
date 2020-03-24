@@ -107,23 +107,16 @@ class App extends React.Component {
       return parseInt(this_data.user_id)===parseInt(this.state.userId)
     })
 
-    let newFilteredData= filteredData.find(this_data_here=>{
+    let newFilteredData= filteredData.filter(this_data_here=>{
       return this_data_here.park_id===the_park.park_id
       
     })
-
-    let newerFilteredData= newFilteredData.notes.map(note=>{
-      return note.entry
-    })
-    
-    console.log(newerFilteredData)
-
 
       this.setState({
         parkClickedOn: the_park,
         isAParkExpanded: true,
         filterAll: false,
-        currentNotes: newerFilteredData
+        currentNotes: newFilteredData[0].notes
       })
 
     })
@@ -323,6 +316,24 @@ deleteFromCollection=(park)=>{
     })
   }
 
+  deleteANote=(note)=>{
+
+    let theNewNotes=this.state.currentNotes.filter(the_note=>{
+      return parseInt(note)!==parseInt(the_note.id)
+      })
+
+
+    fetch(`http://localhost:3000/notes/${parseInt(note)}`, {
+        method: "DELETE"
+    })
+    .then(r=>r.json())
+    .then(data=>{
+      this.setState({
+        currentNotes: theNewNotes
+      })
+    })
+  }
+
   // filterTheParksByLocation=(event)=>{
 
   //   if (event.target.value === "All"){
@@ -388,7 +399,7 @@ deleteFromCollection=(park)=>{
       console.log(newNote)
 
       this.setState({
-        currentNotes: [...this.state.currentNotes, newNote.entry]
+        currentNotes: [...this.state.currentNotes, newNote]
       })
 
     })
@@ -397,6 +408,7 @@ deleteFromCollection=(park)=>{
 
   render(){ 
     console.log(this.state.parks)
+    console.log(this.state.currentNotes)
    
     return (
   
@@ -438,6 +450,7 @@ deleteFromCollection=(park)=>{
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
+            deleteANote={this.deleteANote}
             currentNotes={this.state.currentNotes}
             parkCollection={this.state.parkCollection} 
             parks={this.state.parks} 
