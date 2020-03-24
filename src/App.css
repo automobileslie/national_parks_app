@@ -7,9 +7,18 @@ body{
   font-size: 1.02em;
 }
 
-.park-name:hover{
+.park-name-by-state:hover{
   color: cadetblue;
 
+}
+
+.park-name{
+  padding: 1em;
+  font-size: 1.2em;
+}
+
+.park-name:hover{
+  color: cadetblue;
 }
 
 .home-page-header{
@@ -116,14 +125,43 @@ margin-bottom: 2em;
 }
 
 .image-for-show-page{
-  width: 50%;
+  width: 35em;
+  animation-duration: 1s;
+  animation-name: image;
 }
 
 .text-display-on-park-show-page{
-  width: 50%;
+  width: 35em;
   margin-right: 2em;
+  animation-duration: 2s;
+  animation-name: text;
 
 }
+
+@keyframes text{
+  from{
+margin-left: 100%;
+width: 0%
+  }
+
+  to{
+    margin-left: 0%;
+    width: 35em
+  }
+}
+
+@keyframes image{
+  from{
+margin-left: 100%;
+width: 0%;
+  }
+
+  to{
+    margin-left: 0%;
+    width: 35em;
+  }
+}
+
 
 .add-to-park-collection-button{
   margin-left: 5em;
