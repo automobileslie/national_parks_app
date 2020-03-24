@@ -10,7 +10,7 @@ const ParksContainer = (props) => {
     const { currentState, theParks, addToParkCollection, returnToParks, parkCollection, 
         loggedIn, returnToFilteredParks, theLocationFilter, returnToSearchList, 
         searchTerm, isAParkExpanded, loadingMessage, filterTheParksByLocation, 
-        filterBySearchTerm, returnFromSearchToList, parks, filterAll, selectAPark } = props
+        filterBySearchTerm, returnFromSearchToList, parks, filterAll, pickAPark } = props
 
     const listTheParks=()=> {
 
@@ -23,7 +23,7 @@ const ParksContainer = (props) => {
                 description={park.description} 
                 url={park.url}
                 directionsUrl={park.directionsUrl}
-                selectAPark={selectAPark}
+                pickAPark={pickAPark}
                 />
             })
     }

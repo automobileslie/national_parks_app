@@ -89,7 +89,7 @@ export default class DisplayParksByState extends React.Component{
    currentState={this.props.currentState}
    addToParkCollection={this.props.addToParkCollection}
    theParks={this.props.theParks} 
-   selectAPark={this.props.selectAPark} 
+   pickAPark={this.props.pickAPark} 
    isAParkExpanded={this.props.isAParkExpanded} 
    returnToParks={this.props.returnToParks}
    // returnFromSearchToList={this.returnFromSearchToList}

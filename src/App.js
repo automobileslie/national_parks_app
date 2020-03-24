@@ -87,6 +87,15 @@ class App extends React.Component {
       })
     }
 
+    pickAPark=(the_park)=>{
+
+      this.setState({
+        parkClickedOn: the_park,
+        isAParkExpanded: true,
+        filterAll: false
+      })
+    }
+
   selectAPark=(the_park)=>{
     
 
@@ -388,9 +397,7 @@ deleteFromCollection=(park)=>{
 
   render(){ 
     console.log(this.state.parks)
-    console.log(this.state.isLoading)
-    console.log(this.state.statesFetched)
-    console.log(this.state.currentNotes)
+   
     return (
   
     <React.Fragment>
@@ -411,7 +418,7 @@ deleteFromCollection=(park)=>{
             isLoading={this.state.isLoading}
             showStateList={this.showStateList}
             theParks={this.parksToSendDown()} 
-            selectAPark={this.selectAPark} 
+            pickAPark={this.pickAPark} 
             isAParkExpanded={this.state.isAParkExpanded} 
             returnToParks={this.returnToParks}
             // returnFromSearchToList={this.returnFromSearchToList}

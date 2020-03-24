@@ -46,6 +46,7 @@ body{
 
 .website-link:hover{
   color: cadetblue;
+  
 }
 
 .div-for-buttons{
@@ -97,3 +98,70 @@ body{
   
 }
 
+.park-description{
+  margin-left: 5em;
+  margin-right: 2em;
+  margin-top: 2em;
+}
+
+.park-name-for-show-page{
+text-align: center;
+margin-bottom: 2em;
+}
+
+.park-container-for-show-page{
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.image-for-show-page{
+  width: 50%;
+}
+
+.text-display-on-park-show-page{
+  width: 50%;
+  margin-right: 2em;
+
+}
+
+.add-to-park-collection-button{
+  margin-left: 5em;
+}
+
+.add-to-park-collection-button:hover{
+  color: cadetblue;
+}
+
+.website-link-for-park-show-page{
+  margin-left: 5em;
+}
+
+.website-link-for-park-show-page:link{
+  color: black;
+}
+
+.website-link-for-park-show-page:visited{
+  color: black;
+}
+
+.website-link-for-park-show-page:hover{
+  color: cadetblue;
+  
+}
+
+.button-to-return-on-park-show-page{
+  margin-left: 5em;
+}
+
+.button-to-return-on-park-show-page:hover{
+  color: cadetblue;
+}
+
+.button-to-return:hover{
+  color: cadetblue;
+}
+
+.add-to-park-collection-button-no-image:hover{
+  color: cadetblue;
+}

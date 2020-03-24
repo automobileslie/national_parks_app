@@ -30,7 +30,7 @@ const ParkList = (props) => {
         }
 
         const displayName=()=>{
-        return <p onClick={()=>props.selectAPark(props.park)} className="park-name">{parksWithAccentsInPlace()}</p>  
+        return <p onClick={()=>props.pickAPark(props.park)} className="park-name">{parksWithAccentsInPlace()}</p>  
     }
 
         return(
