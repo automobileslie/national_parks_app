@@ -27,7 +27,10 @@ class App extends React.Component {
     loadingMessage: "The Parks Are Currently Loading!",
     isLoading: true,
     currentState: "",
-    currentNotes: []
+    currentNotes: [],
+    updateNote: false,
+    noteId: "",
+    theNoteToEdit: ""
       }
 
   componentDidMount=()=>{
@@ -212,7 +215,11 @@ class App extends React.Component {
         filterAll: true,
         isLoading: true,
         currentState: "",
-        currentNotes: []
+        currentNotes: [],
+        noteId: "",
+        updateNote: !this.state.updateNote,
+        theNoteToEdit: ""
+
       })
     }
 
@@ -222,7 +229,11 @@ class App extends React.Component {
           isAParkExpanded: false,
           theLocationFilter: this.state.theLocationFilter,
           isLoading: false,
-          currentState: this.state.currentState
+          currentState: this.state.currentState,
+          noteId: "",
+          updateNote: false,
+          theNoteToEdit: ""
+
          
         })
       }
@@ -329,7 +340,9 @@ deleteFromCollection=(park)=>{
     .then(r=>r.json())
     .then(data=>{
       this.setState({
-        currentNotes: theNewNotes
+        currentNotes: theNewNotes,
+        theNoteToEdit: ""
+
       })
     })
   }
@@ -394,32 +407,42 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(newNote=>{
-      console.log(newNote)
 
       this.setState({
-        currentNotes: [...this.state.currentNotes, newNote]
+        currentNotes: [...this.state.currentNotes, newNote],
+        noteId: "",
+        updateNote: false,
+        theNoteToEdit: ""
+
       })
 
     })
     
   }
 
-  editNote=(noteId)=>{
-console.log(`clicked this: ${noteId}`)
+  updateNoteForm=(theNote)=>{
+    this.setState({
+      updateNote: !this.state.updateNote,
+      noteId: theNote.id,
+      theNoteToEdit: theNote.entry
+
+    })
+  }
+
+  editNote=(note)=>{
 
     let theNotes= this.state.currentNotes.filter(note=>{
-      return note.id!==noteId
+      return note.id!==parseInt(this.state.noteId)
       })
-console.log(theNotes)
 
-    fetch(`http://localhost:3000/notes/${noteId}`, {
+    fetch(`http://localhost:3000/notes/${parseInt(this.state.noteId)}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
           "Accepts": "application/json"
           },
         body: JSON.stringify({
-              entry: "stuff stuff"
+              entry: note.entry
         })
     })
     .then(r=>r.json())
@@ -427,7 +450,12 @@ console.log(theNotes)
       console.log(updatedNote)
 
       this.setState({
-        currentNotes: [...theNotes, updatedNote]
+        currentNotes: [...theNotes, updatedNote],
+        noteId: "",
+        updateNote: !this.state.updateNote,
+        theNoteToEdit: ""
+
+
       })
 
     })
@@ -476,7 +504,10 @@ console.log(theNotes)
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
+            theNoteToEdit={this.state.theNoteToEdit}
             editNote={this.editNote}
+            updateNoteForm={this.updateNoteForm}
+            updateNote={this.state.updateNote}
             deleteANote={this.deleteANote}
             currentNotes={this.state.currentNotes}
             parkCollection={this.state.parkCollection} 

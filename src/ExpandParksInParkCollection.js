@@ -4,7 +4,8 @@ import React from 'react';
 export default class ExpandParksInParkCollection extends React.Component{
 
     state={
-        notes: ""
+        notes: "",
+        updatedNotes: "",
     }
 
     changeTheNotes=(event)=>{
@@ -20,6 +21,23 @@ export default class ExpandParksInParkCollection extends React.Component{
         })
         this.setState({
             notes: ""
+        })
+    }
+
+    updateTheNotes=(event)=>{
+        this.setState({
+            updatedNotes: event.target.value
+        })
+    }
+
+    submitUpdatedNotesForm=(event)=>{
+        event.preventDefault();
+        this.props.editNote({
+            entry: this.state.updatedNotes
+
+        })
+        this.setState({
+            updatedNotes: ""
         })
     }
 
@@ -50,8 +68,14 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     returnTheNotes=()=>{
         return this.props.currentNotes.map(note=>{
-            return  <li><p onClick={()=>this.props.editNote(note.id)}>{note.entry}</p> <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p> <p className="edit-note">Edit</p></li>
+            return  <div>
+                <p onClick={()=>this.props.updateNoteForm(note)}>{note.entry}</p> 
+                <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p>
+                <p className="edit-note">Edit</p>
+            </div>   
         })
+
+        // onClick={()=>this.props.editNote(note.id)}
     }
 
 
@@ -76,12 +100,19 @@ export default class ExpandParksInParkCollection extends React.Component{
         <h2 className="notes-heading">Notes</h2>
         <ul>{this.returnTheNotes()}</ul>
         <br></br>
-            <form onSubmit={this.submitNotesForm}>
+        {this.props.updateNote ? 
+                <form onSubmit={this.submitUpdatedNotesForm}>
+                <textarea id="comment-box" type="text" wrap="hard" name="updatedNotes" value={this.state.updatedNotes} placeholder={this.props.theNoteToEdit} onChange={this.updateTheNotes}/>
+                <input type="submit" value="submit"/>
+                </form>
+                :
+                <form onSubmit={this.submitNotesForm}>
                 <br></br>
                 <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="Enter a new note here" onChange={this.changeTheNotes}/>
                 <br></br>
                 <input type="submit" value="submit"/>
             </form>
+                }            
             </React.Fragment>
         )
     }
