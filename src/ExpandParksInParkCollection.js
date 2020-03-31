@@ -50,7 +50,7 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     returnTheNotes=()=>{
         return this.props.currentNotes.map(note=>{
-            return  <li>{note.entry} <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p> <p className="edit-note">Edit</p></li>
+            return  <li><p onClick={()=>this.props.editNote(note.id)}>{note.entry}</p> <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p> <p className="edit-note">Edit</p></li>
         })
     }
 

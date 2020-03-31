@@ -381,8 +381,6 @@ deleteFromCollection=(park)=>{
       return park.park_id===this.state.parkClickedOn.park_id
       })
 
-      console.log(theParkCollection[0].id)
-
     fetch(`http://localhost:3000/notes`, {
         method: "POST",
         headers: {
@@ -406,9 +404,37 @@ deleteFromCollection=(park)=>{
     
   }
 
+  editNote=(noteId)=>{
+console.log(`clicked this: ${noteId}`)
+
+    let theNotes= this.state.currentNotes.filter(note=>{
+      return note.id!==noteId
+      })
+console.log(theNotes)
+
+    fetch(`http://localhost:3000/notes/${noteId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          "Accepts": "application/json"
+          },
+        body: JSON.stringify({
+              entry: "stuff stuff"
+        })
+    })
+    .then(r=>r.json())
+    .then(updatedNote=>{
+      console.log(updatedNote)
+
+      this.setState({
+        currentNotes: [...theNotes, updatedNote]
+      })
+
+    })
+    
+  }
+
   render(){ 
-    console.log(this.state.parks)
-    console.log(this.state.currentNotes)
    
     return (
   
@@ -450,6 +476,7 @@ deleteFromCollection=(park)=>{
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
+            editNote={this.editNote}
             deleteANote={this.deleteANote}
             currentNotes={this.state.currentNotes}
             parkCollection={this.state.parkCollection} 
