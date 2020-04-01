@@ -294,6 +294,7 @@ class App extends React.Component {
         parkCollection: newParks,
         parkClickedOn: [],
         isAParkExpanded: false
+
       })
 
       localStorage.setItem("theParkCollection", JSON.stringify(newParks))
@@ -341,7 +342,8 @@ deleteFromCollection=(park)=>{
     .then(data=>{
       this.setState({
         currentNotes: theNewNotes,
-        theNoteToEdit: ""
+        theNoteToEdit: "",
+        updateNote: false
 
       })
     })

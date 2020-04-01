@@ -5,7 +5,7 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     state={
         notes: "",
-        updatedNotes: "",
+        updatedNotes: ""
     }
 
     changeTheNotes=(event)=>{
@@ -25,6 +25,7 @@ export default class ExpandParksInParkCollection extends React.Component{
     }
 
     updateTheNotes=(event)=>{
+
         this.setState({
             updatedNotes: event.target.value
         })
@@ -34,11 +35,12 @@ export default class ExpandParksInParkCollection extends React.Component{
         event.preventDefault();
         this.props.editNote({
             entry: this.state.updatedNotes
-
         })
+
         this.setState({
             updatedNotes: ""
         })
+       
     }
 
     parksWithTheCorrectAccents=()=>{
@@ -66,17 +68,18 @@ export default class ExpandParksInParkCollection extends React.Component{
     
     }
 
+
     returnTheNotes=()=>{
         return this.props.currentNotes.map(note=>{
             return  <div>
-                <p onClick={()=>this.props.updateNoteForm(note)}>{note.entry}</p> 
+                <p>{note.entry}</p> 
                 <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p>
-                <p className="edit-note">Edit</p>
+                <p onClick={()=>this.props.updateNoteForm(note)} className="edit-note">Edit</p>
             </div>   
         })
-
-        // onClick={()=>this.props.editNote(note.id)}
     }
+
+    
 
 
     render(){
