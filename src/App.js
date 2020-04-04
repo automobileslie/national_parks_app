@@ -217,7 +217,7 @@ class App extends React.Component {
         currentState: "",
         currentNotes: [],
         noteId: "",
-        updateNote: !this.state.updateNote,
+        updateNote: false,
         theNoteToEdit: ""
 
       })
@@ -286,14 +286,17 @@ class App extends React.Component {
      .then(r=>r.json())
      .then(theParkCollections => {
 
+
       let newParks= theParkCollections.filter(thisParkCollection=>{
         return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
       })
 
+
       this.setState({
         parkCollection: newParks,
         parkClickedOn: [],
-        isAParkExpanded: false
+        isAParkExpanded: false,
+        updateNote: false
 
       })
 
@@ -390,6 +393,8 @@ deleteFromCollection=(park)=>{
 
   submitNotes=(notes)=>{
 
+    console.log(notes)
+
     let the_notes=notes.notes
 
     let theParkCollection= this.state.parkCollection.filter(park=>{
@@ -409,6 +414,7 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(newNote=>{
+      console.log(newNote)
 
       this.setState({
         currentNotes: [...this.state.currentNotes, newNote],
@@ -419,7 +425,24 @@ deleteFromCollection=(park)=>{
       })
 
     })
-    
+
+    fetch(`http://localhost:3000/park_collections`)
+    .then(r=>r.json())
+    .then(theParkCollections=>{
+
+      let theseNewParks= theParkCollections.filter(thisParkCollection=>{
+        return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
+      })
+
+      console.log(theseNewParks)
+
+      this.setState({
+        parkCollection: theseNewParks,
+      })
+
+      localStorage.setItem("theParkCollection", JSON.stringify(theseNewParks))
+    })
+
   }
 
   updateNoteForm=(theNote)=>{
@@ -465,6 +488,7 @@ deleteFromCollection=(park)=>{
   }
 
   render(){ 
+    console.log(this.state.parkCollection)
    
     return (
   

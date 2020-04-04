@@ -37,7 +37,6 @@ const ParkList = (props) => {
           
                 displayName()
          
-         
         )
         
 }

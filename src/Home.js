@@ -61,10 +61,12 @@ export default class Home extends React.Component {
     render(){
         return(
             
-            <React.Fragment>
+            <div>
+                <h1 className="home-page-heading">National Park Trip Planner</h1>
+                <p className="home-page-app-description">Click on one of the featured parks to go to the National Park Service Website and learn more about it, or go to the Parks tab to search by state or territory. Add a park to your collection to take notes on it while planning a trip.</p>
                 <h1 className="home-page-header">Featured Parks</h1>
                 {this.renderImages()}
-            </React.Fragment>
+            </div>
         )
     }
 }

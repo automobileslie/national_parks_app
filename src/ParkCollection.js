@@ -39,14 +39,25 @@ const ParkCollection= (props)=> {
     
         if (isAParkExpanded) { 
             return displayPark()}
-        else {              
+        else {  
+            if (parkCollection.length>0){
+          
             return <React.Fragment>
-                <h2>Where You'd Like To Go</h2>
+                <h1 className="park-collection-heading">Where You'd Like To Go</h1>
+                <p className="park-collection-tag">Click on the name of a park in your collection to learn more about it and take notes as you plan a trip</p>
                 {displayingCollection()}
                 </React.Fragment>
                     }
-        }
+            else{
+                return <React.Fragment>
+                    <h1>Add parks to your collection to begin</h1>
+                    <h3>Go to the parks tab to search for parks by state or territory, <br></br>then come back to your park collection and take notes as you plan trips.</h3>
+                   
+                    </React.Fragment>
 
+            }
+                }
+        }
     
         return(
             <div className="the-park-list-and-profile">

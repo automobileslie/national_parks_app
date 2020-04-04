@@ -28,7 +28,7 @@ import React from 'react';
     }
 
         return(
-            <p onClick={()=>{props.selectAPark(props.park)}} className="park-name">{parksWithProperAccents()}</p>
+            <p onClick={()=>{props.selectAPark(props.park)}} className="park-collection-name">{parksWithProperAccents()}</p>
         )
  }
 

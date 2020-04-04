@@ -3,6 +3,7 @@ import React from 'react';
 
 export default class ExpandParksInParkCollection extends React.Component{
 
+
     state={
         notes: "",
         updatedNotes: ""
@@ -70,6 +71,9 @@ export default class ExpandParksInParkCollection extends React.Component{
 
 
     returnTheNotes=()=>{
+
+        if(this.props.currentNotes.length>0){
+
         return this.props.currentNotes.map(note=>{
             return  <div>
                 <p>{note.entry}</p> 
@@ -78,8 +82,15 @@ export default class ExpandParksInParkCollection extends React.Component{
             </div>   
         })
     }
-
-    
+    else{
+        return <div>
+            <p>Add notes by entering them in the box below and hitting submit when you are done.</p>
+            <p>To edit a note, click on the edit button and hit submit.</p>
+            <p>Copy and paste the text you would like to keep into the box<br></br>
+            and add to it or delete from it.</p>
+        </div>
+    }
+    }
 
 
     render(){
@@ -97,13 +108,13 @@ export default class ExpandParksInParkCollection extends React.Component{
             }
             <br></br>
             <br></br>
-            <button className="button" onClick={this.props.returnToParks}>Return to List of Parks</button>
-            <button className="button" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</button>
+            <p className="return-to-park-list" onClick={this.props.returnToParks}>Return to List of Parks</p>
+            <p className="delete-from-park-collection" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</p>
             <br></br>
-        <h2 className="notes-heading">Notes</h2>
-        <ul>{this.returnTheNotes()}</ul>
+        <h2>Notes</h2>
+        <div>{this.returnTheNotes()}</div>
         <br></br>
-        {this.props.updateNote ? 
+        {this.props.updateNote!==false ? 
                 <form onSubmit={this.submitUpdatedNotesForm}>
                 <textarea id="comment-box" type="text" wrap="hard" name="updatedNotes" value={this.state.updatedNotes} placeholder={this.props.theNoteToEdit} onChange={this.updateTheNotes}/>
                 <input type="submit" value="submit"/>
