@@ -6,7 +6,7 @@ export default class ExpandParksInParkCollection extends React.Component{
 
     state={
         notes: "",
-        updatedNotes: ""
+        updatedNotes: ""    
     }
 
     changeTheNotes=(event)=>{
@@ -69,33 +69,35 @@ export default class ExpandParksInParkCollection extends React.Component{
     
     }
 
+    switchToEdit=(the_note)=>{
+        this.props.updateNoteForm({
+            note: the_note
+        })
+
+        this.setState({
+            updatedNotes: the_note.entry
+        })
+    }
+
 
     returnTheNotes=()=>{
 
-        if(this.props.currentNotes.length>0){
-
         return this.props.currentNotes.map(note=>{
-            return  <div>
-                <p>{note.entry}</p> 
+            return  <React.Fragment>
+                <li>{note.entry}</li> 
+                <div className="notes-display-container">
                 <p className="delete-note" onClick={()=>this.props.deleteANote(note.id)}>Delete</p>
-                <p onClick={()=>this.props.updateNoteForm(note)} className="edit-note">Edit</p>
-            </div>   
+                <p onClick={()=>this.switchToEdit(note)} className="edit-note">Edit</p>
+                </div>
+                </React.Fragment>  
         })
-    }
-    else{
-        return <div>
-            <p>Add notes by entering them in the box below and hitting submit when you are done.</p>
-            <p>To edit a note, click on the edit button and hit submit.</p>
-            <p>Copy and paste the text you would like to keep into the box<br></br>
-            and add to it or delete from it.</p>
-        </div>
-    }
+  
     }
 
 
     render(){
         return(
-            <React.Fragment>
+            <div>
             <h2>{this.parksWithTheCorrectAccents()}</h2>
             <p>{this.props.parkClickedOn.description}</p>
             <a className="website-link" target="_blank" rel="noopener noreferrer" href={this.props.parkClickedOn.url}> National Park Service Website </a>
@@ -112,22 +114,31 @@ export default class ExpandParksInParkCollection extends React.Component{
             <p className="delete-from-park-collection" onClick={()=>this.props.deleteFromCollection(this.props.parkClickedOn)}>Delete From Your Park List</p>
             <br></br>
         <h2>Notes</h2>
-        <div>{this.returnTheNotes()}</div>
-        <br></br>
-        {this.props.updateNote!==false ? 
+            {this.props.currentNotes.length>0 ? 
+
+    <ul>{this.returnTheNotes()}</ul>
+    :
+    <div>
+    <p>Add notes by entering them in the box below and hitting submit when you are done.</p>
+    <p>To edit a note, click on the edit button and hit submit.</p>
+    </div>
+            }
+            
+        {this.props.updateNote ? 
                 <form onSubmit={this.submitUpdatedNotesForm}>
                 <textarea id="comment-box" type="text" wrap="hard" name="updatedNotes" value={this.state.updatedNotes} placeholder={this.props.theNoteToEdit} onChange={this.updateTheNotes}/>
-                <input type="submit" value="submit"/>
+                <br></br>
+                <input className="submit-buttons" type="submit" value="submit"/>
                 </form>
                 :
                 <form onSubmit={this.submitNotesForm}>
                 <br></br>
                 <textarea id="comment-box" type="text" wrap="hard" name="notes" value={this.state.notes} placeholder="Enter a new note here" onChange={this.changeTheNotes}/>
                 <br></br>
-                <input type="submit" value="submit"/>
+                <input className="submit-buttons" type="submit" value="submit"/>
             </form>
                 }            
-            </React.Fragment>
+            </div>
         )
     }
 }

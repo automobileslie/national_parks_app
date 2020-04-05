@@ -30,7 +30,7 @@ class App extends React.Component {
     currentNotes: [],
     updateNote: false,
     noteId: "",
-    theNoteToEdit: ""
+    theNoteToEdit: "",
       }
 
   componentDidMount=()=>{
@@ -393,8 +393,6 @@ deleteFromCollection=(park)=>{
 
   submitNotes=(notes)=>{
 
-    console.log(notes)
-
     let the_notes=notes.notes
 
     let theParkCollection= this.state.parkCollection.filter(park=>{
@@ -447,9 +445,9 @@ deleteFromCollection=(park)=>{
 
   updateNoteForm=(theNote)=>{
     this.setState({
-      updateNote: !this.state.updateNote,
-      noteId: theNote.id,
-      theNoteToEdit: theNote.entry
+      updateNote: !this.state.updateNote.note,
+      noteId: theNote.note.id,
+      theNoteToEdit: theNote.note.entry
 
     })
   }

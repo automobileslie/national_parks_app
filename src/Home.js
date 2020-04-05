@@ -21,7 +21,7 @@ export default class Home extends React.Component {
             }
         }
 
-        setInterval(settingInterval, 3000)
+        setInterval(settingInterval, 5000)
     }
 
     renderImages=()=>{

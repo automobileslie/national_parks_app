@@ -54,7 +54,7 @@ const ParksContainer = (props) => {
                             <h1>{`Park List for ${currentState}`}</h1>
 
                         {listTheParks()}  
-                        <button className="button" onClick={returnToParks}>Return to List of Parks</button>
+                        <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>
                             </div>
                             }
 

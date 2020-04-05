@@ -4,8 +4,8 @@ body{
   border: 1em;
   background: url("./Images/United_States.jpg");
   font-weight: bold;
-  font-size: 1.15em;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+  font-size: 1.2em;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .park-name-by-state:hover{
@@ -43,12 +43,10 @@ body{
   text-align: center;
 }
 
-.website-link:link{
+.website-link{
   color: black;
-}
-
-.website-link:visited{
-  color: black;
+  margin: 2em;
+  text-decoration: none;
 }
 
 .website-link:hover{
@@ -74,10 +72,11 @@ body{
 }
 
 #comment-box {
-  width: 45em;
-  height: 5em;
+  width: 30em;
+  height: 10em;
   word-wrap: break-word;
-  margin: 1em
+  margin: 1em;
+  border: .2em solid black
 }
 
 .the-park-list-and-profile{
@@ -205,8 +204,13 @@ opacity: .25
   color: cadetblue;
 }
 
+
 .edit-note:hover{
   color: cadetblue;
+}
+
+.edit-note{
+  margin: 1em;
 }
 
 .return-to-park-list:hover{
@@ -237,6 +241,22 @@ text-align: center;
 }
 
 .home-page-heading{
-  margin: 2em;
+  margin-bottom: 1em;
+  margin-top: 2em;
   text-align: center;
+  font-size: 2.5em;
 }
+
+.submit-buttons{
+  margin-left: .5em;
+  font-size: 1em;
+}
+
+.notes-display-container{
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+
+
