@@ -378,10 +378,8 @@ deleteFromCollection=(park)=>{
 
   deleteAccount=()=>{
     fetch(`http://localhost:3000/users/${parseInt(this.state.userId)}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": this.state.token
-        }
+      method: "DELETE"
+      
     })
     .then(r=> r.json())
     .then(message=> {
@@ -412,7 +410,6 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(newNote=>{
-      console.log(newNote)
 
       this.setState({
         currentNotes: [...this.state.currentNotes, newNote],
@@ -486,7 +483,6 @@ deleteFromCollection=(park)=>{
   }
 
   render(){ 
-    console.log(this.state.parkCollection)
    
     return (
   
