@@ -99,27 +99,22 @@ class App extends React.Component {
       })
     }
 
-  selectAPark=(the_park)=>{
+  selectAPark=(the_park_collection)=>{
     
+    fetch(`http://localhost:3000/park_collections/${the_park_collection.id}`, {
 
-    fetch(`http://localhost:3000/park_collections`) 
+    headers: {
+      "Authorization": this.state.token
+    }
+    }) 
     .then(r => r.json())
-    .then(data=> {
-
-    let filteredData= data.filter(this_data=>{
-      return parseInt(this_data.user_id)===parseInt(this.state.userId)
-    })
-
-    let newFilteredData= filteredData.filter(this_data_here=>{
-      return this_data_here.park_id===the_park.park_id
-      
-    })
+    .then(park_collection=> {
 
       this.setState({
-        parkClickedOn: the_park,
+        parkClickedOn: the_park_collection,
         isAParkExpanded: true,
         filterAll: false,
-        currentNotes: newFilteredData[0].notes
+        currentNotes:park_collection.notes
       })
 
     })
@@ -219,7 +214,6 @@ class App extends React.Component {
         noteId: "",
         updateNote: false,
         theNoteToEdit: ""
-
       })
     }
 
@@ -233,8 +227,6 @@ class App extends React.Component {
           noteId: "",
           updateNote: false,
           theNoteToEdit: ""
-
-         
         })
       }
 
@@ -272,10 +264,11 @@ class App extends React.Component {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "Accepts": "application/json"
+        "Accepts": "application/json",
+        "Authorization": this.state.token
       },
       body: JSON.stringify({
-        user_id: this.state.userId,
+        user_id: parseInt(this.state.userId),
         park_id: park.id,
         description: park.description,
         directions_url: park.directionsUrl,
@@ -286,21 +279,15 @@ class App extends React.Component {
      .then(r=>r.json())
      .then(theParkCollections => {
 
-
-      let newParks= theParkCollections.filter(thisParkCollection=>{
-        return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
-      })
-
-
       this.setState({
-        parkCollection: newParks,
+        parkCollection: theParkCollections,
         parkClickedOn: [],
         isAParkExpanded: false,
         updateNote: false
 
       })
 
-      localStorage.setItem("theParkCollection", JSON.stringify(newParks))
+      localStorage.setItem("theParkCollection", JSON.stringify(theParkCollections))
     })
 
     alert("The park was added to your park list!")
@@ -308,9 +295,6 @@ class App extends React.Component {
 }
 
 deleteFromCollection=(park)=>{
-  let newParkCollectionArray= this.state.parkCollection.filter(the_park=>{
-    return the_park.park_id !== park.park_id
-  })
 
   let thisParkCollection= this.state.parkCollection.find(this_park_collection=>{
     return this_park_collection.park_id === park.park_id
@@ -319,19 +303,26 @@ deleteFromCollection=(park)=>{
   let parkCollectionsId= thisParkCollection.id
 
   fetch(`http://localhost:3000/park_collections/${parkCollectionsId}`, {
-    method: "DELETE"})
+    method: "DELETE",
+    headers: {
+      Authorization: this.state.token
+    }
+  
+  })
     .then(r=>r.json())
     .then(parkCollections =>{
       this.setState({
-        parkCollection: newParkCollectionArray,
+        parkCollection: parkCollections,
         isAParkExpanded: false
       })
 
-      localStorage.setItem("theParkCollection", JSON.stringify(newParkCollectionArray))
+      localStorage.setItem("theParkCollection", JSON.stringify(parkCollections))
     })
   }
 
   deleteANote=(note)=>{
+
+  // work on this one
 
     let theNewNotes=this.state.currentNotes.filter(the_note=>{
       return parseInt(note)!==parseInt(the_note.id)
@@ -339,7 +330,10 @@ deleteFromCollection=(park)=>{
 
 
     fetch(`http://localhost:3000/notes/${parseInt(note)}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+          "Authorization": this.state.token
+        }
     })
     .then(r=>r.json())
     .then(data=>{
@@ -378,7 +372,10 @@ deleteFromCollection=(park)=>{
 
   deleteAccount=()=>{
     fetch(`http://localhost:3000/users/${parseInt(this.state.userId)}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Authorization": this.state.token
+      }
       
     })
     .then(r=> r.json())
@@ -391,6 +388,8 @@ deleteFromCollection=(park)=>{
 
   submitNotes=(notes)=>{
 
+// work on this one
+
     let the_notes=notes.notes
 
     let theParkCollection= this.state.parkCollection.filter(park=>{
@@ -401,7 +400,8 @@ deleteFromCollection=(park)=>{
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "Accepts": "application/json"
+          "Accepts": "application/json",
+          "Authorization": this.state.token
           },
         body: JSON.stringify({
               entry: the_notes,
@@ -421,21 +421,20 @@ deleteFromCollection=(park)=>{
 
     })
 
-    fetch(`http://localhost:3000/park_collections`)
+    fetch(`http://localhost:3000/users/${this.state.userId}`, {
+      headers: {
+        "Authorization": this.state.token
+      }
+    }
+    )
     .then(r=>r.json())
-    .then(theParkCollections=>{
-
-      let theseNewParks= theParkCollections.filter(thisParkCollection=>{
-        return parseInt(thisParkCollection.user_id) === parseInt(this.state.userId)
-      })
-
-      console.log(theseNewParks)
+    .then(user=>{
 
       this.setState({
-        parkCollection: theseNewParks,
+        parkCollection: user.park_collections,
       })
 
-      localStorage.setItem("theParkCollection", JSON.stringify(theseNewParks))
+      localStorage.setItem("theParkCollection", JSON.stringify(user.park_collections))
     })
 
   }
@@ -451,6 +450,8 @@ deleteFromCollection=(park)=>{
 
   editNote=(note)=>{
 
+// work on this
+
     let theNotes= this.state.currentNotes.filter(note=>{
       return note.id!==parseInt(this.state.noteId)
       })
@@ -459,7 +460,8 @@ deleteFromCollection=(park)=>{
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
-          "Accepts": "application/json"
+          "Accepts": "application/json",
+          "Authorization": this.state.token
           },
         body: JSON.stringify({
               entry: note.entry
@@ -467,7 +469,6 @@ deleteFromCollection=(park)=>{
     })
     .then(r=>r.json())
     .then(updatedNote=>{
-      console.log(updatedNote)
 
       this.setState({
         currentNotes: [...theNotes, updatedNote],
@@ -482,8 +483,9 @@ deleteFromCollection=(park)=>{
     
   }
 
+
   render(){ 
-   
+  
     return (
   
     <React.Fragment>

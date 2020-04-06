@@ -2,7 +2,7 @@ import React from 'react';
 
   const Profile =(props)=> {
 
-    const { parks, loggedIn, username, deleteAccount} = props
+    const { testingRoutes, parks, loggedIn, username, deleteAccount} = props
 
         return(
             <div className="the-park-list-and-profile">
