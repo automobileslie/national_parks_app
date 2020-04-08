@@ -126,7 +126,7 @@ export default class ExpandParksInParkCollection extends React.Component{
             
         {this.props.updateNote ? 
                 <form onSubmit={this.submitUpdatedNotesForm}>
-                <textarea id="comment-box" type="text" wrap="hard" name="updatedNotes" value={this.state.updatedNotes} placeholder={this.props.theNoteToEdit} onChange={this.updateTheNotes}/>
+                <textarea id="comment-box" type="text" wrap="hard" name="updatedNotes" value={this.state.updatedNotes} onChange={this.updateTheNotes}/>
                 <br></br>
                 <input className="submit-buttons" type="submit" value="submit"/>
                 </form>

@@ -30,7 +30,7 @@ class App extends React.Component {
     currentNotes: [],
     updateNote: false,
     noteId: "",
-    theNoteToEdit: "",
+   
       }
 
   componentDidMount=()=>{
@@ -213,7 +213,6 @@ class App extends React.Component {
         currentNotes: [],
         noteId: "",
         updateNote: false,
-        theNoteToEdit: ""
       })
     }
 
@@ -226,7 +225,6 @@ class App extends React.Component {
           currentState: this.state.currentState,
           noteId: "",
           updateNote: false,
-          theNoteToEdit: ""
         })
       }
 
@@ -278,9 +276,10 @@ class App extends React.Component {
      })
      .then(r=>r.json())
      .then(theParkCollections => {
+       console.log(theParkCollections)
 
       this.setState({
-        parkCollection: theParkCollections,
+        parkCollection: [...theParkCollections],
         parkClickedOn: [],
         isAParkExpanded: false,
         updateNote: false
@@ -336,12 +335,11 @@ deleteFromCollection=(park)=>{
         }
     })
     .then(r=>r.json())
-    .then(data=>{
+    .then(notes=>{
+      console.log(notes)
       this.setState({
         currentNotes: theNewNotes,
-        theNoteToEdit: "",
         updateNote: false
-
       })
     })
   }
@@ -526,7 +524,6 @@ deleteFromCollection=(park)=>{
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
-            theNoteToEdit={this.state.theNoteToEdit}
             editNote={this.editNote}
             updateNoteForm={this.updateNoteForm}
             updateNote={this.state.updateNote}
