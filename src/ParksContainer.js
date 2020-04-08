@@ -48,7 +48,7 @@ const ParksContainer = (props) => {
                             
                             { props.isLoading ?
 
-                            <h1>The parks are loading</h1>
+                            <h1 className="loading">The parks are loading</h1>
                             :
                             <div>
                             <h1>{`Park List for ${currentState}`}</h1>
