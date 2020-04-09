@@ -321,11 +321,9 @@ deleteFromCollection=(park)=>{
 
   deleteANote=(note)=>{
 
-  // work on this one
-
-    let theNewNotes=this.state.currentNotes.filter(the_note=>{
-      return parseInt(note)!==parseInt(the_note.id)
-      })
+    this.setState({
+      currentNotes: []
+    })
 
 
     fetch(`http://localhost:3000/notes/${parseInt(note)}`, {
@@ -337,10 +335,19 @@ deleteFromCollection=(park)=>{
     .then(r=>r.json())
     .then(notes=>{
       console.log(notes)
+
+      if (notes===null){
+        this.setState({
+          currentNotes: [],
+          updateNotes: false
+        })
+      }
+      else{
       this.setState({
-        currentNotes: theNewNotes,
+        currentNotes:  [...this.state.currentNotes, notes].flat() ,
         updateNote: false
       })
+    }
     })
   }
 
@@ -385,8 +392,6 @@ deleteFromCollection=(park)=>{
   }
 
   submitNotes=(notes)=>{
-
-// work on this one
 
     let the_notes=notes.notes
 
@@ -439,16 +444,12 @@ deleteFromCollection=(park)=>{
 
   updateNoteForm=(theNote)=>{
     this.setState({
-      updateNote: !this.state.updateNote.note,
-      noteId: theNote.note.id,
-      theNoteToEdit: theNote.note.entry
-
+      updateNote: !this.state.updateNote,
+      noteId: theNote.note.id
     })
   }
 
   editNote=(note)=>{
-
-// work on this
 
     let theNotes= this.state.currentNotes.filter(note=>{
       return note.id!==parseInt(this.state.noteId)

@@ -83,6 +83,7 @@ export default class ExpandParksInParkCollection extends React.Component{
     returnTheNotes=()=>{
 
         return this.props.currentNotes.map(note=>{
+            console.log(note)
             return  <React.Fragment>
                 <li>{note.entry}</li> 
                 <div className="notes-display-container">
