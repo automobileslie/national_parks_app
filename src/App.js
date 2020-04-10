@@ -137,7 +137,7 @@ class App extends React.Component {
       theLocationFilter: stateAbbreviation.toUpperCase()
     })
 
-    fetch("http://localhost:3000/parks", {
+    fetch("http://localhost:3000/stateparks", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
