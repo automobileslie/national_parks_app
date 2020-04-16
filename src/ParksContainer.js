@@ -7,7 +7,7 @@ const ParksContainer = (props) => {
 
     const { currentState, theParks, addToParkCollection, returnToParks, parkCollection, 
         loggedIn, returnToFilteredParks, theLocationFilter, returnToSearchList, 
-        searchTerm, searchPark, isAParkExpanded, pickAPark } = props
+        searchTerm, searchPark, isAParkExpanded, pickAPark, searchError } = props
 
     const listTheParks=()=> {
 
@@ -36,42 +36,61 @@ const ParksContainer = (props) => {
             searchPark={searchPark}/>
     }
 
+
+    const parkListDisplay=()=>{
+
+        if(props.isLoading){
+        return <h1 className="loading">The parks are loading</h1>
+
+        }
+
+        else if(searchError.length > 0){
+            return <React.Fragment>
+            <h1>{searchError}</h1>
+            <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>
+            </React.Fragment>
+        }
+
+        else if(searchPark.length >0){
+
+
+            return <React.Fragment>
+            <h1>{`Search results for ${searchTerm}`}</h1>
+            {listTheParks()}
+            <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>
+            </React.Fragment>
+            
+            }
+
+        else{
+
+            return <React.Fragment>
+            <h1>{`Park List for ${currentState}`}</h1>
+            {listTheParks()}
+            <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>
+
+            </React.Fragment>
+
+                }  
+        }
+
         return(
             <div>
        
-                {!(isAParkExpanded) ?          
-                        
-                        <div className="park-list-page">
-                            
-                            { props.isLoading ?
-
-                            <h1 className="loading">The parks are loading</h1>
-                            :
-                            <div>
-
-                                {searchPark.length >0 ?
-                                <h1>{`Search results for ${searchTerm}`}</h1>
-                                :
-                            <h1>{`Park List for ${currentState}`}</h1>
-                                }
-
-                        {listTheParks()}  
-                        <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>
-                            </div>
-                            }
-
-                        </div>
-                
-                            :
-                                expandOnePark()
+                {!(isAParkExpanded) ?           
+                                            
+                <div className="park-list-page">{parkListDisplay()}</div>
+                               
+            :
+                expandOnePark()
                                
              }
                 
 
-            </div > 
+            </div> 
 
-                )
-}
+        )
+            }
     
 
     export default ParksContainer;

@@ -109,7 +109,8 @@ export default class DisplayParksByState extends React.Component{
    loadingMessage={this.props.loadingMessage}
    isLoading={this.props.isLoading}
    parks={this.props.parks}
-   returnToFilteredParks={this.props.returnToFilteredParks}/>
+   returnToFilteredParks={this.props.returnToFilteredParks}
+   searchError={this.props.searchError}/>
 
     }
 

@@ -335,6 +335,12 @@ deleteFromCollection=(park)=>{
 
 
   filterBySearchTerm=(search)=>{
+
+    this.setState({
+      theLocationFilter: search,
+
+    })
+    
     fetch("http://localhost:3000/searchparks", {
       method: "POST",
       headers: {
@@ -347,16 +353,27 @@ deleteFromCollection=(park)=>{
       })
       .then(r=>r.json())
       .then(thePark=>{
-        console.log(thePark)  
-
+        console.log(thePark) 
+        
+        if(thePark.data.length>0){
 
         this.setState({
           searchTerm: search,
-          theLocationFilter: search,
           filterAll: false,
           searchPark: thePark.data,
           isLoading: false
         })
+      }
+
+      else{
+        this.setState({
+          theLocationFilter: search,
+          filterAll: false,
+          isLoading: false,
+          searchError: "No parks found"
+        })
+
+      }
   
     })
   
@@ -471,9 +488,6 @@ deleteFromCollection=(park)=>{
 
 
   render(){ 
-  console.log(this.state.searchPark)
-  console.log(this.state.theLocationFilter)
-  console.log(this.state.serachTerm)
     return (
   
     <React.Fragment>
@@ -512,6 +526,7 @@ deleteFromCollection=(park)=>{
             parks={this.state.parks}
             returnToFilteredParks={this.returnToFilteredParks}
             returnToSearchList={this.returnToSearchList}
+            searchError={this.state.searchError}
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}
