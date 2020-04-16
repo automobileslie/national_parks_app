@@ -21,7 +21,7 @@ class App extends React.Component {
     username: "",
     token: null,
     theLocationFilter: "",
-    // searchTerm: "",
+    searchTerm: "",
     filterAll: true,
     cannotAddPark: false,
     loadingMessage: "The Parks Are Currently Loading!",
@@ -30,6 +30,8 @@ class App extends React.Component {
     currentNotes: [],
     updateNote: false,
     noteId: "",
+    searchPark: [],
+    searchError: ""
    
       }
 
@@ -177,12 +179,6 @@ class App extends React.Component {
       return park.states.includes(this.state.theLocationFilter)
     })
 
-    // let searchToUpperCase= this.state.searchTerm.toUpperCase()
-
-    // let theParksFilteredBySearchTerm=  theParksAlphabetized.filter(park=>{
-    //   return park.fullName.toUpperCase().includes(searchToUpperCase)
-    // })
-
     if (this.state.filterAll){
       return  theParksFilteredByPlace
     }
@@ -192,9 +188,9 @@ class App extends React.Component {
       return this.state.parkClickedOn
       }
 
-    // else if (this.state.searchTerm.length > 0) {
-    //   theParksAlphabetized=theParksFilteredBySearchTerm
-    // }
+    else if (this.state.searchTerm.length > 0) {
+      return this.state.searchPark
+    }
 
     else {
       return theParksFilteredByPlace
@@ -205,7 +201,7 @@ class App extends React.Component {
       this.setState({
         parkClickedOn: [],
         isAParkExpanded: false,
-        // searchTerm: "",
+        searchTerm: "",
         theLocationFilter: "",
         filterAll: true,
         isLoading: true,
@@ -213,6 +209,8 @@ class App extends React.Component {
         currentNotes: [],
         noteId: "",
         updateNote: false,
+        searchPark: [],
+        searchError: ""
       })
     }
 
@@ -227,22 +225,6 @@ class App extends React.Component {
           updateNote: false,
         })
       }
-
-    // returnFromSearchToList=()=>{
-    //     this.setState({
-    //       parkClickedOn: [],
-    //       searchTerm: "",
-    //       theLocationFilter: "",
-    //       filterAll: true
-    //     })
-    //   }
-
-    // returnToSearchList=()=>{
-    //   this.setState({
-    //     parkClickedOn: [],
-    //     isAParkExpanded: false
-    //   })
-    // }
 
     addToParkCollection=(park)=> {
 
@@ -351,29 +333,34 @@ deleteFromCollection=(park)=>{
     })
   }
 
-  // filterTheParksByLocation=(event)=>{
 
-  //   if (event.target.value === "All"){
-  //     this.setState({
-  //       filterAll: true
-  //     })
-  //   }
-  //   else {
-  //   this.setState({
-  //     theLocationFilter: event.target.value,
-  //     searchTerm: "",
-  //     filterAll: false
-  //   })
-  // }
-  // }
+  filterBySearchTerm=(search)=>{
+    fetch("http://localhost:3000/searchparks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+        },
+      body: JSON.stringify({
+        query: search
+          })
+      })
+      .then(r=>r.json())
+      .then(thePark=>{
+        console.log(thePark)  
 
-  // filterBySearchTerm=(search)=>{
-  //   this.setState({
-  //     searchTerm: search,
-  //     theLocationFilter: "",
-  //     filterAll: false
-  //   })
-  // }
+
+        this.setState({
+          searchTerm: search,
+          theLocationFilter: search,
+          filterAll: false,
+          searchPark: thePark.data,
+          isLoading: false
+        })
+  
+    })
+  
+  }
 
   deleteAccount=()=>{
     fetch(`http://localhost:3000/users/${parseInt(this.state.userId)}`, {
@@ -484,7 +471,9 @@ deleteFromCollection=(park)=>{
 
 
   render(){ 
-  
+  console.log(this.state.searchPark)
+  console.log(this.state.theLocationFilter)
+  console.log(this.state.serachTerm)
     return (
   
     <React.Fragment>
@@ -501,6 +490,8 @@ deleteFromCollection=(park)=>{
           parks={this.state.parks}
           />}/>
           <Route exact path= '/parks' render={(renderProps) => <DisplayParksByState {...renderProps} addToParkCollection={this.addToParkCollection} 
+            searchTerm={this.state.searchTerm}
+            filterBySearchTerm={this.filterBySearchTerm}
             currentState={this.state.currentState}
             isLoading={this.state.isLoading}
             showStateList={this.showStateList}
@@ -508,20 +499,19 @@ deleteFromCollection=(park)=>{
             pickAPark={this.pickAPark} 
             isAParkExpanded={this.state.isAParkExpanded} 
             returnToParks={this.returnToParks}
-            // returnFromSearchToList={this.returnFromSearchToList}
+            returnFromSearchToList={this.returnFromSearchToList}
             filterTheParksByLocation={this.filterTheParksByLocation}
-            // filterBySearchTerm={this.filterBySearchTerm}
             filterAll={this.state.filterAll}
             cannotAddPark={this.state.cannotAddPark}
             numberForParksDisplay={this.state.numberForParksDisplay}
             parkCollection={this.state.parkCollection}
-            // searchTerm={this.state.searchTerm}
+            searchPark={this.state.searchPark}
             theLocationFilter={this.state.theLocationFilter}
             loggedIn={this.loggedIn}
             loadingMessage={this.state.loadingMessage}
             parks={this.state.parks}
             returnToFilteredParks={this.returnToFilteredParks}
-            // returnToSearchList={this.returnToSearchList}
+            returnToSearchList={this.returnToSearchList}
             />
             }/>
           <Route exact path= '/park_collection' render={(renderProps) => <ParkCollection {...renderProps} deleteFromCollection={this.deleteFromCollection}

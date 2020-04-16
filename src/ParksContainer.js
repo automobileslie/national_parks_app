@@ -1,16 +1,13 @@
 import React from 'react';
 import ParkList from './ParkList';
 import ParksExpand from './ParksExpand';
-import Filter from './Filter';
-import SearchBar from './SearchBar'
 
 
 const ParksContainer = (props) => {
 
     const { currentState, theParks, addToParkCollection, returnToParks, parkCollection, 
         loggedIn, returnToFilteredParks, theLocationFilter, returnToSearchList, 
-        searchTerm, isAParkExpanded, loadingMessage, filterTheParksByLocation, 
-        filterBySearchTerm, returnFromSearchToList, parks, filterAll, pickAPark } = props
+        searchTerm, searchPark, isAParkExpanded, pickAPark } = props
 
     const listTheParks=()=> {
 
@@ -36,7 +33,7 @@ const ParksContainer = (props) => {
             returnToFilteredParks={returnToFilteredParks}
             theLocationFilter={theLocationFilter}
             returnToSearchList={returnToSearchList}
-            searchTerm={searchTerm}/>
+            searchPark={searchPark}/>
     }
 
         return(
@@ -51,7 +48,12 @@ const ParksContainer = (props) => {
                             <h1 className="loading">The parks are loading</h1>
                             :
                             <div>
+
+                                {searchPark.length >0 ?
+                                <h1>{`Search results for ${searchTerm}`}</h1>
+                                :
                             <h1>{`Park List for ${currentState}`}</h1>
+                                }
 
                         {listTheParks()}  
                         <button className="submit-buttons" onClick={returnToParks}>Return to List of Parks</button>

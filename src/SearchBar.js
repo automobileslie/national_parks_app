@@ -25,7 +25,7 @@ submitSearch=(event)=>{
         return(
                 <form onSubmit={this.submitSearch}>
                     <label htmlFor="searchTerm">
-                        <strong>Search by name: </strong>
+                        <strong>Search by park name: </strong>
                         <input type="text" name="searchTerm" value={this.state.searchTerm} onChange={this.doingASearch}/>
                         <input type="submit" value="submit"/>
                     </label>

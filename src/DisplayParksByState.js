@@ -1,5 +1,7 @@
 import React from 'react';
 import ParksContainer from './ParksContainer';
+import SearchBar from './SearchBar'
+
 
 export default class DisplayParksByState extends React.Component{
 
@@ -15,6 +17,7 @@ export default class DisplayParksByState extends React.Component{
         <div className="park-list-page">
     <h1>Explore the National Parks and Start Planning Your Next Trip</h1>
     <br></br>
+    <SearchBar filterBySearchTerm={this.props.filterBySearchTerm}/>
     <div className="state-list-container">
     <div className="state-list-div">
    <p className="park-name" onClick={()=>this.props.showStateList("al", "Alabama")} >Alabama</p>
@@ -95,11 +98,12 @@ export default class DisplayParksByState extends React.Component{
    // returnFromSearchToList={this.returnFromSearchToList}
 //    filterTheParksByLocation={this.props.filterTheParksByLocation}
    // filterBySearchTerm={this.filterBySearchTerm}
+   searchTerm={this.props.searchTerm}
    filterAll={this.props.filterAll}
    cannotAddPark={this.props.cannotAddPark}
    numberForParksDisplay={this.props.numberForParksDisplay}
    parkCollection={this.props.parkCollection}
-   // searchTerm={this.state.searchTerm}
+   searchPark={this.props.searchPark}
    theLocationFilter={this.props.theLocationFilter}
    loggedIn={this.props.loggedIn}
    loadingMessage={this.props.loadingMessage}
