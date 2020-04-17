@@ -340,7 +340,7 @@ deleteFromCollection=(park)=>{
       theLocationFilter: search,
 
     })
-    
+
     fetch("http://localhost:3000/searchparks", {
       method: "POST",
       headers: {
@@ -353,7 +353,6 @@ deleteFromCollection=(park)=>{
       })
       .then(r=>r.json())
       .then(thePark=>{
-        console.log(thePark) 
         
         if(thePark.data.length>0){
 
@@ -478,8 +477,6 @@ deleteFromCollection=(park)=>{
         noteId: "",
         updateNote: !this.state.updateNote,
         theNoteToEdit: ""
-
-
       })
 
     })
