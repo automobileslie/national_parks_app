@@ -39,8 +39,9 @@ export default class Login extends React.Component {
             this.setState({
               errors: data.errors
             })
-          else
+          else {
             this.props.setToken(data.token, data.id)
+          }
         });
 
         this.setState({

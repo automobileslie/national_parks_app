@@ -152,6 +152,8 @@ class App extends React.Component {
             .then(r=>r.json())
             .then(parks=>{
 
+              console.log(parks)
+
            let modifiedState=this.state.parks.filter(park=>{
             return !(park.states.includes(stateAbbreviation.toUpperCase()))
            })
@@ -485,6 +487,8 @@ deleteFromCollection=(park)=>{
 
 
   render(){ 
+    console.log(this.state.parks)
+
     return (
   
     <React.Fragment>

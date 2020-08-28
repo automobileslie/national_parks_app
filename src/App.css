@@ -5,7 +5,7 @@ body{
   background: url("./Images/United_States.jpg");
   font-weight: bold;
   font-size: 1.2em;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 .park-name-by-state:hover{
@@ -237,6 +237,8 @@ text-align: center;
 .home-page-app-description{
   margin-bottom: 2.5em;
   font-size: 1.2em;
+  margin-left: 14em;
+  margin-right: 14em
 }
 
 .home-page-heading{
