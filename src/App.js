@@ -93,7 +93,6 @@ class App extends React.Component {
     }
 
     pickAPark=(the_park)=>{
-
       this.setState({
         parkClickedOn: the_park,
         isAParkExpanded: true,
